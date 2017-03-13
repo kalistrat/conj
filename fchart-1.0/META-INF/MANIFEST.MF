@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Vaadin-Package-Version: 1
+Vaadin-Addon: chartlib/libforvaadin6/fchart-1.0.jar,chartlib/libforvaadin7/fchart-1.0.jar
+Implementation-Vendor: Freecode.net.ua Dobryvechir
+Implementation-Title: Freecode Charts and D3 Wrapper
+Implementation-Version: 1.0
+
