@@ -1,6 +1,7 @@
 package com.jetbrains;
 
 
+import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 
 import java.sql.*;
@@ -131,6 +132,8 @@ public class g_step_layout extends VerticalLayout {
 
            }
         });
+
+        OutGameButton.setIcon(FontAwesome.SIGN_OUT);
 
 
         WaitingTimeField.setEnabled(false);
