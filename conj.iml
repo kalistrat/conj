@@ -61,5 +61,6 @@
     <orderEntry type="library" name="Maven: jfree:jcommon:1.0.15" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" name="Maven: org.vaadin.addons:canvas:2.1" level="project" />
+    <orderEntry type="library" name="Maven: com.vaadin:vaadin-icons:3.0.0" level="project" />
   </component>
 </module>

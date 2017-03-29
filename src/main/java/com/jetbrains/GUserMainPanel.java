@@ -39,7 +39,8 @@ public class GUserMainPanel extends TabSheet {
 //        Panel MainDataPanel = new Panel(FullSec);
 //        Panel GameDataPanel = new Panel();
 
-        addTab(MainDataPanel, "Главная");
+        addTab(MainDataPanel, "Подключение к игре");
+        addTab(MainDataPanel, "Личные данные");
         addTab(GameDataPanel, "История игр");
         setSizeFull();
 

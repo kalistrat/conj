@@ -1,5 +1,6 @@
 package com.jetbrains;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
@@ -46,7 +47,9 @@ public class GLoginView extends CustomComponent implements View {
         LoginBox.setSpacing(true);
 
         LogInField.setWidth("300px");
+        LogInField.setIcon(VaadinIcons.USER);
         PassField.setWidth("300px");
+        PassField.setIcon(VaadinIcons.KEY);
 
 
         LogInLabel.setSizeUndefined();
