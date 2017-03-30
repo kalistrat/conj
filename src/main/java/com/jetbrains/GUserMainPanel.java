@@ -13,6 +13,7 @@ public class GUserMainPanel extends TabSheet {
     Panel MainDataPanel = new Panel();
     Panel GameDataPanel = new Panel();
     Integer Is_Game_Create_Connect;
+    tUserDataLayout oUserDataLayout;
 
     public GUserMainPanel(String CurUser){
         Is_Game_Create_Connect = 0;
@@ -36,11 +37,15 @@ public class GUserMainPanel extends TabSheet {
 
         MainDataPanel.setContent(FullSec);
 
+        oUserDataLayout = new tUserDataLayout();
+
+
+
 //        Panel MainDataPanel = new Panel(FullSec);
 //        Panel GameDataPanel = new Panel();
 
         addTab(MainDataPanel, "Подключение к игре");
-        addTab(MainDataPanel, "Личные данные");
+        addTab(oUserDataLayout, "Личные данные");
         addTab(GameDataPanel, "История игр");
         setSizeFull();
 
