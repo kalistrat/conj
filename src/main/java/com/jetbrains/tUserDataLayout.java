@@ -6,6 +6,7 @@ import com.vaadin.server.ClassResource;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinService;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -24,11 +25,19 @@ public class tUserDataLayout extends VerticalLayout {
     PopupDateField BirthDateField;
     TextField EmailField;
     TextField PhoneField;
+    Image AvatarImage;
+    Label LoginLabel;
+    Label RatingLabel;
+    Label RegDateLabel;
+    //TextField UserRatingField;
+    //TextField UserDateRegField;
+    TextField UserBalanceField;
+    TextField UserCountGameField;
 
     public tUserDataLayout(){
 
         SecondNameField = new TextField();
-        SecondNameField.setCaption("Фамилия");
+        SecondNameField.setCaption("Фамилия:");
 
         FirstNameField = new TextField();
         FirstNameField.setCaption("Имя:");
@@ -57,10 +66,11 @@ public class tUserDataLayout extends VerticalLayout {
                 //,new Label()
         );
         FioVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
+        //FioVertLineForm.setSizeUndefined();
 
         Label PersonalDataHeader = new Label();
         PersonalDataHeader.setContentMode(ContentMode.HTML);
-        PersonalDataHeader.setValue(VaadinIcons.USER_CARD.getHtml() + "  Личные данные");
+        PersonalDataHeader.setValue(VaadinIcons.USER_CARD.getHtml() + "  Персональные данные");
         PersonalDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
         PersonalDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
 
@@ -94,7 +104,7 @@ public class tUserDataLayout extends VerticalLayout {
                 //,new Label()
         );
         PhoneVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
-        PhoneVertLineForm.setSizeUndefined();
+        //PhoneVertLineForm.setSizeUndefined();
 
         VerticalLayout PhoneVertLine = new VerticalLayout(
                 ContactDataHeader
@@ -109,50 +119,119 @@ public class tUserDataLayout extends VerticalLayout {
         //PhoneVertLine.addStyleName(ValoTheme.LAYOUT_CARD);
 
         UserTextDataSection.setMargin(true);
-        //UserTextDataSection.addStyleName();
 
-        String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-        FileResource resource = new FileResource(new File(basepath + "/VAADIN/themes/mytheme/pics/" + "ava7.PNG"));
-        //Embedded AvatarImage = new Embedded(null,resource);
-        Image AvatarImage = new Image(null, new ClassResource("/pics/ava7.PNG"));
+        AvatarImage = new Image(null, new ClassResource("/pics/ava7.PNG"));
         AvatarImage.setHeight(120,Unit.PIXELS);
         AvatarImage.setWidth(120,Unit.PIXELS);
-        //VerticalLayout ImageLayout = new VerticalLayout(new Image(null, new ClassResource("/pics/ava7.PNG")));;
         VerticalLayout ImageLayout = new VerticalLayout(AvatarImage);
-
         ImageLayout.addStyleName(ValoTheme.LAYOUT_WELL);
-        //ImageLayout.setHeight("80px");
-        //ImageLayout.setWidth("80px");
         ImageLayout.setSizeUndefined();
         ImageLayout.setComponentAlignment(AvatarImage,Alignment.MIDDLE_CENTER);
-        Button ImageButton = new Button();
-        ImageButton.setIcon(new ClassResource("/pics/ava7.PNG"));
+
+        LoginLabel = new Label();
+        //LoginLabel.addStyleName(ValoTheme.LABEL_LARGE);
+        LoginLabel.addStyleName(ValoTheme.LABEL_COLORED);
+        LoginLabel.setContentMode(ContentMode.HTML);
+        LoginLabel.setValue(VaadinIcons.USER.getHtml() + "  " + "kalistrat");
+
+        VerticalLayout LoginLabelLayout = new VerticalLayout(
+                LoginLabel
+        );
+        LoginLabelLayout.setComponentAlignment(LoginLabel,Alignment.MIDDLE_CENTER);
+        LoginLabelLayout.setSizeUndefined();;
+
+        RatingLabel = new Label();
+        RatingLabel.addStyleName(ValoTheme.LABEL_TINY);
+        RatingLabel.setContentMode(ContentMode.HTML);
+        RatingLabel.setValue(VaadinIcons.BAR_CHART.getHtml() + "  Рейтинг: " + "10.00");
+
+        RegDateLabel = new Label();
+        RegDateLabel.addStyleName(ValoTheme.LABEL_TINY);
+        RegDateLabel.setContentMode(ContentMode.HTML);
+        RegDateLabel.setValue(VaadinIcons.TIME_FORWARD.getHtml() + "  На сайте с: " + "01.01.2017");
+
+        VerticalLayout RatingDateFromLayout = new VerticalLayout(
+                new Label()
+                ,RatingLabel
+                ,RegDateLabel
+        );
+        //RatingDateFromLayout.setComponentAlignment(RatingLabel,Alignment.TOP_LEFT);
+        //RatingDateFromLayout.setComponentAlignment(RegDateLabel,Alignment.TOP_CENTER);
+        //RatingDateFromLayout.setSizeUndefined();
 
         VerticalLayout AvaLayout = new VerticalLayout(
-                new Label("Чувачок")
+                LoginLabelLayout
+                ,new Label()
                 ,ImageLayout
-                ,new Label("Баланс: 100р")
+                ,RatingDateFromLayout
         );
 
-        AvaLayout.setComponentAlignment(ImageLayout,Alignment.TOP_CENTER);
+        AvaLayout.setComponentAlignment(LoginLabelLayout,Alignment.TOP_CENTER);
+        AvaLayout.setComponentAlignment(ImageLayout,Alignment.MIDDLE_CENTER);
+        AvaLayout.setComponentAlignment(RatingDateFromLayout,Alignment.BOTTOM_CENTER);
+        AvaLayout.setSizeUndefined();
+        //AvaLayout.setComponentAlignment(LoginLabel,Alignment.TOP_CENTER);
+
+        VerticalLayout LeftContentLayout = new VerticalLayout(
+                AvaLayout
+        );
+        LeftContentLayout.setComponentAlignment(AvaLayout,Alignment.TOP_CENTER);
+        LeftContentLayout.setMargin(new MarginInfo(true,false,false,false));
+
+        Label GameDataHeader = new Label();
+        GameDataHeader.setContentMode(ContentMode.HTML);
+        GameDataHeader.setValue(VaadinIcons.PIE_BAR_CHART.getHtml() + "  Данные игрового профиля");
+        GameDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
+        GameDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
+
+        UserBalanceField = new TextField();
+        UserBalanceField.setCaption("Текущий баланс:");
+        UserBalanceField.setIcon(VaadinIcons.CASH);
+
+        UserCountGameField = new TextField();
+        UserCountGameField.setCaption("Количество сыгранных игр:");
+        UserCountGameField.setIcon(VaadinIcons.TASKS);
+
+        FormLayout GameVertLineForm = new FormLayout(
+                UserCountGameField
+                ,UserBalanceField
+        );
+        GameVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
+
+        VerticalLayout GameVertLine = new VerticalLayout(
+                GameDataHeader
+                ,GameVertLineForm
+        );
+
+        UserTextDataSection.addComponent(GameVertLine);
+
+
+
 
 
         HorizontalSplitPanel UserDataSection = new HorizontalSplitPanel();
         UserDataSection.setHeight("1000px");
         UserDataSection.setWidth("800px");
-        UserDataSection.setFirstComponent(AvaLayout);
+        UserDataSection.setFirstComponent(LeftContentLayout);
         UserDataSection.setSecondComponent(UserTextDataSection);
-        UserDataSection.setSplitPosition(20f,UNITS_PERCENTAGE);
+        UserDataSection.setSplitPosition(25f,UNITS_PERCENTAGE);
         //UserDataSection.setMinSplitPosition(20f,UNITS_PERCENTAGE);
         //UserDataSection.setMaxSplitPosition(20f,UNITS_PERCENTAGE);
+        //UserDataSection.addStyleName(ValoTheme.SPLITPANEL_LARGE);
 
         VerticalLayout ContentLayout = new VerticalLayout(UserDataSection);
         ContentLayout.setHeight("1000px");
         ContentLayout.setWidth("800px");
-        ContentLayout.addStyleName(ValoTheme.LAYOUT_WELL);
+        ContentLayout.addStyleName(ValoTheme.LAYOUT_CARD);
 
+
+        this.addComponent(new Label());
         this.addComponent(ContentLayout);
+        this.addComponent(new Label());
+
         this.setComponentAlignment(ContentLayout,Alignment.MIDDLE_CENTER);
+        //this.addStyleName(ValoTheme.LAYOUT_WELL);
+        //this.setSizeUndefined();
 
     }
 }

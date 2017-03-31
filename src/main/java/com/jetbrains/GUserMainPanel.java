@@ -1,5 +1,6 @@
 package com.jetbrains;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
@@ -44,9 +45,9 @@ public class GUserMainPanel extends TabSheet {
 //        Panel MainDataPanel = new Panel(FullSec);
 //        Panel GameDataPanel = new Panel();
 
-        addTab(MainDataPanel, "Подключение к игре");
-        addTab(oUserDataLayout, "Личные данные");
-        addTab(GameDataPanel, "История игр");
+        addTab(MainDataPanel, "Подключение к игре", VaadinIcons.CONNECT);
+        addTab(oUserDataLayout, "Личные данные",VaadinIcons.HOME);
+        addTab(GameDataPanel, "История игр",VaadinIcons.ARCHIVE);
         setSizeFull();
 
     }
