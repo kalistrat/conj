@@ -73,5 +73,14 @@ $v-component-group-spacing: 6px;
   .YELLOW.v-button {
     @include valo-button-style($background-color: #ffcf43);
   }
+
+  .v-caption-mystyle {
+    color: #ff1c29;
+    font-size: 20px;
+  }
+  //.COLORED {
+  //  $v-font-color: #ffcf43;
+  //
+  //}
   // Insert your own theme rules here
 }

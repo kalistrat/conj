@@ -36,6 +36,8 @@ public class tUserDataLayout extends VerticalLayout {
 
     public tUserDataLayout(){
 
+        //Поля формы персональных данных
+
         SecondNameField = new TextField();
         SecondNameField.setCaption("Фамилия:");
 
@@ -57,70 +59,97 @@ public class tUserDataLayout extends VerticalLayout {
         BirthDateField.setImmediate(true);
         //Label NullLabel = new Label(".");
 
-        FormLayout FioVertLineForm = new FormLayout(
-                //new Label()
-          SecondNameField
-                ,FirstNameField
-                ,MiddleNameField
-                ,BirthDateField
-                //,new Label()
-        );
-        FioVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
-        //FioVertLineForm.setSizeUndefined();
+        TextField StyledTextField = new TextField();
+        StyledTextField.setCaption("Персональные данные");
+        StyledTextField.setIcon(VaadinIcons.USER_CARD);
+        StyledTextField.addStyleName("mystyle");
 
-        Label PersonalDataHeader = new Label();
-        PersonalDataHeader.setContentMode(ContentMode.HTML);
-        PersonalDataHeader.setValue(VaadinIcons.USER_CARD.getHtml() + "  Персональные данные");
-        PersonalDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
-        PersonalDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
+        TextField StyledTextField2 = new TextField();
+        StyledTextField2.setCaption("Контактные данные        ");
+        StyledTextField2.setIcon(VaadinIcons.LOCATION_ARROW_CIRCLE);
+        StyledTextField2.addStyleName("mystyle");
 
-        VerticalLayout FioVertLine = new VerticalLayout(
-                PersonalDataHeader
-                ,FioVertLineForm
-        );
-
-
-        FioVertLine.setComponentAlignment(PersonalDataHeader,Alignment.MIDDLE_LEFT);
+        // Поля формы контактов
 
         EmailField = new TextField();
         EmailField.setCaption("Электронная почта:");
         EmailField.setIcon(VaadinIcons.ENVELOPE);
-
-
         PhoneField = new TextField();
         PhoneField.setCaption("Номер телефона:");
         PhoneField.setIcon(VaadinIcons.PHONE);
 
-        Label ContactDataHeader = new Label();
-        ContactDataHeader.setContentMode(ContentMode.HTML);
-        ContactDataHeader.setValue(VaadinIcons.LOCATION_ARROW_CIRCLE.getHtml() + "  Контактные данные");
-        ContactDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
-        ContactDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
+        // Поля формы статистики
 
-        FormLayout PhoneVertLineForm = new FormLayout(
-                //new Label()
-                EmailField
+
+        // Заголовки форм
+
+        FormLayout FioVertLineForm = new FormLayout(
+                StyledTextField
+                ,SecondNameField
+                ,FirstNameField
+                ,MiddleNameField
+                ,BirthDateField
+                ,StyledTextField2
+                ,EmailField
                 ,PhoneField
                 //,new Label()
         );
-        PhoneVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
-        //PhoneVertLineForm.setSizeUndefined();
+        FioVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
 
-        VerticalLayout PhoneVertLine = new VerticalLayout(
-                ContactDataHeader
-                ,PhoneVertLineForm
+        VerticalLayout RightContentLayout = new VerticalLayout(
+                FioVertLineForm
         );
 
-        PhoneVertLine.setComponentAlignment(ContactDataHeader,Alignment.MIDDLE_LEFT);
-        VerticalLayout UserTextDataSection = new VerticalLayout(
-                FioVertLine
-                ,PhoneVertLine
-        );
+        RightContentLayout.setMargin(true);
+
+        //FioVertLineForm.setSizeUndefined();
+
+//        Label PersonalDataHeader = new Label();
+//        PersonalDataHeader.setContentMode(ContentMode.HTML);
+//        PersonalDataHeader.setValue(VaadinIcons.USER_CARD.getHtml() + "  Персональные данные");
+//        PersonalDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
+//        PersonalDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
+
+//        VerticalLayout FioVertLine = new VerticalLayout(
+//                //PersonalDataHeader
+//                //,StyledTextField
+//                FioVertLineForm
+//        );
+
+
+        //FioVertLine.setComponentAlignment(PersonalDataHeader,Alignment.MIDDLE_LEFT);
+
+
+//        Label ContactDataHeader = new Label();
+//        ContactDataHeader.setContentMode(ContentMode.HTML);
+//        ContactDataHeader.setValue(VaadinIcons.LOCATION_ARROW_CIRCLE.getHtml() + "  Контактные данные");
+//        ContactDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
+//        ContactDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
+//
+//        FormLayout PhoneVertLineForm = new FormLayout(
+//                //new Label()
+//                EmailField
+//                ,PhoneField
+//                //,new Label()
+//        );
+//        PhoneVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
+//        //PhoneVertLineForm.setSizeUndefined();
+//
+//        VerticalLayout PhoneVertLine = new VerticalLayout(
+//                ContactDataHeader
+//                ,PhoneVertLineForm
+//        );
+//
+//        PhoneVertLine.setComponentAlignment(ContactDataHeader,Alignment.MIDDLE_LEFT);
+//        VerticalLayout UserTextDataSection = new VerticalLayout(
+//                FioVertLine
+//                ,PhoneVertLine
+//        );
         //PhoneVertLine.addStyleName(ValoTheme.LAYOUT_CARD);
 
-        UserTextDataSection.setMargin(true);
+        //FioVertLineForm.setMargin(true);
 
-        AvatarImage = new Image(null, new ClassResource("/pics/ava7.PNG"));
+        AvatarImage = new Image(null, new ClassResource("/pics/ava7.png"));
         AvatarImage.setHeight(120,Unit.PIXELS);
         AvatarImage.setWidth(120,Unit.PIXELS);
         VerticalLayout ImageLayout = new VerticalLayout(AvatarImage);
@@ -138,7 +167,7 @@ public class tUserDataLayout extends VerticalLayout {
                 LoginLabel
         );
         LoginLabelLayout.setComponentAlignment(LoginLabel,Alignment.MIDDLE_CENTER);
-        LoginLabelLayout.setSizeUndefined();;
+        LoginLabelLayout.setSizeUndefined();
 
         RatingLabel = new Label();
         RatingLabel.addStyleName(ValoTheme.LABEL_TINY);
@@ -178,32 +207,32 @@ public class tUserDataLayout extends VerticalLayout {
         LeftContentLayout.setComponentAlignment(AvaLayout,Alignment.TOP_CENTER);
         LeftContentLayout.setMargin(new MarginInfo(true,false,false,false));
 
-        Label GameDataHeader = new Label();
-        GameDataHeader.setContentMode(ContentMode.HTML);
-        GameDataHeader.setValue(VaadinIcons.PIE_BAR_CHART.getHtml() + "  Данные игрового профиля");
-        GameDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
-        GameDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
+//        Label GameDataHeader = new Label();
+//        GameDataHeader.setContentMode(ContentMode.HTML);
+//        GameDataHeader.setValue(VaadinIcons.PIE_BAR_CHART.getHtml() + "  Данные игрового профиля");
+//        GameDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
+//        GameDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
+//
+//        UserBalanceField = new TextField();
+//        UserBalanceField.setCaption("Текущий баланс:");
+//        UserBalanceField.setIcon(VaadinIcons.CASH);
+//
+//        UserCountGameField = new TextField();
+//        UserCountGameField.setCaption("Количество сыгранных игр:");
+//        UserCountGameField.setIcon(VaadinIcons.TASKS);
 
-        UserBalanceField = new TextField();
-        UserBalanceField.setCaption("Текущий баланс:");
-        UserBalanceField.setIcon(VaadinIcons.CASH);
+//        FormLayout GameVertLineForm = new FormLayout(
+//                UserCountGameField
+//                ,UserBalanceField
+//        );
+//        GameVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
+//
+//        VerticalLayout GameVertLine = new VerticalLayout(
+//                GameDataHeader
+//                ,GameVertLineForm
+//        );
 
-        UserCountGameField = new TextField();
-        UserCountGameField.setCaption("Количество сыгранных игр:");
-        UserCountGameField.setIcon(VaadinIcons.TASKS);
-
-        FormLayout GameVertLineForm = new FormLayout(
-                UserCountGameField
-                ,UserBalanceField
-        );
-        GameVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
-
-        VerticalLayout GameVertLine = new VerticalLayout(
-                GameDataHeader
-                ,GameVertLineForm
-        );
-
-        UserTextDataSection.addComponent(GameVertLine);
+        //UserTextDataSection.addComponent(GameVertLine);
 
 
 
@@ -213,7 +242,7 @@ public class tUserDataLayout extends VerticalLayout {
         UserDataSection.setHeight("1000px");
         UserDataSection.setWidth("800px");
         UserDataSection.setFirstComponent(LeftContentLayout);
-        UserDataSection.setSecondComponent(UserTextDataSection);
+        UserDataSection.setSecondComponent(RightContentLayout);
         UserDataSection.setSplitPosition(25f,UNITS_PERCENTAGE);
         //UserDataSection.setMinSplitPosition(20f,UNITS_PERCENTAGE);
         //UserDataSection.setMaxSplitPosition(20f,UNITS_PERCENTAGE);
