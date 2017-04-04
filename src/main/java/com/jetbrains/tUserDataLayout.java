@@ -52,49 +52,35 @@ public class tUserDataLayout extends VerticalLayout {
                 throw new Converter.ConversionException("Формат даты неверен. Используйте dd.mm.yy h24:mi:ss");
             }
         };
-
+        //BirthDateField.addStyleName(ValoTheme.DATEFIELD_TINY);
         BirthDateField.setResolution(BirthDateField.RESOLUTION_SEC);
         BirthDateField.setImmediate(true);
-
-        Label PersonalDataHeader = new Label();
-        //PersonalDataHeader.setContentMode(ContentMode.HTML);
-        PersonalDataHeader.setValue("Персональные данные");
-        //PersonalDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
-        //PersonalDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
-        HorizontalLayout PersonalDataHeaderLayout = new HorizontalLayout(
-                PersonalDataHeader
-        );
-        PersonalDataHeaderLayout.setComponentAlignment(PersonalDataHeader,Alignment.MIDDLE_RIGHT);
-        PersonalDataHeader.setCaption("Здесь caption");
-
-        TextField PersonalDataHeaderField = new TextField();
-        PersonalDataHeaderField.setCaption("Персональные данные");
-        PersonalDataHeaderField.addStyleName("mystyle");
+        //Label NullLabel = new Label(".");
 
         FormLayout FioVertLineForm = new FormLayout(
-                PersonalDataHeaderField
-                ,SecondNameField
+                //new Label()
+          SecondNameField
                 ,FirstNameField
                 ,MiddleNameField
                 ,BirthDateField
+                //,new Label()
         );
         FioVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
-        //FioVertLineForm.setComponentAlignment(PersonalDataHeader,Alignment.MIDDLE_LEFT);
         //FioVertLineForm.setSizeUndefined();
 
-//        Label PersonalDataHeader = new Label();
-//        PersonalDataHeader.setContentMode(ContentMode.HTML);
-//        PersonalDataHeader.setValue(VaadinIcons.USER_CARD.getHtml() + "  Персональные данные");
-//        PersonalDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
-//        PersonalDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
+        Label PersonalDataHeader = new Label();
+        PersonalDataHeader.setContentMode(ContentMode.HTML);
+        PersonalDataHeader.setValue(VaadinIcons.USER_CARD.getHtml() + "  Персональные данные");
+        PersonalDataHeader.addStyleName(ValoTheme.LABEL_COLORED);
+        PersonalDataHeader.addStyleName(ValoTheme.LABEL_SMALL);
 
         VerticalLayout FioVertLine = new VerticalLayout(
-                //PersonalDataHeader
-                FioVertLineForm
+                PersonalDataHeader
+                ,FioVertLineForm
         );
 
 
-        //FioVertLine.setComponentAlignment(PersonalDataHeader,Alignment.MIDDLE_LEFT);
+        FioVertLine.setComponentAlignment(PersonalDataHeader,Alignment.MIDDLE_LEFT);
 
         EmailField = new TextField();
         EmailField.setCaption("Электронная почта:");
@@ -134,16 +120,12 @@ public class tUserDataLayout extends VerticalLayout {
 
         UserTextDataSection.setMargin(true);
 
-        //AvatarImage = new Image(null, new ClassResource("/pics/ava7.PNG"));
-        AvatarImage = new Image(null, new ThemeResource("pics/ava8.png"));
-
+        AvatarImage = new Image(null, new ClassResource("/pics/ava7.PNG"));
         AvatarImage.setHeight(120,Unit.PIXELS);
         AvatarImage.setWidth(120,Unit.PIXELS);
         VerticalLayout ImageLayout = new VerticalLayout(AvatarImage);
         ImageLayout.addStyleName(ValoTheme.LAYOUT_WELL);
-        //ImageLayout.setSizeUndefined();
-        ImageLayout.setHeight("135px");
-        ImageLayout.setWidth("135px");
+        ImageLayout.setSizeUndefined();
         ImageLayout.setComponentAlignment(AvatarImage,Alignment.MIDDLE_CENTER);
 
         LoginLabel = new Label();
@@ -156,7 +138,7 @@ public class tUserDataLayout extends VerticalLayout {
                 LoginLabel
         );
         LoginLabelLayout.setComponentAlignment(LoginLabel,Alignment.MIDDLE_CENTER);
-        LoginLabelLayout.setSizeUndefined();
+        LoginLabelLayout.setSizeUndefined();;
 
         RatingLabel = new Label();
         RatingLabel.addStyleName(ValoTheme.LABEL_TINY);
