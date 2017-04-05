@@ -647,9 +647,9 @@ CREATE TABLE IF NOT EXISTS `game` (
   `is_single_game` int(11) DEFAULT NULL,
   `last_activity` datetime DEFAULT NULL,
   PRIMARY KEY (`game_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=325 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game: ~283 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game: ~285 rows (приблизительно)
 DELETE FROM `game`;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
 INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `area_type_id`, `last_activity_date`, `is_single_game`, `last_activity`) VALUES
@@ -935,7 +935,9 @@ INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `ar
 	(321, '2016-10-23 17:28:56', NULL, 3, 1, NULL, 1, NULL),
 	(322, '2016-10-23 17:58:03', NULL, 2, 3, NULL, 1, NULL),
 	(323, '2016-11-19 17:40:33', NULL, 3, 2, NULL, 1, NULL),
-	(324, '2017-03-13 18:31:40', NULL, 3, 1, NULL, 1, NULL);
+	(324, '2017-03-13 18:31:40', NULL, 3, 1, NULL, 1, NULL),
+	(325, '2017-03-29 15:50:05', NULL, 3, 1, NULL, 1, NULL),
+	(326, '2017-03-30 20:02:11', NULL, 3, 1, NULL, 1, NULL);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 
 
@@ -954,9 +956,9 @@ CREATE TABLE IF NOT EXISTS `game_field` (
   CONSTRAINT `FK_game_field_field_type` FOREIGN KEY (`field_type_id`) REFERENCES `field_type` (`field_type_id`),
   CONSTRAINT `FK_game_field_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_field_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22409 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22481 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_field: ~12 857 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_field: ~14 241 rows (приблизительно)
 DELETE FROM `game_field`;
 /*!40000 ALTER TABLE `game_field` DISABLE KEYS */;
 INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_index`, `field_type_id`, `game_player_id`) VALUES
@@ -14439,7 +14441,79 @@ INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_inde
 	(22405, 324, 4.00, '22', 3, 484),
 	(22406, 324, 4.00, '23', 3, 484),
 	(22407, 324, 4.00, '32', 3, 484),
-	(22408, 324, 4.00, '33', 3, 485);
+	(22408, 324, 4.00, '33', 3, 485),
+	(22409, 325, 2.00, '00', 1, NULL),
+	(22410, 325, 2.00, '01', 1, NULL),
+	(22411, 325, 2.00, '02', 1, NULL),
+	(22412, 325, 2.00, '03', 1, NULL),
+	(22413, 325, 2.00, '04', 1, NULL),
+	(22414, 325, 2.00, '05', 1, NULL),
+	(22415, 325, 2.00, '10', 1, NULL),
+	(22416, 325, 2.00, '15', 1, NULL),
+	(22417, 325, 2.00, '20', 1, NULL),
+	(22418, 325, 2.00, '25', 1, NULL),
+	(22419, 325, 2.00, '30', 1, NULL),
+	(22420, 325, 2.00, '35', 1, NULL),
+	(22421, 325, 2.00, '40', 1, NULL),
+	(22422, 325, 2.00, '45', 1, NULL),
+	(22423, 325, 2.00, '50', 1, NULL),
+	(22424, 325, 2.00, '51', 1, NULL),
+	(22425, 325, 2.00, '52', 1, NULL),
+	(22426, 325, 2.00, '53', 1, NULL),
+	(22427, 325, 2.00, '54', 1, NULL),
+	(22428, 325, 2.00, '55', 1, NULL),
+	(22429, 325, 3.00, '11', 2, NULL),
+	(22430, 325, 3.00, '12', 2, NULL),
+	(22431, 325, 3.00, '13', 2, NULL),
+	(22432, 325, 3.00, '14', 2, NULL),
+	(22433, 325, 3.00, '21', 2, NULL),
+	(22434, 325, 3.00, '24', 2, NULL),
+	(22435, 325, 3.00, '31', 2, NULL),
+	(22436, 325, 3.00, '34', 2, NULL),
+	(22437, 325, 3.00, '41', 2, NULL),
+	(22438, 325, 3.00, '42', 2, NULL),
+	(22439, 325, 3.00, '43', 2, NULL),
+	(22440, 325, 3.00, '44', 2, NULL),
+	(22441, 325, 4.00, '22', 3, NULL),
+	(22442, 325, 4.00, '23', 3, NULL),
+	(22443, 325, 4.00, '32', 3, NULL),
+	(22444, 325, 4.00, '33', 3, NULL),
+	(22445, 326, 2.00, '00', 1, NULL),
+	(22446, 326, 2.00, '01', 1, 489),
+	(22447, 326, 2.00, '02', 1, NULL),
+	(22448, 326, 2.00, '03', 1, NULL),
+	(22449, 326, 2.00, '04', 1, NULL),
+	(22450, 326, 2.00, '05', 1, NULL),
+	(22451, 326, 2.00, '10', 1, NULL),
+	(22452, 326, 2.00, '15', 1, NULL),
+	(22453, 326, 2.00, '20', 1, NULL),
+	(22454, 326, 2.00, '25', 1, NULL),
+	(22455, 326, 2.00, '30', 1, NULL),
+	(22456, 326, 2.00, '35', 1, NULL),
+	(22457, 326, 2.00, '40', 1, 488),
+	(22458, 326, 2.00, '45', 1, NULL),
+	(22459, 326, 2.00, '50', 1, NULL),
+	(22460, 326, 2.00, '51', 1, 488),
+	(22461, 326, 2.00, '52', 1, NULL),
+	(22462, 326, 2.00, '53', 1, NULL),
+	(22463, 326, 2.00, '54', 1, NULL),
+	(22464, 326, 2.00, '55', 1, NULL),
+	(22465, 326, 3.00, '11', 2, NULL),
+	(22466, 326, 3.00, '12', 2, 489),
+	(22467, 326, 3.00, '13', 2, NULL),
+	(22468, 326, 3.00, '14', 2, NULL),
+	(22469, 326, 3.00, '21', 2, NULL),
+	(22470, 326, 3.00, '24', 2, NULL),
+	(22471, 326, 3.00, '31', 2, NULL),
+	(22472, 326, 3.00, '34', 2, NULL),
+	(22473, 326, 3.00, '41', 2, NULL),
+	(22474, 326, 3.00, '42', 2, NULL),
+	(22475, 326, 3.00, '43', 2, NULL),
+	(22476, 326, 3.00, '44', 2, NULL),
+	(22477, 326, 4.00, '22', 3, NULL),
+	(22478, 326, 4.00, '23', 3, NULL),
+	(22479, 326, 4.00, '32', 3, NULL),
+	(22480, 326, 4.00, '33', 3, NULL);
 /*!40000 ALTER TABLE `game_field` ENABLE KEYS */;
 
 
@@ -14475,9 +14549,9 @@ CREATE TABLE IF NOT EXISTS `game_player` (
   KEY `FK_game_player_player` (`player_id`),
   CONSTRAINT `FK_game_player_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_player_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=486 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=490 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_player: ~459 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_player: ~566 rows (приблизительно)
 DELETE FROM `game_player`;
 /*!40000 ALTER TABLE `game_player` DISABLE KEYS */;
 INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, `out_time`, `in_passiv_value`, `out_passiv_value`, `current_passiv_value`, `player_sym`, `order_connect`, `is_steping`, `is_active`, `last_activity`) VALUES
@@ -14964,7 +15038,11 @@ INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, 
 	(482, 323, 3, '2016-11-19 17:40:33', NULL, 700.00, NULL, -2800.00, 'K', 1, 1, NULL, NULL),
 	(483, 323, 4, '2016-11-19 17:40:33', NULL, 5000.00, NULL, 1200.00, 'AD', 2, 0, NULL, NULL),
 	(484, 324, 3, '2017-03-13 18:31:40', NULL, 100.00, NULL, 38900.00, 'K', 1, 1, NULL, NULL),
-	(485, 324, 4, '2017-03-13 18:31:40', NULL, 5000.00, NULL, 42700.00, 'AD', 2, 0, NULL, NULL);
+	(485, 324, 4, '2017-03-13 18:31:40', NULL, 5000.00, NULL, 42700.00, 'AD', 2, 0, NULL, NULL),
+	(486, 325, 3, '2017-03-29 15:50:05', NULL, 300.00, NULL, 300.00, 'K', 1, 1, NULL, NULL),
+	(487, 325, 4, '2017-03-29 15:50:05', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL),
+	(488, 326, 3, '2017-03-30 20:02:11', NULL, 300.00, NULL, 1900.00, 'K', 1, 1, NULL, NULL),
+	(489, 326, 4, '2017-03-30 20:02:11', NULL, 5000.00, NULL, 3900.00, 'AD', 2, 0, NULL, NULL);
 /*!40000 ALTER TABLE `game_player` ENABLE KEYS */;
 
 
@@ -15103,9 +15181,9 @@ CREATE TABLE IF NOT EXISTS `game_rate_hist` (
   CONSTRAINT `FK_game_rate_hist_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_rate_hist_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`),
   CONSTRAINT `FK_game_rate_hist_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14886 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14913 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_rate_hist: ~10 933 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_rate_hist: ~11 593 rows (приблизительно)
 DELETE FROM `game_rate_hist`;
 /*!40000 ALTER TABLE `game_rate_hist` DISABLE KEYS */;
 INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, `game_step_id`, `field_type_id`, `fields_count`) VALUES
@@ -26482,7 +26560,27 @@ INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, 
 	(14882, 324, 484, 4510, 3, 3),
 	(14883, 324, 485, 4510, 1, 4),
 	(14884, 324, 485, 4510, 2, 3),
-	(14885, 324, 485, 4510, 3, 1);
+	(14885, 324, 485, 4510, 3, 1),
+	(14886, 326, NULL, 4511, 1, 19),
+	(14887, 326, NULL, 4511, 2, 12),
+	(14888, 326, NULL, 4511, 3, 4),
+	(14889, 326, 488, 4511, 1, 1),
+	(14893, 326, NULL, 4512, 1, 18),
+	(14894, 326, NULL, 4512, 2, 12),
+	(14895, 326, NULL, 4512, 3, 4),
+	(14896, 326, 488, 4512, 1, 1),
+	(14897, 326, 489, 4512, 1, 1),
+	(14900, 326, NULL, 4513, 1, 17),
+	(14901, 326, NULL, 4513, 2, 12),
+	(14902, 326, NULL, 4513, 3, 4),
+	(14903, 326, 488, 4513, 1, 2),
+	(14904, 326, 489, 4513, 1, 1),
+	(14907, 326, NULL, 4514, 1, 17),
+	(14908, 326, NULL, 4514, 2, 11),
+	(14909, 326, NULL, 4514, 3, 4),
+	(14910, 326, 488, 4514, 1, 2),
+	(14911, 326, 489, 4514, 1, 1),
+	(14912, 326, 489, 4514, 2, 1);
 /*!40000 ALTER TABLE `game_rate_hist` ENABLE KEYS */;
 
 
@@ -26497,7 +26595,7 @@ CREATE TABLE IF NOT EXISTS `game_step` (
   KEY `FK_game_step_player` (`step_game_player_id`),
   CONSTRAINT `FK_game_step_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_step_game_player` FOREIGN KEY (`step_game_player_id`) REFERENCES `game_player` (`game_player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4511 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4515 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.game_step: ~4 691 rows (приблизительно)
 DELETE FROM `game_step`;
@@ -31012,7 +31110,11 @@ INSERT INTO `game_step` (`game_step_id`, `game_id`, `step_game_player_id`, `tran
 	(4507, 324, 484, 2.00),
 	(4508, 324, 485, 4.00),
 	(4509, 324, 484, 1.00),
-	(4510, 324, 485, 2.00);
+	(4510, 324, 485, 2.00),
+	(4511, 326, 488, 5.00),
+	(4512, 326, 489, 0.00),
+	(4513, 326, 488, 4.00),
+	(4514, 326, 489, -2.00);
 /*!40000 ALTER TABLE `game_step` ENABLE KEYS */;
 
 
@@ -31030,9 +31132,9 @@ CREATE TABLE IF NOT EXISTS `game_step_results` (
   CONSTRAINT `FK_game_step_results_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_step_results_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`),
   CONSTRAINT `FK_game_step_results_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1870 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1881 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_step_results: ~1 150 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step_results: ~1 627 rows (приблизительно)
 DELETE FROM `game_step_results`;
 /*!40000 ALTER TABLE `game_step_results` DISABLE KEYS */;
 INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_id`, `game_step_id`, `game_step_result`) VALUES
@@ -32602,7 +32704,15 @@ INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_
 	(1865, 484, 324, 4509, 5000.00),
 	(1866, 485, 324, 4509, 3600.00),
 	(1868, 484, 324, 4510, 10000.00),
-	(1869, 485, 324, 4510, 7600.00);
+	(1869, 485, 324, 4510, 7600.00),
+	(1870, 488, 326, 4511, 1000.00),
+	(1871, 489, 326, 4511, 0.00),
+	(1873, 488, 326, 4512, 0.00),
+	(1874, 489, 326, 4512, 0.00),
+	(1876, 488, 326, 4513, 1600.00),
+	(1877, 489, 326, 4513, 800.00),
+	(1879, 488, 326, 4514, -800.00),
+	(1880, 489, 326, 4514, -1600.00);
 /*!40000 ALTER TABLE `game_step_results` ENABLE KEYS */;
 
 
@@ -32619,17 +32729,18 @@ CREATE TABLE IF NOT EXISTS `player` (
   `player_ava` varchar(200) DEFAULT NULL,
   `player_email` varchar(200) NOT NULL,
   `balance` decimal(10,2) NOT NULL,
+  `registration_date` datetime NOT NULL,
   PRIMARY KEY (`player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.player: ~4 rows (приблизительно)
 DELETE FROM `player`;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` (`player_id`, `player_log`, `player_phone`, `player_pass`, `player_first_name`, `player_last_name`, `player_middle_name`, `player_birth_date`, `player_ava`, `player_email`, `balance`) VALUES
-	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00),
-	(2, 'tutunia', '435', '8', 'Serg', 'Tut', 'A', '2016-08-01', NULL, 'hth@mail.ru', 1000.00),
-	(3, 'k', '45435', '7', 'kalique', 'K', 'K', '1985-06-21', 'kava.PNG', 'kalique@bk.ru', 5000.00),
-	(4, 'ADMIN', '0', '7onofN', 'ADMIN', 'ADMIN', 'ADMIN', '2016-08-09', NULL, 'admin@mail.ru', 500000.00);
+INSERT INTO `player` (`player_id`, `player_log`, `player_phone`, `player_pass`, `player_first_name`, `player_last_name`, `player_middle_name`, `player_birth_date`, `player_ava`, `player_email`, `balance`, `registration_date`) VALUES
+	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00, '2017-01-01 00:00:00'),
+	(2, 'tutunia', '435', '8', 'Serg', 'Tut', 'A', '2016-08-01', NULL, 'hth@mail.ru', 1000.00, '2017-02-01 00:00:00'),
+	(3, 'k', '45435', '7', 'kalique', 'K', 'K', '1985-06-21', 'kava.PNG', 'kalique@bk.ru', 5000.00, '2017-03-01 00:00:00'),
+	(4, 'ADMIN', '0', '7onofN', 'ADMIN', 'ADMIN', 'ADMIN', '2016-08-09', NULL, 'admin@mail.ru', 500000.00, '2017-04-01 00:00:00');
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 
 
