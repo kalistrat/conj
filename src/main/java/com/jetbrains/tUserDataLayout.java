@@ -14,6 +14,8 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import java.io.File;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -22,18 +24,23 @@ import java.util.Date;
  */
 public class tUserDataLayout extends VerticalLayout {
 
-    TextField SecondNameField;
+    TextField LastNameField;
     TextField FirstNameField;
     TextField MiddleNameField;
     PopupDateField BirthDateField;
     TextField EmailField;
     TextField PhoneField;
     Image AvatarImage;
+    VerticalLayout ImageLayout;
     Label LoginLabel;
     Label RatingLabel;
     Label RegDateLabel;
-    Label UserBalanceLabel;
+    Label BalanceLabel;
     String iUserLogin;
+
+    Button ChangeButton;
+    Button SaveButton;
+    Button PayButton;
 
     public tUserDataLayout(String eUserLogin){
 
@@ -41,9 +48,13 @@ public class tUserDataLayout extends VerticalLayout {
 
         //Поля формы персональных данных
 
-        SecondNameField = new TextField("Фамилия:");
+        LastNameField = new TextField("Фамилия:");
         FirstNameField = new TextField("Имя:");
         MiddleNameField = new TextField("Отчество:");
+
+        //LastNameField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
+        //FirstNameField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
+        //MiddleNameField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
         BirthDateField = new PopupDateField("Дата рождения:"){
             @Override
@@ -54,15 +65,17 @@ public class tUserDataLayout extends VerticalLayout {
         };
         BirthDateField.setResolution(BirthDateField.RESOLUTION_SEC);
         BirthDateField.setImmediate(true);
+        //BirthDateField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
         // Поля формы контактов
 
-        EmailField = new TextField();
-        EmailField.setCaption("Электронная почта:");
+        EmailField = new TextField("Электронная почта:");
         EmailField.setIcon(VaadinIcons.ENVELOPE);
-        PhoneField = new TextField();
-        PhoneField.setCaption("Номер телефона:");
+        PhoneField = new TextField("Номер телефона:");
         PhoneField.setIcon(VaadinIcons.PHONE);
+
+        //EmailField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
+        //PhoneField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
         // Заголовки форм
         Label FioFormHeader = new Label();
@@ -79,7 +92,7 @@ public class tUserDataLayout extends VerticalLayout {
 
 
         FormLayout FioVertLineForm = new FormLayout(
-                SecondNameField
+                LastNameField
                 ,FirstNameField
                 ,MiddleNameField
                 ,BirthDateField
@@ -95,6 +108,13 @@ public class tUserDataLayout extends VerticalLayout {
 
         ContactVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
 
+        ChangeButton = new Button("Редактировать");
+        //ChangeButton.setIcon(VaadinIcons.DISC);
+        SaveButton = new Button("Сохранить");
+        PayButton = new Button("Попольнить баланс");
+
+
+
         VerticalLayout RightContentLayout = new VerticalLayout(
                 FioFormHeader
                 ,FioVertLineForm
@@ -107,15 +127,15 @@ public class tUserDataLayout extends VerticalLayout {
         AvatarImage = new Image(null, new ClassResource("/pics/ava7.png"));
         AvatarImage.setHeight(120,Unit.PIXELS);
         AvatarImage.setWidth(120,Unit.PIXELS);
-        VerticalLayout ImageLayout = new VerticalLayout(AvatarImage);
+        ImageLayout = new VerticalLayout(AvatarImage);
         ImageLayout.addStyleName(ValoTheme.LAYOUT_WELL);
-        ImageLayout.setSizeUndefined();
+        ImageLayout.setWidth("120px");
+        ImageLayout.setHeight("120px");
         ImageLayout.setComponentAlignment(AvatarImage,Alignment.MIDDLE_CENTER);
 
         LoginLabel = new Label();
         LoginLabel.addStyleName(ValoTheme.LABEL_COLORED);
         LoginLabel.setContentMode(ContentMode.HTML);
-        LoginLabel.setValue(VaadinIcons.USER.getHtml() + "  " + "kalistrat");
         LoginLabel.addStyleName(ValoTheme.LABEL_SMALL);
 
         VerticalLayout LoginLabelLayout = new VerticalLayout(
@@ -127,17 +147,23 @@ public class tUserDataLayout extends VerticalLayout {
         RatingLabel = new Label();
         RatingLabel.addStyleName(ValoTheme.LABEL_TINY);
         RatingLabel.setContentMode(ContentMode.HTML);
-        RatingLabel.setValue(VaadinIcons.BAR_CHART.getHtml() + "  Рейтинг: " + "10.00");
+        RatingLabel.setValue(VaadinIcons.BAR_CHART.getHtml() + " Рейтинг : ");
 
         RegDateLabel = new Label();
         RegDateLabel.addStyleName(ValoTheme.LABEL_TINY);
         RegDateLabel.setContentMode(ContentMode.HTML);
-        RegDateLabel.setValue(VaadinIcons.TIME_FORWARD.getHtml() + "  На сайте с: " + "01.01.2017");
+        RegDateLabel.setValue(VaadinIcons.TIME_FORWARD.getHtml() + " На сайте с : ");
+
+        BalanceLabel = new Label();
+        BalanceLabel.addStyleName(ValoTheme.LABEL_TINY);
+        BalanceLabel.setContentMode(ContentMode.HTML);
+        BalanceLabel.setValue(VaadinIcons.CASH.getHtml() + " Баланс : ");
 
         VerticalLayout RatingDateFromLayout = new VerticalLayout(
                 new Label()
                 ,RatingLabel
                 ,RegDateLabel
+                ,BalanceLabel
         );
 
         VerticalLayout AvaLayout = new VerticalLayout(
@@ -172,6 +198,8 @@ public class tUserDataLayout extends VerticalLayout {
         ContentLayout.setWidth("800px");
         ContentLayout.addStyleName(ValoTheme.LAYOUT_CARD);
 
+        SetUserDataLayoutData();
+
         this.addComponent(new Label());
         this.addComponent(ContentLayout);
         this.addComponent(new Label());
@@ -181,6 +209,8 @@ public class tUserDataLayout extends VerticalLayout {
     }
 
     public void SetUserDataLayoutData(){
+
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
 
         try {
@@ -201,6 +231,7 @@ public class tUserDataLayout extends VerticalLayout {
                     ",p.player_ava\n" +
                     ",p.balance\n" +
                     ",p.registration_date\n" +
+                    ",p.rating\n" +
                     "from player p\n" +
                     "where p.player_log = ?";
 
@@ -210,6 +241,30 @@ public class tUserDataLayout extends VerticalLayout {
             ResultSet LayoutDataRs = LayoutDataStmt.executeQuery();
 
             while (LayoutDataRs.next()) {
+
+                LoginLabel.setValue(VaadinIcons.USER.getHtml() + "  "
+                        + LayoutDataRs.getString(1));
+                FirstNameField.setValue(LayoutDataRs.getString(2));
+                LastNameField.setValue(LayoutDataRs.getString(3));
+                MiddleNameField.setValue(LayoutDataRs.getString(4));
+                BirthDateField.setValue(LayoutDataRs.getDate(5));
+                EmailField.setValue(LayoutDataRs.getString(6));
+                PhoneField.setValue(LayoutDataRs.getString(7));
+
+
+                if (LayoutDataRs.getString(8)!=null){
+
+                    Image NewAvatarImage = new Image(null, new ClassResource("/pics/"+LayoutDataRs.getString(8)));
+                    NewAvatarImage.setHeight(100,Unit.PIXELS);
+                    NewAvatarImage.setWidth(100,Unit.PIXELS);
+                    ImageLayout.replaceComponent(AvatarImage,NewAvatarImage);
+                    AvatarImage = NewAvatarImage;
+                }
+
+                BalanceLabel.setValue(BalanceLabel.getValue() + LayoutDataRs.getDouble(9));
+                RegDateLabel.setValue(RegDateLabel.getValue() + df.format(new Date(LayoutDataRs.getTimestamp(10).getTime())));
+                RatingLabel.setValue(RatingLabel.getValue() + LayoutDataRs.getDouble(11));
+
             }
 
 

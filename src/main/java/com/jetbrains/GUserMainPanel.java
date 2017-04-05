@@ -38,7 +38,7 @@ public class GUserMainPanel extends TabSheet {
 
         MainDataPanel.setContent(FullSec);
 
-        oUserDataLayout = new tUserDataLayout();
+        oUserDataLayout = new tUserDataLayout(CurUser);
 
 
 

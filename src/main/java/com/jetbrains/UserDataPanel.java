@@ -108,7 +108,7 @@ public class UserDataPanel extends Panel {
         }
 
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-        FileResource resource = new FileResource(new File(basepath + "/VAADIN/themes/mytheme/pics/" + UserAvaPathVal));
+        FileResource resource = new FileResource(new File(basepath + "/VAADIN/themes/mytheme/pics/" + "human.jpg"));
         Embedded AvatarImage = new Embedded(null,resource);
         UserEmailField.setValue(UserEmailVal);
 
