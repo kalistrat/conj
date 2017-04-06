@@ -3,10 +3,7 @@ package com.jetbrains;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.ClassResource;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinService;
+import com.vaadin.server.*;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
@@ -38,9 +35,15 @@ public class tUserDataLayout extends VerticalLayout {
     Label BalanceLabel;
     String iUserLogin;
 
-    Button ChangeButton;
-    Button SaveButton;
-    Button PayButton;
+    Button ChangePersonButton;
+    Button SavePersonButton;
+    Button ChangeContactButton;
+    Button SaveContactButton;
+
+    Button InPayButton;
+    Button OutPayButton;
+    Button CrePayButton;
+    Button ChangeAvaButton;
 
     public tUserDataLayout(String eUserLogin){
 
@@ -63,7 +66,7 @@ public class tUserDataLayout extends VerticalLayout {
                 throw new Converter.ConversionException("Формат даты неверен. Используйте dd.mm.yy h24:mi:ss");
             }
         };
-        BirthDateField.setResolution(BirthDateField.RESOLUTION_SEC);
+        BirthDateField.setResolution(BirthDateField.RESOLUTION_DAY);
         BirthDateField.setImmediate(true);
         //BirthDateField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
@@ -90,6 +93,12 @@ public class tUserDataLayout extends VerticalLayout {
         ContactFormHeader.addStyleName(ValoTheme.LABEL_COLORED);
         ContactFormHeader.addStyleName(ValoTheme.LABEL_SMALL);
 
+        Label BalanceFormHeader = new Label();
+        BalanceFormHeader.setContentMode(ContentMode.HTML);
+        BalanceFormHeader.setValue(VaadinIcons.COIN_PILES.getHtml() + "  " + "Изменение баланса");
+        BalanceFormHeader.addStyleName(ValoTheme.LABEL_COLORED);
+        BalanceFormHeader.addStyleName(ValoTheme.LABEL_SMALL);
+
 
         FormLayout FioVertLineForm = new FormLayout(
                 LastNameField
@@ -108,18 +117,91 @@ public class tUserDataLayout extends VerticalLayout {
 
         ContactVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
 
-        ChangeButton = new Button("Редактировать");
-        //ChangeButton.setIcon(VaadinIcons.DISC);
-        SaveButton = new Button("Сохранить");
-        PayButton = new Button("Попольнить баланс");
+        ChangePersonButton = new Button();
+        ChangePersonButton.setIcon(FontAwesome.PENCIL);
 
+        SavePersonButton = new Button();
+        SavePersonButton.setIcon(FontAwesome.SAVE);
+
+        ChangeContactButton = new Button();
+        ChangeContactButton.setIcon(FontAwesome.PENCIL);
+
+        SaveContactButton = new Button();
+        SaveContactButton.setIcon(FontAwesome.SAVE);
+
+        InPayButton = new Button("Попольнить баланс");
+        InPayButton.setIcon(VaadinIcons.MONEY_DEPOSIT);
+        OutPayButton = new Button("Вывести выигрыш");
+        OutPayButton.setIcon(VaadinIcons.MONEY_WITHDRAW);
+        CrePayButton = new Button("Поделиться");
+        CrePayButton.setIcon(VaadinIcons.SHARE_SQUARE);
+
+        ChangePersonButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        SavePersonButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        ChangePersonButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+        SavePersonButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+
+        ChangeContactButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        SaveContactButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        ChangeContactButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+        SaveContactButton.addStyleName(ValoTheme.BUTTON_BORDERLESS_COLORED);
+
+        HorizontalLayout ChangePersonalDataLayout = new HorizontalLayout(
+                ChangePersonButton
+                ,SavePersonButton
+        );
+
+        HorizontalLayout ChangeContactDataLayout = new HorizontalLayout(
+                ChangeContactButton
+                ,SaveContactButton
+        );
+
+
+        InPayButton.addStyleName(ValoTheme.BUTTON_SMALL);
+        OutPayButton.addStyleName(ValoTheme.BUTTON_SMALL);
+        CrePayButton.addStyleName(ValoTheme.BUTTON_SMALL);
+
+        InPayButton.addStyleName(ValoTheme.BUTTON_LINK);
+        OutPayButton.addStyleName(ValoTheme.BUTTON_LINK);
+        CrePayButton.addStyleName(ValoTheme.BUTTON_LINK);
+
+        ChangeAvaButton = new Button("Изменить аватар");
+        ChangeAvaButton.setIcon(VaadinIcons.PICTURE);
+        ChangeAvaButton.addStyleName(ValoTheme.BUTTON_LINK);
+        ChangeAvaButton.addStyleName(ValoTheme.BUTTON_TINY);
+
+        HorizontalLayout ButtonsFormLayout = new HorizontalLayout(
+                InPayButton
+                ,OutPayButton
+                ,CrePayButton
+        );
+        ButtonsFormLayout.setSpacing(true);
+
+        HorizontalLayout FioFormHeaderLayout = new HorizontalLayout(
+                FioFormHeader
+                ,ChangePersonalDataLayout
+        );
+        FioFormHeaderLayout.setSpacing(true);
+        FioFormHeaderLayout.setWidth("100%");
+        FioFormHeaderLayout.setComponentAlignment(ChangePersonalDataLayout,Alignment.TOP_RIGHT);
+
+        HorizontalLayout ContactFormHeaderLayout = new HorizontalLayout(
+                ContactFormHeader
+                ,ChangeContactDataLayout
+        );
+        ContactFormHeaderLayout.setSpacing(true);
+        ContactFormHeaderLayout.setWidth("100%");
+        ContactFormHeaderLayout.setComponentAlignment(ChangeContactDataLayout,Alignment.TOP_RIGHT);
 
 
         VerticalLayout RightContentLayout = new VerticalLayout(
-                FioFormHeader
+                FioFormHeaderLayout
                 ,FioVertLineForm
-                ,ContactFormHeader
+                ,ContactFormHeaderLayout
                 ,ContactVertLineForm
+                ,BalanceFormHeader
+                ,new Label()
+                ,ButtonsFormLayout
         );
 
         RightContentLayout.setMargin(true);
@@ -160,22 +242,25 @@ public class tUserDataLayout extends VerticalLayout {
         BalanceLabel.setValue(VaadinIcons.CASH.getHtml() + " Баланс : ");
 
         VerticalLayout RatingDateFromLayout = new VerticalLayout(
-                new Label()
-                ,RatingLabel
+               RatingLabel
                 ,RegDateLabel
                 ,BalanceLabel
         );
 
         VerticalLayout AvaLayout = new VerticalLayout(
                 LoginLabelLayout
-                ,new Label()
                 ,ImageLayout
+                ,ChangeAvaButton
                 ,RatingDateFromLayout
+                //,ChangeAvaButton
         );
+        AvaLayout.setSpacing(true);
 
         AvaLayout.setComponentAlignment(LoginLabelLayout,Alignment.TOP_CENTER);
         AvaLayout.setComponentAlignment(ImageLayout,Alignment.MIDDLE_CENTER);
         AvaLayout.setComponentAlignment(RatingDateFromLayout,Alignment.BOTTOM_CENTER);
+        AvaLayout.setComponentAlignment(ChangeAvaButton,Alignment.BOTTOM_CENTER);
+
         AvaLayout.setSizeUndefined();
 
         VerticalLayout LeftContentLayout = new VerticalLayout(
@@ -183,9 +268,10 @@ public class tUserDataLayout extends VerticalLayout {
         );
         LeftContentLayout.setComponentAlignment(AvaLayout,Alignment.TOP_CENTER);
         LeftContentLayout.setMargin(new MarginInfo(true,false,false,false));
+        //LeftContentLayout.setSpacing(true);
 
         HorizontalSplitPanel UserDataSection = new HorizontalSplitPanel();
-        UserDataSection.setHeight("1000px");
+        UserDataSection.setHeight("750px");
         UserDataSection.setWidth("800px");
         UserDataSection.setFirstComponent(LeftContentLayout);
         UserDataSection.setSecondComponent(RightContentLayout);
@@ -194,7 +280,7 @@ public class tUserDataLayout extends VerticalLayout {
         UserDataSection.setMaxSplitPosition(25f,UNITS_PERCENTAGE);
 
         VerticalLayout ContentLayout = new VerticalLayout(UserDataSection);
-        ContentLayout.setHeight("1000px");
+        ContentLayout.setHeight("750px");
         ContentLayout.setWidth("800px");
         ContentLayout.addStyleName(ValoTheme.LAYOUT_CARD);
 

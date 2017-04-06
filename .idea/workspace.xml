@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ddde6b31-a495-409b-8058-81e99483d4b2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/GUserMainPanel.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/GUserMainPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/UserDataPanel.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/UserDataPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/pics/kava.png" afterPath="$PROJECT_DIR$/src/main/resources/pics/kava.png" />
     </list>
     <ignored path="conj.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,10 +29,10 @@
       <file leaf-file-name="tUserDataLayout.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4920914">
-              <caret line="111" column="49" selection-start-line="111" selection-start-column="49" selection-end-line="111" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.5325132">
+              <caret line="62" column="21" selection-start-line="62" selection-start-column="21" selection-end-line="62" selection-end-column="21" />
               <folding>
-                <marker date="1491425809994" expanded="true" signature="8005:8545" placeholder="select p.pla... player" />
+                <marker date="1491509870943" expanded="true" signature="11561:12101" placeholder="select p.pla... player" />
               </folding>
             </state>
           </provider>
@@ -46,6 +44,7 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="110" column="113" selection-start-line="110" selection-start-column="113" selection-end-line="110" selection-end-column="113" />
               <folding>
+                <element signature="imports" expanded="false" />
                 <marker date="1491423009559" expanded="true" signature="2045:2502" placeholder="select p.pla... player" />
               </folding>
             </state>
@@ -67,7 +66,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="40" column="55" selection-start-line="40" selection-start-column="55" selection-end-line="40" selection-end-column="55" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -78,6 +79,9 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="87" column="83" selection-start-line="87" selection-start-column="71" selection-end-line="87" selection-end-column="83" />
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#5381#5382#0" expanded="false" />
+                <element signature="e#5435#5436#0" expanded="false" />
                 <marker date="1490984932449" expanded="true" signature="2151:3161" placeholder="select g.gam... " />
               </folding>
             </state>
@@ -231,6 +235,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -436,7 +441,6 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -878,6 +882,11 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -933,11 +942,12 @@
       <updated>1491416959171</updated>
       <workItem from="1491416966206" duration="117000" />
       <workItem from="1491417101441" duration="7808000" />
+      <workItem from="1491502886743" duration="5678000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7925000" />
+    <option name="totallyTimeSpent" value="13603000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -990,7 +1000,36 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1491425809994" expanded="true" signature="8005:8545" placeholder="select p.pla... player" />
+            <marker date="1491509870943" expanded="true" signature="11561:12101" placeholder="select p.pla... player" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/UserDataPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="110" column="113" selection-start-line="110" selection-start-column="113" selection-end-line="110" selection-end-column="113" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <marker date="1491423009559" expanded="true" signature="2045:2502" placeholder="select p.pla... player" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tAppCommonStatic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/GUserMainPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="55" selection-start-line="40" selection-start-column="55" selection-end-line="40" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1000,6 +1039,32 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="87" column="83" selection-start-line="87" selection-start-column="71" selection-end-line="87" selection-end-column="83" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#5381#5382#0" expanded="false" />
+            <element signature="e#5435#5436#0" expanded="false" />
+            <marker date="1490984932449" expanded="true" signature="2151:3161" placeholder="select g.gam... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1491509870943" expanded="true" signature="11561:12101" placeholder="select p.pla... player" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/GActiveGamesPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="87" column="83" selection-start-line="87" selection-start-column="71" selection-end-line="87" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#5381#5382#0" expanded="false" />
+            <element signature="e#5435#5436#0" expanded="false" />
             <marker date="1490984932449" expanded="true" signature="2151:3161" placeholder="select g.gam... " />
           </folding>
         </state>
@@ -1014,7 +1079,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.34870848">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1022,7 +1086,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="40" column="55" selection-start-line="40" selection-start-column="55" selection-end-line="40" selection-end-column="55" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1039,6 +1105,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="110" column="113" selection-start-line="110" selection-start-column="113" selection-end-line="110" selection-end-column="113" />
           <folding>
+            <element signature="imports" expanded="false" />
             <marker date="1491423009559" expanded="true" signature="2045:2502" placeholder="select p.pla... player" />
           </folding>
         </state>
@@ -1046,10 +1113,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4920914">
-          <caret line="111" column="49" selection-start-line="111" selection-start-column="49" selection-end-line="111" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.5325132">
+          <caret line="62" column="21" selection-start-line="62" selection-start-column="21" selection-end-line="62" selection-end-column="21" />
           <folding>
-            <marker date="1491425809994" expanded="true" signature="8005:8545" placeholder="select p.pla... player" />
+            <marker date="1491509870943" expanded="true" signature="11561:12101" placeholder="select p.pla... player" />
           </folding>
         </state>
       </provider>
