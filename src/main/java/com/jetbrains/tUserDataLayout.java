@@ -116,6 +116,7 @@ public class tUserDataLayout extends VerticalLayout {
         );
 
         ContactVertLineForm.addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
+        //Кнопки
 
         ChangePersonButton = new Button();
         ChangePersonButton.setIcon(FontAwesome.PENCIL);
