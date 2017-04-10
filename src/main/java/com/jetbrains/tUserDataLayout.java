@@ -1,6 +1,5 @@
 package com.jetbrains;
 
-import com.vaadin.data.Item;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.*;
@@ -9,7 +8,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
-import java.io.File;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,15 +47,23 @@ public class tUserDataLayout extends VerticalLayout {
 
         this.iUserLogin = eUserLogin;
 
+        tUploadButtonWindow iUpload = new tUploadButtonWindow();
+        //ChangeAvaButton = iUpload.upload;
+
+
         //Поля формы персональных данных
 
         LastNameField = new TextField("Фамилия:");
         FirstNameField = new TextField("Имя:");
         MiddleNameField = new TextField("Отчество:");
 
-        //LastNameField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
-        //FirstNameField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
-        //MiddleNameField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
+        //LastNameField.addStyleName(ValoTheme.TEXTFIELD_TINY);
+        //FirstNameField.addStyleName(ValoTheme.TEXTFIELD_TINY);
+        //MiddleNameField.addStyleName(ValoTheme.TEXTFIELD_TINY);
+
+        LastNameField.setEnabled(false);
+        FirstNameField.setEnabled(false);
+        MiddleNameField.setEnabled(false);
 
         BirthDateField = new PopupDateField("Дата рождения:"){
             @Override
@@ -68,6 +74,9 @@ public class tUserDataLayout extends VerticalLayout {
         };
         BirthDateField.setResolution(BirthDateField.RESOLUTION_DAY);
         BirthDateField.setImmediate(true);
+        BirthDateField.setEnabled(false);
+
+
         //BirthDateField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
 
         // Поля формы контактов
@@ -76,6 +85,8 @@ public class tUserDataLayout extends VerticalLayout {
         EmailField.setIcon(VaadinIcons.ENVELOPE);
         PhoneField = new TextField("Номер телефона:");
         PhoneField.setIcon(VaadinIcons.PHONE);
+        EmailField.setEnabled(false);
+        PhoneField.setEnabled(false);
 
         //EmailField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
         //PhoneField.addStyleName(ValoTheme.TEXTFIELD_SMALL);
@@ -123,12 +134,14 @@ public class tUserDataLayout extends VerticalLayout {
 
         SavePersonButton = new Button();
         SavePersonButton.setIcon(FontAwesome.SAVE);
+        SavePersonButton.setEnabled(false);
 
         ChangeContactButton = new Button();
         ChangeContactButton.setIcon(FontAwesome.PENCIL);
 
         SaveContactButton = new Button();
         SaveContactButton.setIcon(FontAwesome.SAVE);
+        SaveContactButton.setEnabled(false);
 
         InPayButton = new Button("Попольнить баланс");
         InPayButton.setIcon(VaadinIcons.MONEY_DEPOSIT);
@@ -177,6 +190,64 @@ public class tUserDataLayout extends VerticalLayout {
                 ,CrePayButton
         );
         ButtonsFormLayout.setSpacing(true);
+
+        ChangeContactButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                EmailField.setEnabled(true);
+                PhoneField.setEnabled(true);
+
+                SaveContactButton.setEnabled(true);
+                ChangeContactButton.setEnabled(false);
+            }
+        });
+
+        ChangePersonButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                FirstNameField.setEnabled(true);
+                LastNameField.setEnabled(true);
+                MiddleNameField.setEnabled(true);
+                BirthDateField.setEnabled(true);
+
+                SavePersonButton.setEnabled(true);
+                ChangePersonButton.setEnabled(false);
+            }
+        });
+
+        SaveContactButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+             ChangeContactData(
+                     EmailField.getValue()
+                     ,PhoneField.getValue()
+             );
+                EmailField.setEnabled(false);
+                PhoneField.setEnabled(false);
+
+                SaveContactButton.setEnabled(false);
+                ChangeContactButton.setEnabled(true);
+            }
+        });
+
+        SavePersonButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                ChangePersonData(
+                        FirstNameField.getValue()
+                        ,LastNameField.getValue()
+                        ,MiddleNameField.getValue()
+                        ,BirthDateField.getValue()
+                );
+                FirstNameField.setEnabled(false);
+                LastNameField.setEnabled(false);
+                MiddleNameField.setEnabled(false);
+                BirthDateField.setEnabled(false);
+
+                SavePersonButton.setEnabled(false);
+                ChangePersonButton.setEnabled(true);
+            }
+        });
 
         HorizontalLayout FioFormHeaderLayout = new HorizontalLayout(
                 FioFormHeader
@@ -354,6 +425,72 @@ public class tUserDataLayout extends VerticalLayout {
 
             }
 
+
+            Con.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+    }
+
+    public void ChangeContactData(String iNewEmailValue,String iNewPhoneValue){
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement ChangeContactDataStmt = Con.prepareCall("{call p_user_contact_data_update(?, ? ,?)}");
+            ChangeContactDataStmt.setString(1, this.iUserLogin);
+            ChangeContactDataStmt.setString(2, iNewEmailValue);
+            ChangeContactDataStmt.setString(3, iNewPhoneValue);
+            ChangeContactDataStmt.execute();
+
+            Con.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+    }
+
+    public void ChangePersonData(
+        String iNewFirstName
+        ,String iNewLastName
+        ,String iNewMiddleName
+        ,Date iBirthDate
+    ){
+
+        java.sql.Date sqlBirthDate = new java.sql.Date(iBirthDate.getTime());
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement ChangePersonDataStmt = Con.prepareCall("{call p_user_person_data_update(?, ? ,? ,? ,?)}");
+            ChangePersonDataStmt.setString(1, this.iUserLogin);
+            ChangePersonDataStmt.setString(2, iNewFirstName);
+            ChangePersonDataStmt.setString(3, iNewLastName);
+            ChangePersonDataStmt.setString(4, iNewMiddleName);
+            ChangePersonDataStmt.setDate(5, sqlBirthDate);
+
+            ChangePersonDataStmt.execute();
 
             Con.close();
 
