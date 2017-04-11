@@ -1,9 +1,8 @@
 package com.jetbrains;
 
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.HorizontalSplitPanel;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.server.ClassResource;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -15,12 +14,22 @@ public class tMainGameConnectLayout extends VerticalLayout {
 
     public  tMainGameConnectLayout(String eUserLogin){
 
+        Image CubeImage = new Image(null, new ClassResource("/pics/red_dice1.png"));
+        CubeImage.setHeight(120,Unit.PIXELS);
+        CubeImage.setWidth(120,Unit.PIXELS);
+
         GameConnectTree = new tConnectTree();
 
-
         VerticalLayout LeftContentLayout = new VerticalLayout(
-                GameConnectTree
+                CubeImage
+                ,GameConnectTree
         );
+
+        LeftContentLayout.setMargin(new MarginInfo(true,false,false,false));
+        LeftContentLayout.setComponentAlignment(CubeImage,Alignment.MIDDLE_CENTER);
+        LeftContentLayout.setSpacing(true);
+        LeftContentLayout.setWidth("100%");
+
         VerticalLayout RightContentLayout = new VerticalLayout(
                 new Label("Right Side")
         );

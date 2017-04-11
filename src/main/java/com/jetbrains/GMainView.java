@@ -67,6 +67,7 @@ public class GMainView extends CustomComponent implements View {
         GameMenuTabSheet.addTab(oUserDataLayout, "Личные данные",VaadinIcons.HOME);
         GameMenuTabSheet.addTab(new Label("Здесь будет архив"), "История игр",VaadinIcons.ARCHIVE);
 
+
         VerticalLayout MainViewContentLayout = new VerticalLayout(
                 TopSectionLayout
                 ,GameMenuTabSheet

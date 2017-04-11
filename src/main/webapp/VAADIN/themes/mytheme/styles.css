@@ -13191,3 +13191,7 @@ div.v-layout.v-horizontal.v-widget {
 .mytheme .YELLOW.v-button:active:after {
 	background-color: rgba(161, 120, 0, 0.2);
 }
+
+.mytheme .v-tree-node-caption-captiontree {
+	font-size: 14px;
+}
