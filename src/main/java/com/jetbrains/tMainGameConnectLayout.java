@@ -1,7 +1,9 @@
 package com.jetbrains;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ClassResource;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -14,25 +16,46 @@ public class tMainGameConnectLayout extends VerticalLayout {
 
     public  tMainGameConnectLayout(String eUserLogin){
 
-        Image CubeImage = new Image(null, new ClassResource("/pics/red_dice1.png"));
-        CubeImage.setHeight(120,Unit.PIXELS);
-        CubeImage.setWidth(120,Unit.PIXELS);
+        Image CubeImage = new Image(null, new ClassResource("/pics/c_page_blue2.png"));
+        CubeImage.setHeight(100,Unit.PIXELS);
+        CubeImage.setWidth(90,Unit.PIXELS);
+
+        VerticalLayout CubeImageLayout = new VerticalLayout(CubeImage);
+        CubeImageLayout.addStyleName(ValoTheme.LAYOUT_WELL);
+        CubeImageLayout.setWidth("120px");
+        CubeImageLayout.setHeight("120px");
+        CubeImageLayout.setComponentAlignment(CubeImage,Alignment.MIDDLE_CENTER);
+
+        Label LeftContentLabel= new Label();
+        LeftContentLabel.setContentMode(ContentMode.HTML);
+        LeftContentLabel.setValue(VaadinIcons.CONNECT.getHtml());
+        LeftContentLabel.addStyleName(ValoTheme.LABEL_SMALL);
+        LeftContentLabel.addStyleName(ValoTheme.LABEL_COLORED);
+        LeftContentLabel.setSizeUndefined();
 
         GameConnectTree = new tConnectTree();
 
         VerticalLayout LeftContentLayout = new VerticalLayout(
-                CubeImage
+                LeftContentLabel
+                ,CubeImageLayout
                 ,GameConnectTree
         );
 
         LeftContentLayout.setMargin(new MarginInfo(true,false,false,false));
-        LeftContentLayout.setComponentAlignment(CubeImage,Alignment.MIDDLE_CENTER);
+        LeftContentLayout.setComponentAlignment(CubeImageLayout,Alignment.MIDDLE_CENTER);
+        LeftContentLayout.setComponentAlignment(LeftContentLabel,Alignment.MIDDLE_CENTER);
         LeftContentLayout.setSpacing(true);
         LeftContentLayout.setWidth("100%");
 
+        tNewGameFormLayout oNewGameFormLayout = new tNewGameFormLayout();
+
+
         VerticalLayout RightContentLayout = new VerticalLayout(
-                new Label("Right Side")
+                oNewGameFormLayout
         );
+
+        RightContentLayout.setMargin(true);
+
 
 
 
