@@ -1,5 +1,8 @@
 package com.jetbrains;
 
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ClassResource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -13,8 +16,15 @@ import com.vaadin.ui.themes.ValoTheme;
 public class tMainGameConnectLayout extends VerticalLayout {
 
     tConnectTree GameConnectTree;
+    public String iUserLog;
+    public VerticalLayout RightContentLayout;
+    public tNewGameFormLayout iNewGameFormLayout;
+    public tGameConnectLayout iGameConnectLayout;
+    public tGameInvitesLayout iGameInvitesLayout;
 
     public  tMainGameConnectLayout(String eUserLogin){
+
+        iUserLog = eUserLogin;
 
         Image CubeImage = new Image(null, new ClassResource("/pics/c_page_blue2.png"));
         CubeImage.setHeight(100,Unit.PIXELS);
@@ -35,6 +45,44 @@ public class tMainGameConnectLayout extends VerticalLayout {
 
         GameConnectTree = new tConnectTree();
 
+        GameConnectTree.addListener(new Property.ValueChangeListener() {
+
+            public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
+                if(event.getProperty().getValue() != null)
+                {
+                    //String atribut = getItemCaption(event.getProperty().getValue());
+                    System.out.println(event.getProperty().getValue());
+                    //Item SelectedItem = TreeContainer.getItem(event.getProperty().getValue());
+                    //SelectedItem.getItemProperty(5).getValue();
+                    //eMainView.TreeContentUsr.tTreeContentLayoutRefresh((int) SelectedItem.getItemProperty(2).getValue(),(int) SelectedItem.getItemProperty(6).getValue());
+
+                    if (event.getProperty().getValue().equals("Подключение к игре")){
+                        //RightContentLayout.removeAllComponents();
+                        tGameConnectLayout iGameConnectLayout1=new tGameConnectLayout();
+                        RightContentLayout.replaceComponent(iGameConnectLayout,iGameConnectLayout1);
+                        iGameConnectLayout = iGameConnectLayout1;
+                    }
+
+                    if (event.getProperty().getValue().equals("Приглашения в игру")){
+                        //RightContentLayout.removeAllComponents();
+                        tGameInvitesLayout iGameInvitesLayout1 = new tGameInvitesLayout();
+                        RightContentLayout.replaceComponent(iGameInvitesLayout,iGameInvitesLayout1);
+                        iGameInvitesLayout = iGameInvitesLayout1;
+                    }
+
+                    if (event.getProperty().getValue().equals("Создание новой игры")){
+                        //RightContentLayout.removeAllComponents();
+                        tNewGameFormLayout iNewGameFormLayout1 = new tNewGameFormLayout(iUserLog);
+                        RightContentLayout.replaceComponent(iNewGameFormLayout,iNewGameFormLayout1);
+                        iNewGameFormLayout = iNewGameFormLayout1;
+                    }
+
+                }
+            }
+        });
+
+
+
         VerticalLayout LeftContentLayout = new VerticalLayout(
                 LeftContentLabel
                 ,CubeImageLayout
@@ -47,11 +95,11 @@ public class tMainGameConnectLayout extends VerticalLayout {
         LeftContentLayout.setSpacing(true);
         LeftContentLayout.setWidth("100%");
 
-        tNewGameFormLayout oNewGameFormLayout = new tNewGameFormLayout();
+        iNewGameFormLayout = new tNewGameFormLayout(iUserLog);
 
 
-        VerticalLayout RightContentLayout = new VerticalLayout(
-                oNewGameFormLayout
+        RightContentLayout = new VerticalLayout(
+                iNewGameFormLayout
         );
 
         RightContentLayout.setMargin(true);

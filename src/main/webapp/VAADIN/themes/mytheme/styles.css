@@ -13195,3 +13195,7 @@ div.v-layout.v-horizontal.v-widget {
 .mytheme .v-tree-node-caption-captiontree {
 	font-size: 14px;
 }
+
+.mytheme .mybarmenu .v-menubar-menuitem-highlight {
+	background: #07a9ca;
+}
