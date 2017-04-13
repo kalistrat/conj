@@ -18,9 +18,7 @@ public class tMainGameConnectLayout extends VerticalLayout {
     tConnectTree GameConnectTree;
     public String iUserLog;
     public VerticalLayout RightContentLayout;
-    public tNewGameFormLayout iNewGameFormLayout;
-    public tGameConnectLayout iGameConnectLayout;
-    public tGameInvitesLayout iGameInvitesLayout;
+
 
     public  tMainGameConnectLayout(String eUserLogin){
 
@@ -51,30 +49,27 @@ public class tMainGameConnectLayout extends VerticalLayout {
                 if(event.getProperty().getValue() != null)
                 {
                     //String atribut = getItemCaption(event.getProperty().getValue());
-                    System.out.println(event.getProperty().getValue());
+                    //System.out.println(event.getProperty().getValue());
                     //Item SelectedItem = TreeContainer.getItem(event.getProperty().getValue());
                     //SelectedItem.getItemProperty(5).getValue();
                     //eMainView.TreeContentUsr.tTreeContentLayoutRefresh((int) SelectedItem.getItemProperty(2).getValue(),(int) SelectedItem.getItemProperty(6).getValue());
 
                     if (event.getProperty().getValue().equals("Подключение к игре")){
                         //RightContentLayout.removeAllComponents();
-                        tGameConnectLayout iGameConnectLayout1=new tGameConnectLayout();
-                        RightContentLayout.replaceComponent(iGameConnectLayout,iGameConnectLayout1);
-                        iGameConnectLayout = iGameConnectLayout1;
+                        RightContentLayout.removeAllComponents();
+                        RightContentLayout.addComponent(new tGameConnectLayout());
                     }
 
                     if (event.getProperty().getValue().equals("Приглашения в игру")){
                         //RightContentLayout.removeAllComponents();
-                        tGameInvitesLayout iGameInvitesLayout1 = new tGameInvitesLayout();
-                        RightContentLayout.replaceComponent(iGameInvitesLayout,iGameInvitesLayout1);
-                        iGameInvitesLayout = iGameInvitesLayout1;
+                        RightContentLayout.removeAllComponents();
+                        RightContentLayout.addComponent(new tGameInvitesLayout());
                     }
 
                     if (event.getProperty().getValue().equals("Создание новой игры")){
                         //RightContentLayout.removeAllComponents();
-                        tNewGameFormLayout iNewGameFormLayout1 = new tNewGameFormLayout(iUserLog);
-                        RightContentLayout.replaceComponent(iNewGameFormLayout,iNewGameFormLayout1);
-                        iNewGameFormLayout = iNewGameFormLayout1;
+                        RightContentLayout.removeAllComponents();
+                        RightContentLayout.addComponent(new tNewGameFormLayout(iUserLog));
                     }
 
                 }
@@ -95,11 +90,11 @@ public class tMainGameConnectLayout extends VerticalLayout {
         LeftContentLayout.setSpacing(true);
         LeftContentLayout.setWidth("100%");
 
-        iNewGameFormLayout = new tNewGameFormLayout(iUserLog);
+        tNewGameFormLayout oNewGameFormLayout = new tNewGameFormLayout(iUserLog);
 
 
         RightContentLayout = new VerticalLayout(
-                iNewGameFormLayout
+                oNewGameFormLayout
         );
 
         RightContentLayout.setMargin(true);

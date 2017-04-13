@@ -281,6 +281,8 @@ public class tUserDataLayout extends VerticalLayout {
         AvatarImage = new Image(null, new ClassResource("/pics/ava7.png"));
         AvatarImage.setHeight(120,Unit.PIXELS);
         AvatarImage.setWidth(120,Unit.PIXELS);
+
+
         ImageLayout = new VerticalLayout(AvatarImage);
         ImageLayout.addStyleName(ValoTheme.LAYOUT_WELL);
         ImageLayout.setWidth("120px");
