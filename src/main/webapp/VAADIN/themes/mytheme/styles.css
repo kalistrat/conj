@@ -2317,7 +2317,7 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 }
 
-.mytheme .v-button-link {
+.mytheme .v-button-link, .mytheme .v-upload .v-button {
 	border: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -2332,24 +2332,24 @@ div.v-layout.v-horizontal.v-widget {
 	transition: color 140ms;
 }
 
-.mytheme .v-button-link:hover:after {
+.mytheme .v-button-link:hover:after, .mytheme .mytheme .v-upload .v-button:hover:after {
 	background: transparent;
 }
 
-.mytheme .v-button-link:active {
+.mytheme .v-button-link:active, .mytheme .mytheme .v-upload .v-button:active {
 	opacity: 0.7;
 	filter: alpha(opacity=70) ;
 }
 
-.mytheme .v-button-link:active:after {
+.mytheme .v-button-link:active:after, .mytheme .mytheme .v-upload .v-button:active:after {
 	background: transparent;
 }
 
-.mytheme .v-button-link:hover {
+.mytheme .v-button-link:hover, .mytheme .mytheme .v-upload .v-button:hover {
 	color: #0dcff7;
 }
 
-.mytheme .v-button-link.v-disabled {
+.mytheme .v-button-link.v-disabled, .mytheme .mytheme .v-upload .v-disabled.v-button {
 	opacity: 0.5;
 	filter: alpha(opacity=50) ;
 }
@@ -13198,4 +13198,37 @@ div.v-layout.v-horizontal.v-widget {
 
 .mytheme .mybarmenu .v-menubar-menuitem-highlight {
 	background: #07a9ca;
+}
+
+.mytheme .myCustomUploadTiny .v-button {
+	height: 30px;
+	padding: 0 15px;
+	
+	
+	font-size: 12px;
+	
+	border-radius: 10px;
+}
+
+.mytheme .myCustomUploadTiny .v-button:after {
+	border: inherit;
+	top: -1px;
+	right: -1px;
+	bottom: -1px;
+	left: -1px;
+}
+
+.mytheme .upload-with-icon {
+	height: 100%;
+}
+
+.mytheme .upload-with-icon div {
+	height: 100%;
+}
+
+.mytheme .upload-with-icon .v-button {
+	background-image: url('browse_icon2.png');
+	background-repeat: no-repeat;
+	background-size: 16px 16px;
+	background-position: left;
 }

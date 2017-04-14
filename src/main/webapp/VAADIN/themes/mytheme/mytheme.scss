@@ -116,4 +116,27 @@ $v-component-group-spacing: 6px;
     background: #07a9ca; /* Dark blue */
   }
 
+  .myCustomUploadTiny .v-button {
+    @include valo-button-style($unit-size: $v-unit-size--tiny, $bevel: null, $shadow: null, $background-color: null, $font-size: $v-font-size--tiny, $font-weight: null);
+  }
+
+  .v-upload .v-button {
+    @extend .v-button-link;
+  }
+
+  .upload-with-icon {
+    height: 100%;
+  }
+
+  .upload-with-icon div {
+    height: 100%;
+  }
+
+  .upload-with-icon .v-button {
+    background-image: url('browse_icon2.png');
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: left;
+  }
+
 }
