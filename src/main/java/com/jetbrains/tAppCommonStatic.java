@@ -1,6 +1,8 @@
 package com.jetbrains;
 
 
+import com.vaadin.server.VaadinService;
+
 /**
  * Created by kalistrat on 05.04.2017.
  */
@@ -12,6 +14,8 @@ public class tAppCommonStatic {
 
     //String path = VaadinService.getCurrent().getDeploymentConfiguration().getResourcesPath() + "/VAADIN/themes/" + UI.getCurrent().getTheme() + "/" + specificResourcePath;
 
+    static String MyThemepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath().replace("\\","/") + "/VAADIN/themes/mytheme";
+
 
     public static Integer StrToIntValue(String Sval) {
 
@@ -21,6 +25,7 @@ public class tAppCommonStatic {
             return null;
         }
     }
+
 
 //    public class ImageTest {
 //

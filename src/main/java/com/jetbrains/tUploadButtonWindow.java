@@ -4,137 +4,142 @@ package com.jetbrains;
  * Created by kalistrat on 10.04.2017.
  */
 
-import java.io.IOException;
-import java.io.OutputStream;
-
+import com.vaadin.data.fieldgroup.Caption;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Upload.FailedEvent;
-import com.vaadin.ui.Upload.FinishedEvent;
-import com.vaadin.ui.Upload.Receiver;
-import com.vaadin.ui.Upload.StartedEvent;
-import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class tUploadButtonWindow {
 
-    private Label status = new Label("Please select a file to upload");
-
-    private ProgressIndicator pi = new ProgressIndicator();
-
     private MyReceiver receiver = new MyReceiver();
 
-    public HorizontalLayout progressLayout = new HorizontalLayout();
+    public Upload upload = new Upload(null,receiver);
 
-    public Window progressWindow = new Window();
-
-    public Upload upload = new Upload(null, receiver);
+    public tUploadWindow UploadWindow;
 
     public tUploadButtonWindow() {
 
-        progressWindow.setModal(true);
-        progressWindow.setIcon(VaadinIcons.PROGRESSBAR);
-        progressWindow.setCaption("  Загрузка файла...");
+        UploadWindow = new tUploadWindow(this);
 
         receiver.setSlow(true);
         upload.setImmediate(true);
-        upload.setButtonCaption("Сменить значок");
+        upload.setButtonCaption(" Изменить аватар");
 
-        upload.addStyleName(ValoTheme.BUTTON_TINY);
-        upload.setIcon(VaadinIcons.PICTURE);
-
-        progressLayout.setSpacing(true);
-        progressLayout.setVisible(false);
-        progressLayout.addComponent(pi);
-        progressLayout.setComponentAlignment(pi, Alignment.MIDDLE_LEFT);
-
-        final Button cancelProcessing = new Button("Cancel");
-        cancelProcessing.addListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
-                upload.interruptUpload();
-            }
-        });
-
-        //cancelProcessing.setStyleName("small");
-        progressLayout.addComponent(cancelProcessing);
-        progressWindow.setSizeUndefined();
-        progressWindow.setContent(progressLayout);
-
+        upload.addStyleName("myCustomUploadTiny");
+        upload.addStyleName("upload-with-icon");
 
         upload.addListener(new Upload.StartedListener() {
-            public void uploadStarted(StartedEvent event) {
+            public void uploadStarted(Upload.StartedEvent event) {
                 // This method gets called immediatedly after upload is started
-                upload.setVisible(false);
-                progressLayout.setVisible(true);
-                pi.setValue(0f);
-                pi.setPollingInterval(500);
-                status.setValue("Uploading file \"" + event.getFilename()
+
+                UI.getCurrent().addWindow(UploadWindow);
+                System.out.println("Создаю окно ");
+                UploadWindow.pi.setValue(0f);
+                //UploadWindow.pi.setPollingInterval(500);
+                UploadWindow.status.setValue("Загружается файл \"" + event.getFilename()
                         + "\"");
+                System.out.println("Начало загрузки: " + event.getFilename());
             }
         });
 
         upload.addListener(new Upload.ProgressListener() {
             public void updateProgress(long readBytes, long contentLength) {
                 // This method gets called several times during the update
-                pi.setValue(new Float(readBytes / (float) contentLength));
+                UploadWindow.pi.setValue(new Float(readBytes / (float) contentLength));
             }
 
         });
 
         upload.addListener(new Upload.SucceededListener() {
-            public void uploadSucceeded(SucceededEvent event) {
+            public void uploadSucceeded(Upload.SucceededEvent event) {
                 // This method gets called when the upload finished successfully
-                status.setValue("Uploading file \"" + event.getFilename()
-                        + "\" succeeded");
+                UploadWindow.status.setValue("Файл \"" + event.getFilename()
+                        + "\" успешно загружен");
+                //System.out.println("Succeeded " + event.getFilename());
             }
         });
 
         upload.addListener(new Upload.FailedListener() {
-            public void uploadFailed(FailedEvent event) {
+            public void uploadFailed(Upload.FailedEvent event) {
                 // This method gets called when the upload failed
-                status.setValue("Uploading interrupted");
+                UploadWindow.status.setValue("Загрузка файла прервана");
             }
         });
 
         upload.addListener(new Upload.FinishedListener() {
-            public void uploadFinished(FinishedEvent event) {
-                // This method gets called always when the upload finished,
-                // either succeeding or failing
-                progressLayout.setVisible(false);
-                upload.setVisible(true);
-                upload.setCaption("Select another file");
+            public void uploadFinished(Upload.FinishedEvent event) {
+
+                String mydata = event.getMIMEType();
+                System.out.println(mydata);
+                Pattern pattern = Pattern.compile("/(.*)");
+                Matcher matcher = pattern.matcher(mydata);
+                if (matcher.find())
+                {
+                    System.out.println(matcher.group(1));
+                }
+
+                Path source = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + event.getFilename());
+                try {
+                    Files.move(source, source.resolveSibling("newname.png"), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println("MyThemepath " + tAppCommonStatic.MyThemepath + "/ava/" + event.getFilename());
+                //UploadWindow.close();
+
             }
         });
 
     }
 
-    public static class MyReceiver implements Receiver {
-
+    public static class MyReceiver implements Upload.Receiver {
         private String fileName;
         private String mtype;
         private boolean sleep;
         private int total = 0;
 
-        public OutputStream receiveUpload(String filename, String mimetype) {
-            fileName = filename;
-            mtype = mimetype;
-            return new OutputStream() {
-                @Override
-                public void write(int b) throws IOException {
-                    total++;
-                    if (sleep && total % 10000 == 0) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
+        OutputStream outputFile = null;
+        @Override
+        public OutputStream receiveUpload(String strFilename, String strMIMEType) {
+            fileName = strFilename;
+            mtype = strMIMEType;
+            File file=null;
+            try {
+                file = new File(tAppCommonStatic.MyThemepath + "/ava/" + strFilename);
+                if(!file.exists()) {
+                    file.createNewFile();
                 }
-            };
+                outputFile =  new FileOutputStream(file);
+                //file.renameTo(new File(tAppCommonStatic.MyThemepath + "/ava/" + "kalistrat." + strMIMEType));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return outputFile;
         }
 
+        protected void finalize() {
+            try {
+                super.finalize();
+                if(outputFile!=null) {
+                    outputFile.close();
+                }
+            } catch (Throwable exception) {
+                exception.printStackTrace();
+            }
+        }
         public String getFileName() {
             return fileName;
         }
@@ -148,5 +153,7 @@ public class tUploadButtonWindow {
         }
 
     }
+
+
 
 }
