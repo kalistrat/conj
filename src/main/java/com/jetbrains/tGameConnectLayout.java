@@ -6,6 +6,8 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -23,7 +25,7 @@ public class tGameConnectLayout extends VerticalLayout {
 
     private HorizontalLayout progressLayout = new HorizontalLayout();
 
-    private Upload upload = new Upload(null, receiver);
+    private Upload upload = new Upload(null,receiver);
 
     public tGameConnectLayout(){
 
@@ -38,7 +40,7 @@ public class tGameConnectLayout extends VerticalLayout {
 
         // Make uploading start immediately when file is selected
         upload.setImmediate(true);
-        upload.setButtonCaption("Изменить аватар");
+        upload.setButtonCaption(" Изменить аватар");
         //upload.setIcon(VaadinIcons.PICTURE);
         upload.addStyleName("myCustomUploadTiny");
         upload.addStyleName("upload-with-icon");
@@ -48,6 +50,8 @@ public class tGameConnectLayout extends VerticalLayout {
         progressLayout.setVisible(false);
         progressLayout.addComponent(pi);
         progressLayout.setComponentAlignment(pi, Alignment.MIDDLE_LEFT);
+
+
 
         final Button cancelProcessing = new Button("Cancel");
         cancelProcessing.addListener(new Button.ClickListener() {
@@ -88,6 +92,7 @@ public class tGameConnectLayout extends VerticalLayout {
                 // This method gets called when the upload finished successfully
                 status.setValue("Uploading file \"" + event.getFilename()
                         + "\" succeeded");
+                System.out.println("Succeeded " + event.getFilename());
             }
         });
 
@@ -105,37 +110,46 @@ public class tGameConnectLayout extends VerticalLayout {
                 progressLayout.setVisible(false);
                 upload.setVisible(true);
                 upload.setCaption("Select another file");
+                System.out.println("Finished " + event.getFilename());
             }
         });
 
     }
 
     public static class MyReceiver implements Upload.Receiver {
-
         private String fileName;
         private String mtype;
         private boolean sleep;
         private int total = 0;
 
-        public OutputStream receiveUpload(String filename, String mimetype) {
-            fileName = filename;
-            mtype = mimetype;
-            return new OutputStream() {
-                @Override
-                public void write(int b) throws IOException {
-                    total++;
-                    if (sleep && total % 10000 == 0) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
+        OutputStream outputFile = null;
+        @Override
+        public OutputStream receiveUpload(String strFilename, String strMIMEType) {
+            fileName = strFilename;
+            mtype = strMIMEType;
+            File file=null;
+            try {
+                file = new File("E:/"+strFilename);
+                if(!file.exists()) {
+                    file.createNewFile();
                 }
-            };
+                outputFile =  new FileOutputStream(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return outputFile;
         }
 
+        protected void finalize() {
+            try {
+                super.finalize();
+                if(outputFile!=null) {
+                    outputFile.close();
+                }
+            } catch (Throwable exception) {
+                exception.printStackTrace();
+            }
+        }
         public String getFileName() {
             return fileName;
         }
