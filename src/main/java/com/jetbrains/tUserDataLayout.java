@@ -47,7 +47,7 @@ public class tUserDataLayout extends VerticalLayout {
 
         this.iUserLogin = eUserLogin;
 
-        tUploadButtonWindow iUpload = new tUploadButtonWindow();
+        //tUploadButtonWindow iUpload = new tUploadButtonWindow();
         //ChangeAvaButton = iUpload.upload;
 
 

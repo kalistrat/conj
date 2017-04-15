@@ -4,10 +4,7 @@ package com.jetbrains;
  * Created by kalistrat on 10.04.2017.
  */
 
-import com.vaadin.data.fieldgroup.Caption;
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,8 +24,11 @@ public class tUploadButtonWindow {
     public Upload upload = new Upload(null,receiver);
 
     public tUploadWindow UploadWindow;
+    public String iUserLog;
 
-    public tUploadButtonWindow() {
+    public tUploadButtonWindow(String eUserLog) {
+
+        iUserLog = eUserLog;
 
         UploadWindow = new tUploadWindow(this);
 
@@ -42,14 +42,10 @@ public class tUploadButtonWindow {
         upload.addListener(new Upload.StartedListener() {
             public void uploadStarted(Upload.StartedEvent event) {
                 // This method gets called immediatedly after upload is started
-
                 UI.getCurrent().addWindow(UploadWindow);
-                System.out.println("Создаю окно ");
                 UploadWindow.pi.setValue(0f);
-                //UploadWindow.pi.setPollingInterval(500);
                 UploadWindow.status.setValue("Загружается файл \"" + event.getFilename()
                         + "\"");
-                System.out.println("Начало загрузки: " + event.getFilename());
             }
         });
 
@@ -66,38 +62,57 @@ public class tUploadButtonWindow {
                 // This method gets called when the upload finished successfully
                 UploadWindow.status.setValue("Файл \"" + event.getFilename()
                         + "\" успешно загружен");
-                //System.out.println("Succeeded " + event.getFilename());
+
             }
         });
 
         upload.addListener(new Upload.FailedListener() {
             public void uploadFailed(Upload.FailedEvent event) {
                 // This method gets called when the upload failed
-                UploadWindow.status.setValue("Загрузка файла прервана");
+                UploadWindow.status.setValue("Загрузка прервана.");
             }
         });
 
         upload.addListener(new Upload.FinishedListener() {
             public void uploadFinished(Upload.FinishedEvent event) {
 
-                String mydata = event.getMIMEType();
-                System.out.println(mydata);
-                Pattern pattern = Pattern.compile("/(.*)");
-                Matcher matcher = pattern.matcher(mydata);
-                if (matcher.find())
-                {
-                    System.out.println(matcher.group(1));
-                }
+                Pattern PatternMime = Pattern.compile("/(.*)");
+                Matcher matcherMime = PatternMime.matcher(event.getMIMEType());
+                matcherMime.find();
+                String FileMimeType = matcherMime.group(1);
 
-                Path source = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + event.getFilename());
-                try {
-                    Files.move(source, source.resolveSibling("newname.png"), StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Pattern PatternType = Pattern.compile("(.*)/");
+                Matcher matcherType = PatternType.matcher(event.getMIMEType());
+                matcherType.find();
+                String FileType = matcherType.group(1);
 
-                System.out.println("MyThemepath " + tAppCommonStatic.MyThemepath + "/ava/" + event.getFilename());
-                //UploadWindow.close();
+                Path SourceOldName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + event.getFilename());
+
+                if (FileType.equals("image")) {
+
+                    Path SourceNewName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + iUserLog + "." + FileMimeType);
+                    Path Dst = Paths.get(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + FileMimeType);
+
+                    try {
+                        Files.move(SourceOldName, SourceOldName.resolveSibling(iUserLog + "." + FileMimeType), StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(SourceNewName, Dst, StandardCopyOption.REPLACE_EXISTING);
+                        Files.move(Dst, Dst.resolveSibling("m_" + iUserLog + "." + FileMimeType), StandardCopyOption.REPLACE_EXISTING);
+
+                        UploadWindow.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } else{
+
+                    try {
+                        Files.delete(SourceOldName);
+                        UploadWindow.status.setValue("Файл не загружен, т.к не является изображением. Выберите изображение.");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
 
             }
         });
@@ -122,7 +137,6 @@ public class tUploadButtonWindow {
                     file.createNewFile();
                 }
                 outputFile =  new FileOutputStream(file);
-                //file.renameTo(new File(tAppCommonStatic.MyThemepath + "/ava/" + "kalistrat." + strMIMEType));
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -153,7 +167,5 @@ public class tUploadButtonWindow {
         }
 
     }
-
-
 
 }

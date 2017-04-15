@@ -18,7 +18,10 @@ public class tUploadWindow extends Window {
     public tUploadWindow(tUploadButtonWindow MyUploadButtonWindow){
 
         iUploadButtonWindow = MyUploadButtonWindow;
-        cancelProcessing = new Button("Прервать загрузку");
+        cancelProcessing = new Button("Закрыть");
+        cancelProcessing.setIcon(VaadinIcons.CLOSE_CIRCLE);
+
+        cancelProcessing.setData(this);
         cancelProcessing.addStyleName(ValoTheme.BUTTON_SMALL);
         cancelProcessing.addStyleName(ValoTheme.BUTTON_LINK);
 
@@ -41,7 +44,7 @@ public class tUploadWindow extends Window {
         cancelProcessing.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                iUploadButtonWindow.upload.interruptUpload();
+                ((tUploadWindow) clickEvent.getButton().getData()).close();
             }
         });
 
@@ -50,16 +53,15 @@ public class tUploadWindow extends Window {
                 status
                 ,ProcessingLayout
         );
-        //WindowContentLayout.setSpacing(true);
+        WindowContentLayout.setSpacing(true);
         WindowContentLayout.setMargin(true);
-        WindowContentLayout.setHeight("100px");
-        WindowContentLayout.setWidth("320px");
         WindowContentLayout.setComponentAlignment(ProcessingLayout,Alignment.MIDDLE_CENTER);
         WindowContentLayout.setComponentAlignment(status,Alignment.TOP_RIGHT);
+        WindowContentLayout.addStyleName(ValoTheme.LAYOUT_WELL);
 
-        //this.setWidth(WindowContentLayout.getWidth(),UNITS_PERCENTAGE);
 
         this.setContent(WindowContentLayout);
+        this.setSizeUndefined();
         this.setModal(true);
 
 

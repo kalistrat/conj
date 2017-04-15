@@ -1,8 +1,6 @@
 package com.jetbrains;
 
-import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ClassResource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -48,16 +46,11 @@ public class tMainGameConnectLayout extends VerticalLayout {
             public void valueChange(com.vaadin.data.Property.ValueChangeEvent event) {
                 if(event.getProperty().getValue() != null)
                 {
-                    //String atribut = getItemCaption(event.getProperty().getValue());
-                    //System.out.println(event.getProperty().getValue());
-                    //Item SelectedItem = TreeContainer.getItem(event.getProperty().getValue());
-                    //SelectedItem.getItemProperty(5).getValue();
-                    //eMainView.TreeContentUsr.tTreeContentLayoutRefresh((int) SelectedItem.getItemProperty(2).getValue(),(int) SelectedItem.getItemProperty(6).getValue());
 
                     if (event.getProperty().getValue().equals("Подключение к игре")){
                         //RightContentLayout.removeAllComponents();
                         RightContentLayout.removeAllComponents();
-                        RightContentLayout.addComponent(new tGameConnectLayout());
+                        RightContentLayout.addComponent(new tGameConnectLayout(iUserLog));
                     }
 
                     if (event.getProperty().getValue().equals("Приглашения в игру")){
