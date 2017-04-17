@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ddde6b31-a495-409b-8058-81e99483d4b2" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/ava/newname.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/ava/k.jpeg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mava/m_k.jpeg" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mava/m_k.png" afterPath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mava/m_k.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameConnectLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameConnectLayout.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadButtonWindow.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadButtonWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadWindow.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadWindow.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java" />
     </list>
     <ignored path="conj.iws" />
@@ -41,23 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tMainGameConnectLayout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tUploadWindow.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="tUploadWindow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.70917577">
-              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -69,22 +56,33 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadButtonWindow.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+              <caret line="107" column="115" selection-start-line="107" selection-start-column="115" selection-end-line="107" selection-end-column="115" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1492284667773" expanded="true" signature="4899:4995" placeholder="..." />
+                <marker date="1492461756618" expanded="true" signature="5530:5626" placeholder="..." />
+                <marker date="1492461756618" expanded="true" signature="6358:7593" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tUserDataLayout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
+      <file leaf-file-name="tAppCommonStatic.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tAppCommonStatic.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tUserDataLayout.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.28615862">
+              <caret line="280" column="65" selection-start-line="280" selection-start-column="65" selection-end-line="280" selection-end-column="65" />
               <folding>
-                <marker date="1492280375039" expanded="true" signature="14131:14671" placeholder="select p.pla... player" />
+                <marker date="1492463562303" expanded="true" signature="14129:14669" placeholder="select p.pla... player" />
               </folding>
             </state>
           </provider>
@@ -121,11 +119,11 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tAppCommonStatic.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadWindow.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameConnectLayout.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadButtonWindow.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java" />
       </list>
     </option>
   </component>
@@ -252,6 +250,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -360,7 +359,23 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VAADIN" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="themes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mytheme" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ava" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -383,10 +398,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pics" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -433,7 +444,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -969,22 +979,23 @@
       <workItem from="1492199439094" duration="6985000" />
       <workItem from="1492258025537" duration="16039000" />
       <workItem from="1492278840693" duration="6166000" />
+      <workItem from="1492460401782" duration="3186000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="127743000" />
+    <option name="totallyTimeSpent" value="130929000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2203125" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2203125" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24691358" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1049,7 +1060,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="344" column="0" selection-start-line="344" selection-start-column="0" selection-end-line="364" selection-end-column="74" />
-          <folding />
+          <folding>
+            <marker date="1492463562303" expanded="true" signature="14129:14669" placeholder="select p.pla... player" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1109,7 +1122,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1492463562303" expanded="true" signature="14129:14669" placeholder="select p.pla... player" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1131,7 +1146,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1492463562303" expanded="true" signature="14129:14669" placeholder="select p.pla... player" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1167,7 +1184,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1492463562303" expanded="true" signature="14129:14669" placeholder="select p.pla... player" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1203,7 +1222,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1492463562303" expanded="true" signature="14129:14669" placeholder="select p.pla... player" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1239,7 +1260,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1492463562303" expanded="true" signature="14129:14669" placeholder="select p.pla... player" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1347,20 +1370,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tAppCommonStatic.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadWindow.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
+          <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.02643857">
+          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding>
-            <marker date="1492280375039" expanded="true" signature="14131:14671" placeholder="select p.pla... player" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1373,33 +1398,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tAppCommonStatic.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadButtonWindow.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
+          <caret line="107" column="115" selection-start-line="107" selection-start-column="115" selection-end-line="107" selection-end-column="115" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1492284667773" expanded="true" signature="4899:4995" placeholder="..." />
+            <marker date="1492461756618" expanded="true" signature="5530:5626" placeholder="..." />
+            <marker date="1492461756618" expanded="true" signature="6358:7593" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadWindow.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70917577">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.28615862">
+          <caret line="280" column="65" selection-start-line="280" selection-start-column="65" selection-end-line="280" selection-end-column="65" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1492463562303" expanded="true" signature="14129:14669" placeholder="select p.pla... player" />
           </folding>
         </state>
       </provider>

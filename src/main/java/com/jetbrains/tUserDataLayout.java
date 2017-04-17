@@ -278,9 +278,9 @@ public class tUserDataLayout extends VerticalLayout {
 
         RightContentLayout.setMargin(true);
 
-        AvatarImage = new Image(null, new ClassResource("/pics/ava7.png"));
-        AvatarImage.setHeight(120,Unit.PIXELS);
-        AvatarImage.setWidth(120,Unit.PIXELS);
+        AvatarImage = new Image(null, new ThemeResource("ava/ava7.png"));
+        AvatarImage.setHeight(100,Unit.PIXELS);
+        AvatarImage.setWidth(100,Unit.PIXELS);
 
 
         ImageLayout = new VerticalLayout(AvatarImage);
@@ -414,7 +414,7 @@ public class tUserDataLayout extends VerticalLayout {
 
                 if (LayoutDataRs.getString(8)!=null){
 
-                    Image NewAvatarImage = new Image(null, new ClassResource("/pics/"+LayoutDataRs.getString(8)));
+                    Image NewAvatarImage = new Image(null, new ThemeResource("ava/"+LayoutDataRs.getString(8)));
                     NewAvatarImage.setHeight(100,Unit.PIXELS);
                     NewAvatarImage.setWidth(100,Unit.PIXELS);
                     ImageLayout.replaceComponent(AvatarImage,NewAvatarImage);

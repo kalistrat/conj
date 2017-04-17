@@ -6,6 +6,9 @@ package com.jetbrains;
 
 import com.vaadin.ui.*;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -92,11 +95,20 @@ public class tUploadButtonWindow {
 
                     Path SourceNewName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + iUserLog + "." + FileMimeType);
                     Path Dst = Paths.get(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + FileMimeType);
+                    int MiniImgWidth = 10;
+                    int MiniImgHeight = 10;
 
                     try {
                         Files.move(SourceOldName, SourceOldName.resolveSibling(iUserLog + "." + FileMimeType), StandardCopyOption.REPLACE_EXISTING);
                         Files.copy(SourceNewName, Dst, StandardCopyOption.REPLACE_EXISTING);
-                        Files.move(Dst, Dst.resolveSibling("m_" + iUserLog + "." + FileMimeType), StandardCopyOption.REPLACE_EXISTING);
+
+                        BufferedImage originalImage = ImageIO.read(new File(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + FileMimeType));
+                        int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+
+                        BufferedImage resizeImageJpg = resizeImage(originalImage, type, MiniImgWidth, MiniImgHeight);
+                        ImageIO.write(resizeImageJpg, FileMimeType, new File(tAppCommonStatic.MyThemepath + "/mava/" + "m_" + iUserLog + "." + FileMimeType));
+                        Files.delete(Dst);
+
 
                         UploadWindow.close();
                     } catch (IOException e) {
@@ -167,5 +179,33 @@ public class tUploadButtonWindow {
         }
 
     }
+
+        public BufferedImage resizeImage(BufferedImage originalImage, int type, int IMG_WIDTH, int IMG_HEIGHT){
+            BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+            Graphics2D g = resizedImage.createGraphics();
+            g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+            g.dispose();
+
+            return resizedImage;
+        }
+
+        public BufferedImage resizeImageWithHint(BufferedImage originalImage, int type, int IMG_WIDTH, int IMG_HEIGHT){
+
+            BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+            Graphics2D g = resizedImage.createGraphics();
+            g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+            g.dispose();
+            g.setComposite(AlphaComposite.Src);
+
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g.setRenderingHint(RenderingHints.KEY_RENDERING,
+                    RenderingHints.VALUE_RENDER_QUALITY);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            return resizedImage;
+        }
+
 
 }
