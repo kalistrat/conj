@@ -647,9 +647,9 @@ CREATE TABLE IF NOT EXISTS `game` (
   `is_single_game` int(11) DEFAULT NULL,
   `last_activity` datetime DEFAULT NULL,
   PRIMARY KEY (`game_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=331 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game: ~286 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game: ~289 rows (приблизительно)
 DELETE FROM `game`;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
 INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `area_type_id`, `last_activity_date`, `is_single_game`, `last_activity`) VALUES
@@ -938,7 +938,10 @@ INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `ar
 	(324, '2017-03-13 18:31:40', NULL, 3, 1, NULL, 1, NULL),
 	(325, '2017-03-29 15:50:05', NULL, 3, 1, NULL, 1, NULL),
 	(326, '2017-03-30 20:02:11', NULL, 3, 1, NULL, 1, NULL),
-	(327, '2017-04-10 15:35:04', NULL, 3, 1, NULL, 1, NULL);
+	(327, '2017-04-10 15:35:04', NULL, 3, 1, NULL, 1, NULL),
+	(328, '2017-04-13 18:47:48', NULL, 3, 3, NULL, 0, NULL),
+	(329, '2017-04-13 18:49:48', NULL, 3, 3, NULL, 0, NULL),
+	(330, '2017-04-13 18:53:03', NULL, 3, 1, NULL, 1, NULL);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 
 
@@ -957,9 +960,9 @@ CREATE TABLE IF NOT EXISTS `game_field` (
   CONSTRAINT `FK_game_field_field_type` FOREIGN KEY (`field_type_id`) REFERENCES `field_type` (`field_type_id`),
   CONSTRAINT `FK_game_field_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_field_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22544 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22807 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_field: ~14 070 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_field: ~14 222 rows (приблизительно)
 DELETE FROM `game_field`;
 /*!40000 ALTER TABLE `game_field` DISABLE KEYS */;
 INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_index`, `field_type_id`, `game_player_id`) VALUES
@@ -14550,7 +14553,243 @@ INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_inde
 	(22513, 327, 4.00, '22', 3, 490),
 	(22514, 327, 4.00, '23', 3, 491),
 	(22515, 327, 4.00, '32', 3, 490),
-	(22516, 327, 4.00, '33', 3, 490);
+	(22516, 327, 4.00, '33', 3, 490),
+	(22517, 328, 2.00, '00', 1, NULL),
+	(22518, 328, 2.00, '01', 1, NULL),
+	(22519, 328, 2.00, '02', 1, NULL),
+	(22520, 328, 2.00, '03', 1, NULL),
+	(22521, 328, 2.00, '04', 1, NULL),
+	(22522, 328, 2.00, '05', 1, NULL),
+	(22523, 328, 2.00, '06', 1, NULL),
+	(22524, 328, 2.00, '07', 1, NULL),
+	(22525, 328, 2.00, '08', 1, NULL),
+	(22526, 328, 2.00, '09', 1, NULL),
+	(22527, 328, 2.00, '10', 1, NULL),
+	(22528, 328, 2.00, '19', 1, NULL),
+	(22529, 328, 2.00, '20', 1, NULL),
+	(22530, 328, 2.00, '29', 1, NULL),
+	(22531, 328, 2.00, '30', 1, NULL),
+	(22532, 328, 2.00, '39', 1, NULL),
+	(22533, 328, 2.00, '40', 1, NULL),
+	(22534, 328, 2.00, '49', 1, NULL),
+	(22535, 328, 2.00, '50', 1, NULL),
+	(22536, 328, 2.00, '59', 1, NULL),
+	(22537, 328, 2.00, '60', 1, NULL),
+	(22538, 328, 2.00, '69', 1, NULL),
+	(22539, 328, 2.00, '70', 1, NULL),
+	(22540, 328, 2.00, '79', 1, NULL),
+	(22541, 328, 2.00, '80', 1, NULL),
+	(22542, 328, 2.00, '89', 1, NULL),
+	(22543, 328, 2.00, '90', 1, NULL),
+	(22544, 328, 2.00, '91', 1, NULL),
+	(22545, 328, 2.00, '92', 1, NULL),
+	(22546, 328, 2.00, '93', 1, NULL),
+	(22547, 328, 2.00, '94', 1, NULL),
+	(22548, 328, 2.00, '95', 1, NULL),
+	(22549, 328, 2.00, '96', 1, NULL),
+	(22550, 328, 2.00, '97', 1, NULL),
+	(22551, 328, 2.00, '98', 1, NULL),
+	(22552, 328, 2.00, '99', 1, NULL),
+	(22553, 328, 3.00, '11', 2, NULL),
+	(22554, 328, 3.00, '12', 2, NULL),
+	(22555, 328, 3.00, '13', 2, NULL),
+	(22556, 328, 3.00, '14', 2, NULL),
+	(22557, 328, 3.00, '15', 2, NULL),
+	(22558, 328, 3.00, '16', 2, NULL),
+	(22559, 328, 3.00, '17', 2, NULL),
+	(22560, 328, 3.00, '18', 2, NULL),
+	(22561, 328, 3.00, '21', 2, NULL),
+	(22562, 328, 3.00, '28', 2, NULL),
+	(22563, 328, 3.00, '31', 2, NULL),
+	(22564, 328, 3.00, '38', 2, NULL),
+	(22565, 328, 3.00, '41', 2, NULL),
+	(22566, 328, 3.00, '48', 2, NULL),
+	(22567, 328, 3.00, '51', 2, NULL),
+	(22568, 328, 3.00, '58', 2, NULL),
+	(22569, 328, 3.00, '61', 2, NULL),
+	(22570, 328, 3.00, '68', 2, NULL),
+	(22571, 328, 3.00, '71', 2, NULL),
+	(22572, 328, 3.00, '78', 2, NULL),
+	(22573, 328, 3.00, '81', 2, NULL),
+	(22574, 328, 3.00, '82', 2, NULL),
+	(22575, 328, 3.00, '83', 2, NULL),
+	(22576, 328, 3.00, '84', 2, NULL),
+	(22577, 328, 3.00, '85', 2, NULL),
+	(22578, 328, 3.00, '86', 2, NULL),
+	(22579, 328, 3.00, '87', 2, NULL),
+	(22580, 328, 3.00, '88', 2, NULL),
+	(22581, 328, 4.00, '22', 3, NULL),
+	(22582, 328, 4.00, '23', 3, NULL),
+	(22583, 328, 4.00, '24', 3, NULL),
+	(22584, 328, 4.00, '25', 3, NULL),
+	(22585, 328, 4.00, '26', 3, NULL),
+	(22586, 328, 4.00, '27', 3, NULL),
+	(22587, 328, 4.00, '32', 3, NULL),
+	(22588, 328, 4.00, '37', 3, NULL),
+	(22589, 328, 4.00, '42', 3, NULL),
+	(22590, 328, 4.00, '47', 3, NULL),
+	(22591, 328, 4.00, '52', 3, NULL),
+	(22592, 328, 4.00, '57', 3, NULL),
+	(22593, 328, 4.00, '62', 3, NULL),
+	(22594, 328, 4.00, '67', 3, NULL),
+	(22595, 328, 4.00, '72', 3, NULL),
+	(22596, 328, 4.00, '73', 3, NULL),
+	(22597, 328, 4.00, '74', 3, NULL),
+	(22598, 328, 4.00, '75', 3, NULL),
+	(22599, 328, 4.00, '76', 3, NULL),
+	(22600, 328, 4.00, '77', 3, NULL),
+	(22601, 328, 5.00, '33', 4, NULL),
+	(22602, 328, 5.00, '34', 4, NULL),
+	(22603, 328, 5.00, '35', 4, NULL),
+	(22604, 328, 5.00, '36', 4, NULL),
+	(22605, 328, 5.00, '43', 4, NULL),
+	(22606, 328, 5.00, '46', 4, NULL),
+	(22607, 328, 5.00, '53', 4, NULL),
+	(22608, 328, 5.00, '56', 4, NULL),
+	(22609, 328, 5.00, '63', 4, NULL),
+	(22610, 328, 5.00, '64', 4, NULL),
+	(22611, 328, 5.00, '65', 4, NULL),
+	(22612, 328, 5.00, '66', 4, NULL),
+	(22613, 328, 6.00, '44', 5, NULL),
+	(22614, 328, 6.00, '45', 5, NULL),
+	(22615, 328, 6.00, '54', 5, NULL),
+	(22616, 328, 6.00, '55', 5, NULL),
+	(22644, 329, 2.00, '00', 1, NULL),
+	(22645, 329, 2.00, '01', 1, NULL),
+	(22646, 329, 2.00, '02', 1, NULL),
+	(22647, 329, 2.00, '03', 1, NULL),
+	(22648, 329, 2.00, '04', 1, NULL),
+	(22649, 329, 2.00, '05', 1, NULL),
+	(22650, 329, 2.00, '06', 1, NULL),
+	(22651, 329, 2.00, '07', 1, NULL),
+	(22652, 329, 2.00, '08', 1, NULL),
+	(22653, 329, 2.00, '09', 1, NULL),
+	(22654, 329, 2.00, '10', 1, NULL),
+	(22655, 329, 2.00, '19', 1, NULL),
+	(22656, 329, 2.00, '20', 1, NULL),
+	(22657, 329, 2.00, '29', 1, NULL),
+	(22658, 329, 2.00, '30', 1, NULL),
+	(22659, 329, 2.00, '39', 1, NULL),
+	(22660, 329, 2.00, '40', 1, NULL),
+	(22661, 329, 2.00, '49', 1, NULL),
+	(22662, 329, 2.00, '50', 1, NULL),
+	(22663, 329, 2.00, '59', 1, NULL),
+	(22664, 329, 2.00, '60', 1, NULL),
+	(22665, 329, 2.00, '69', 1, NULL),
+	(22666, 329, 2.00, '70', 1, NULL),
+	(22667, 329, 2.00, '79', 1, NULL),
+	(22668, 329, 2.00, '80', 1, NULL),
+	(22669, 329, 2.00, '89', 1, NULL),
+	(22670, 329, 2.00, '90', 1, NULL),
+	(22671, 329, 2.00, '91', 1, NULL),
+	(22672, 329, 2.00, '92', 1, NULL),
+	(22673, 329, 2.00, '93', 1, NULL),
+	(22674, 329, 2.00, '94', 1, NULL),
+	(22675, 329, 2.00, '95', 1, NULL),
+	(22676, 329, 2.00, '96', 1, NULL),
+	(22677, 329, 2.00, '97', 1, NULL),
+	(22678, 329, 2.00, '98', 1, NULL),
+	(22679, 329, 2.00, '99', 1, NULL),
+	(22680, 329, 3.00, '11', 2, NULL),
+	(22681, 329, 3.00, '12', 2, NULL),
+	(22682, 329, 3.00, '13', 2, NULL),
+	(22683, 329, 3.00, '14', 2, NULL),
+	(22684, 329, 3.00, '15', 2, NULL),
+	(22685, 329, 3.00, '16', 2, NULL),
+	(22686, 329, 3.00, '17', 2, NULL),
+	(22687, 329, 3.00, '18', 2, NULL),
+	(22688, 329, 3.00, '21', 2, NULL),
+	(22689, 329, 3.00, '28', 2, NULL),
+	(22690, 329, 3.00, '31', 2, NULL),
+	(22691, 329, 3.00, '38', 2, NULL),
+	(22692, 329, 3.00, '41', 2, NULL),
+	(22693, 329, 3.00, '48', 2, NULL),
+	(22694, 329, 3.00, '51', 2, NULL),
+	(22695, 329, 3.00, '58', 2, NULL),
+	(22696, 329, 3.00, '61', 2, NULL),
+	(22697, 329, 3.00, '68', 2, NULL),
+	(22698, 329, 3.00, '71', 2, NULL),
+	(22699, 329, 3.00, '78', 2, NULL),
+	(22700, 329, 3.00, '81', 2, NULL),
+	(22701, 329, 3.00, '82', 2, NULL),
+	(22702, 329, 3.00, '83', 2, NULL),
+	(22703, 329, 3.00, '84', 2, NULL),
+	(22704, 329, 3.00, '85', 2, NULL),
+	(22705, 329, 3.00, '86', 2, NULL),
+	(22706, 329, 3.00, '87', 2, NULL),
+	(22707, 329, 3.00, '88', 2, NULL),
+	(22708, 329, 4.00, '22', 3, NULL),
+	(22709, 329, 4.00, '23', 3, NULL),
+	(22710, 329, 4.00, '24', 3, NULL),
+	(22711, 329, 4.00, '25', 3, NULL),
+	(22712, 329, 4.00, '26', 3, NULL),
+	(22713, 329, 4.00, '27', 3, NULL),
+	(22714, 329, 4.00, '32', 3, NULL),
+	(22715, 329, 4.00, '37', 3, NULL),
+	(22716, 329, 4.00, '42', 3, NULL),
+	(22717, 329, 4.00, '47', 3, NULL),
+	(22718, 329, 4.00, '52', 3, NULL),
+	(22719, 329, 4.00, '57', 3, NULL),
+	(22720, 329, 4.00, '62', 3, NULL),
+	(22721, 329, 4.00, '67', 3, NULL),
+	(22722, 329, 4.00, '72', 3, NULL),
+	(22723, 329, 4.00, '73', 3, NULL),
+	(22724, 329, 4.00, '74', 3, NULL),
+	(22725, 329, 4.00, '75', 3, NULL),
+	(22726, 329, 4.00, '76', 3, NULL),
+	(22727, 329, 4.00, '77', 3, NULL),
+	(22728, 329, 5.00, '33', 4, NULL),
+	(22729, 329, 5.00, '34', 4, NULL),
+	(22730, 329, 5.00, '35', 4, NULL),
+	(22731, 329, 5.00, '36', 4, NULL),
+	(22732, 329, 5.00, '43', 4, NULL),
+	(22733, 329, 5.00, '46', 4, NULL),
+	(22734, 329, 5.00, '53', 4, NULL),
+	(22735, 329, 5.00, '56', 4, NULL),
+	(22736, 329, 5.00, '63', 4, NULL),
+	(22737, 329, 5.00, '64', 4, NULL),
+	(22738, 329, 5.00, '65', 4, NULL),
+	(22739, 329, 5.00, '66', 4, NULL),
+	(22740, 329, 6.00, '44', 5, NULL),
+	(22741, 329, 6.00, '45', 5, NULL),
+	(22742, 329, 6.00, '54', 5, NULL),
+	(22743, 329, 6.00, '55', 5, NULL),
+	(22771, 330, 2.00, '00', 1, NULL),
+	(22772, 330, 2.00, '01', 1, NULL),
+	(22773, 330, 2.00, '02', 1, NULL),
+	(22774, 330, 2.00, '03', 1, NULL),
+	(22775, 330, 2.00, '04', 1, NULL),
+	(22776, 330, 2.00, '05', 1, NULL),
+	(22777, 330, 2.00, '10', 1, NULL),
+	(22778, 330, 2.00, '15', 1, NULL),
+	(22779, 330, 2.00, '20', 1, NULL),
+	(22780, 330, 2.00, '25', 1, NULL),
+	(22781, 330, 2.00, '30', 1, NULL),
+	(22782, 330, 2.00, '35', 1, NULL),
+	(22783, 330, 2.00, '40', 1, NULL),
+	(22784, 330, 2.00, '45', 1, NULL),
+	(22785, 330, 2.00, '50', 1, NULL),
+	(22786, 330, 2.00, '51', 1, NULL),
+	(22787, 330, 2.00, '52', 1, NULL),
+	(22788, 330, 2.00, '53', 1, NULL),
+	(22789, 330, 2.00, '54', 1, NULL),
+	(22790, 330, 2.00, '55', 1, NULL),
+	(22791, 330, 3.00, '11', 2, NULL),
+	(22792, 330, 3.00, '12', 2, NULL),
+	(22793, 330, 3.00, '13', 2, NULL),
+	(22794, 330, 3.00, '14', 2, NULL),
+	(22795, 330, 3.00, '21', 2, NULL),
+	(22796, 330, 3.00, '24', 2, NULL),
+	(22797, 330, 3.00, '31', 2, NULL),
+	(22798, 330, 3.00, '34', 2, NULL),
+	(22799, 330, 3.00, '41', 2, NULL),
+	(22800, 330, 3.00, '42', 2, NULL),
+	(22801, 330, 3.00, '43', 2, NULL),
+	(22802, 330, 3.00, '44', 2, NULL),
+	(22803, 330, 4.00, '22', 3, NULL),
+	(22804, 330, 4.00, '23', 3, NULL),
+	(22805, 330, 4.00, '32', 3, NULL),
+	(22806, 330, 4.00, '33', 3, NULL);
 /*!40000 ALTER TABLE `game_field` ENABLE KEYS */;
 
 
@@ -14586,9 +14825,9 @@ CREATE TABLE IF NOT EXISTS `game_player` (
   KEY `FK_game_player_player` (`player_id`),
   CONSTRAINT `FK_game_player_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_player_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=492 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=496 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_player: ~361 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_player: ~367 rows (приблизительно)
 DELETE FROM `game_player`;
 /*!40000 ALTER TABLE `game_player` DISABLE KEYS */;
 INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, `out_time`, `in_passiv_value`, `out_passiv_value`, `current_passiv_value`, `player_sym`, `order_connect`, `is_steping`, `is_active`, `last_activity`) VALUES
@@ -15081,7 +15320,11 @@ INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, 
 	(488, 326, 3, '2017-03-30 20:02:11', NULL, 300.00, NULL, 1900.00, 'K', 1, 1, NULL, NULL),
 	(489, 326, 4, '2017-03-30 20:02:11', NULL, 5000.00, NULL, 3900.00, 'AD', 2, 0, NULL, NULL),
 	(490, 327, 3, '2017-04-10 15:35:04', NULL, 500.00, NULL, 164600.00, 'K', 1, 1, NULL, NULL),
-	(491, 327, 4, '2017-04-10 15:35:04', NULL, 5000.00, NULL, 60100.00, 'AD', 2, 0, NULL, NULL);
+	(491, 327, 4, '2017-04-10 15:35:04', NULL, 5000.00, NULL, 60100.00, 'AD', 2, 0, NULL, NULL),
+	(492, 328, 3, '2017-04-13 18:47:48', NULL, 500.00, NULL, 500.00, 'k1', 1, 0, NULL, NULL),
+	(493, 329, 3, '2017-04-13 18:49:48', NULL, 500.00, NULL, 500.00, 'k1', 1, 0, NULL, NULL),
+	(494, 330, 3, '2017-04-13 18:53:03', NULL, 500.00, NULL, 500.00, 'k1', 1, 1, NULL, NULL),
+	(495, 330, 4, '2017-04-13 18:53:03', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL);
 /*!40000 ALTER TABLE `game_player` ENABLE KEYS */;
 
 
@@ -15220,9 +15463,9 @@ CREATE TABLE IF NOT EXISTS `game_rate_hist` (
   CONSTRAINT `FK_game_rate_hist_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_rate_hist_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`),
   CONSTRAINT `FK_game_rate_hist_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15125 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15124 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_rate_hist: ~11 975 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_rate_hist: ~11 179 rows (приблизительно)
 DELETE FROM `game_rate_hist`;
 /*!40000 ALTER TABLE `game_rate_hist` DISABLE KEYS */;
 INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, `game_step_id`, `field_type_id`, `fields_count`) VALUES
@@ -26779,7 +27022,7 @@ CREATE TABLE IF NOT EXISTS `game_step` (
   CONSTRAINT `FK_game_step_game_player` FOREIGN KEY (`step_game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4535 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_step: ~3 830 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step: ~4 613 rows (приблизительно)
 DELETE FROM `game_step`;
 /*!40000 ALTER TABLE `game_step` DISABLE KEYS */;
 INSERT INTO `game_step` (`game_step_id`, `game_id`, `step_game_player_id`, `trand_value`) VALUES
@@ -31334,9 +31577,9 @@ CREATE TABLE IF NOT EXISTS `game_step_results` (
   CONSTRAINT `FK_game_step_results_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_step_results_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`),
   CONSTRAINT `FK_game_step_results_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1941 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1940 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_step_results: ~1 724 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step_results: ~1 594 rows (приблизительно)
 DELETE FROM `game_step_results`;
 /*!40000 ALTER TABLE `game_step_results` DISABLE KEYS */;
 INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_id`, `game_step_id`, `game_step_result`) VALUES
@@ -32981,8 +33224,8 @@ DELETE FROM `player`;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
 INSERT INTO `player` (`player_id`, `player_log`, `player_phone`, `player_pass`, `player_first_name`, `player_last_name`, `player_middle_name`, `player_birth_date`, `player_ava`, `player_email`, `balance`, `registration_date`, `rating`) VALUES
 	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00, '2017-01-01 00:00:00', 12.00),
-	(2, 'tutunia', '435', '8', 'Serg', 'Tut', 'A', '2016-08-01', NULL, 'hth@mail.ru', 1000.00, '2017-02-01 00:00:00', 9.10),
-	(3, 'k', '+79162664924', '7', 'kalistrat', 'kalistratov', 'koldybovich', '1985-06-26', 'kava.PNG', 'kauredinas@mail.ru', 5000.00, '2017-03-01 00:00:00', 77.70),
+	(2, 'tutunia', '435', '8', 'Serg', 'Tut', 'A', '2016-08-01', 'tutunia.png', 'hth@mail.ru', 1000.00, '2017-02-01 00:00:00', 9.10),
+	(3, 'k', '+79162664924', '7', 'kalistrat', 'kalistratov', 'koldybovich', '1985-06-26', 'k.png', 'kauredinas@mail.ru', 5000.00, '2017-03-01 00:00:00', 77.70),
 	(4, 'ADMIN', '0', '7onofN', 'ADMIN', 'ADMIN', 'ADMIN', '2016-08-09', NULL, 'admin@mail.ru', 500000.00, '2017-04-01 00:00:00', 2.00);
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 
@@ -33612,6 +33855,19 @@ set gp1.is_steping=0
 where gp1.game_id=eGameId
 and gp1.order_connect!=i_next_order_connect;
 
+
+end//
+DELIMITER ;
+
+
+-- Дамп структуры для процедура conjuncture.p_user_ava_update
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_user_ava_update`(eUserLog varchar(50),eUserAvaAddress varchar(200))
+begin
+
+update player p
+set p.player_ava=eUserAvaAddress
+where p.player_log=eUserLog;
 
 end//
 DELIMITER ;

@@ -15,8 +15,8 @@ public class tGameConnectLayout extends VerticalLayout {
     public tGameConnectLayout(String eUserLog) {
 
         iUserLog = eUserLog;
-        tUploadButtonWindow oUploadButtonWindow = new tUploadButtonWindow(this.iUserLog);
-        addComponent(oUploadButtonWindow.upload);
+        //tUploadButtonWindow oUploadButtonWindow = new tUploadButtonWindow(this.iUserLog);
+        addComponent(new Label("Здесь будут таблички"));
         this.setMargin(true);
 
     }

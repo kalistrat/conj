@@ -4,7 +4,11 @@ package com.jetbrains;
  * Created by kalistrat on 10.04.2017.
  */
 
+import com.vaadin.server.FileResource;
+import com.vaadin.server.Sizeable;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Image;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,6 +21,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,10 +36,12 @@ public class tUploadButtonWindow {
 
     public tUploadWindow UploadWindow;
     public String iUserLog;
+    public tUserDataLayout iUserDataLayout;
 
-    public tUploadButtonWindow(String eUserLog) {
+    public tUploadButtonWindow(String eUserLog,tUserDataLayout eUserDataLayout) {
 
         iUserLog = eUserLog;
+        iUserDataLayout = eUserDataLayout;
 
         UploadWindow = new tUploadWindow(this);
 
@@ -93,21 +103,30 @@ public class tUploadButtonWindow {
 
                 if (FileType.equals("image")) {
 
-                    Path SourceNewName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + iUserLog + "." + FileMimeType);
-                    Path Dst = Paths.get(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + FileMimeType);
-                    int MiniImgWidth = 10;
-                    int MiniImgHeight = 10;
+                    Path SourceNewName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + iUserLog + "." + "png");
+                    Path Dst = Paths.get(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + "png");
+                    int MiniImgWidth = 30;
+                    int MiniImgHeight = 30;
 
                     try {
-                        Files.move(SourceOldName, SourceOldName.resolveSibling(iUserLog + "." + FileMimeType), StandardCopyOption.REPLACE_EXISTING);
+                        Files.move(SourceOldName, SourceOldName.resolveSibling(iUserLog + "." + "png"), StandardCopyOption.REPLACE_EXISTING);
                         Files.copy(SourceNewName, Dst, StandardCopyOption.REPLACE_EXISTING);
 
-                        BufferedImage originalImage = ImageIO.read(new File(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + FileMimeType));
+                        BufferedImage originalImage = ImageIO.read(new File(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + "png"));
                         int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 
                         BufferedImage resizeImageJpg = resizeImage(originalImage, type, MiniImgWidth, MiniImgHeight);
-                        ImageIO.write(resizeImageJpg, FileMimeType, new File(tAppCommonStatic.MyThemepath + "/mava/" + "m_" + iUserLog + "." + FileMimeType));
+                        ImageIO.write(resizeImageJpg, FileMimeType, new File(tAppCommonStatic.MyThemepath + "/mava/" + "m_" + iUserLog + "." + "png"));
                         Files.delete(Dst);
+
+                        ChangePlayerAva(iUserLog + "." + "png");
+
+                        Image iNewAvatarImage = new Image(null, new FileResource(new File(tAppCommonStatic.MyThemepath + "/ava/" + iUserLog + "." + "png")));
+                        iNewAvatarImage.setHeight(100, Sizeable.Unit.PIXELS);
+                        iNewAvatarImage.setWidth(100, Sizeable.Unit.PIXELS);
+                        iUserDataLayout.ImageLayout.replaceComponent(iUserDataLayout.AvatarImage,iNewAvatarImage);
+                        iUserDataLayout.AvatarImage = iNewAvatarImage;
+
 
 
                         UploadWindow.close();
@@ -206,6 +225,33 @@ public class tUploadButtonWindow {
 
             return resizedImage;
         }
+
+    public void ChangePlayerAva(String iUserNewAvaFileName){
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement ChangeAvaStmt = Con.prepareCall("{call p_user_ava_update(?, ?)}");
+            ChangeAvaStmt.setString(1, this.iUserLog);
+            ChangeAvaStmt.setString(2, iUserNewAvaFileName);
+            ChangeAvaStmt.execute();
+
+            Con.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+    }
 
 
 }

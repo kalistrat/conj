@@ -8,6 +8,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.io.File;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ public class tUserDataLayout extends VerticalLayout {
     Button InPayButton;
     Button OutPayButton;
     Button CrePayButton;
-    Button ChangeAvaButton;
+    tUploadButtonWindow iUploadButtonWindow;
 
     public tUserDataLayout(String eUserLogin){
 
@@ -179,10 +180,12 @@ public class tUserDataLayout extends VerticalLayout {
         OutPayButton.addStyleName(ValoTheme.BUTTON_LINK);
         CrePayButton.addStyleName(ValoTheme.BUTTON_LINK);
 
-        ChangeAvaButton = new Button("Изменить аватар");
-        ChangeAvaButton.setIcon(VaadinIcons.PICTURE);
-        ChangeAvaButton.addStyleName(ValoTheme.BUTTON_LINK);
-        ChangeAvaButton.addStyleName(ValoTheme.BUTTON_TINY);
+//        ChangeAvaButton = new Button("Изменить аватар");
+//        ChangeAvaButton.setIcon(VaadinIcons.PICTURE);
+//        ChangeAvaButton.addStyleName(ValoTheme.BUTTON_LINK);
+//        ChangeAvaButton.addStyleName(ValoTheme.BUTTON_TINY);
+
+        iUploadButtonWindow = new tUploadButtonWindow(this.iUserLogin,this);
 
         HorizontalLayout ButtonsFormLayout = new HorizontalLayout(
                 InPayButton
@@ -278,7 +281,7 @@ public class tUserDataLayout extends VerticalLayout {
 
         RightContentLayout.setMargin(true);
 
-        AvatarImage = new Image(null, new ThemeResource("ava/ava7.png"));
+        AvatarImage = new Image(null, new FileResource(new File(tAppCommonStatic.MyThemepath + "/ava/ava7.png")));
         AvatarImage.setHeight(100,Unit.PIXELS);
         AvatarImage.setWidth(100,Unit.PIXELS);
 
@@ -324,16 +327,16 @@ public class tUserDataLayout extends VerticalLayout {
         VerticalLayout AvaLayout = new VerticalLayout(
                 LoginLabelLayout
                 ,ImageLayout
-                ,ChangeAvaButton
+                ,iUploadButtonWindow.upload
                 ,RatingDateFromLayout
-                //,ChangeAvaButton
+
         );
         AvaLayout.setSpacing(true);
 
         AvaLayout.setComponentAlignment(LoginLabelLayout,Alignment.TOP_CENTER);
         AvaLayout.setComponentAlignment(ImageLayout,Alignment.MIDDLE_CENTER);
         AvaLayout.setComponentAlignment(RatingDateFromLayout,Alignment.BOTTOM_CENTER);
-        AvaLayout.setComponentAlignment(ChangeAvaButton,Alignment.BOTTOM_CENTER);
+        AvaLayout.setComponentAlignment(iUploadButtonWindow.upload,Alignment.BOTTOM_CENTER);
 
         AvaLayout.setSizeUndefined();
 
@@ -414,7 +417,7 @@ public class tUserDataLayout extends VerticalLayout {
 
                 if (LayoutDataRs.getString(8)!=null){
 
-                    Image NewAvatarImage = new Image(null, new ThemeResource("ava/"+LayoutDataRs.getString(8)));
+                    Image NewAvatarImage = new Image(null, new FileResource(new File(tAppCommonStatic.MyThemepath + "/ava/"+LayoutDataRs.getString(8))));
                     NewAvatarImage.setHeight(100,Unit.PIXELS);
                     NewAvatarImage.setWidth(100,Unit.PIXELS);
                     ImageLayout.replaceComponent(AvatarImage,NewAvatarImage);
