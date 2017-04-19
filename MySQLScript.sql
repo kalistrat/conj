@@ -636,6 +636,29 @@ end//
 DELIMITER ;
 
 
+-- Дамп структуры для функция conjuncture.f_user_ava_change
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_user_ava_change`(`eUserLog` varchar(50)) RETURNS varchar(200) CHARSET utf8
+begin
+
+declare i_file_name VARCHAR(200);
+
+select CONCAT(CONCAT(CONCAT(p.player_log,'_'),trim(CONVERT(p.uploadnum+1, CHAR(50)))),'.png')
+into i_file_name
+from player p
+where p.player_log=eUserLog;
+
+update player p
+set p.player_ava=i_file_name
+,p.uploadnum=p.uploadnum+1
+where p.player_log=eUserLog;
+
+return i_file_name;
+
+end//
+DELIMITER ;
+
+
 -- Дамп структуры для таблица conjuncture.game
 CREATE TABLE IF NOT EXISTS `game` (
   `game_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -962,7 +985,7 @@ CREATE TABLE IF NOT EXISTS `game_field` (
   CONSTRAINT `FK_game_field_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22807 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_field: ~14 222 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_field: ~14 213 rows (приблизительно)
 DELETE FROM `game_field`;
 /*!40000 ALTER TABLE `game_field` DISABLE KEYS */;
 INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_index`, `field_type_id`, `game_player_id`) VALUES
@@ -14827,7 +14850,7 @@ CREATE TABLE IF NOT EXISTS `game_player` (
   CONSTRAINT `FK_game_player_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=496 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_player: ~367 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_player: ~382 rows (приблизительно)
 DELETE FROM `game_player`;
 /*!40000 ALTER TABLE `game_player` DISABLE KEYS */;
 INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, `out_time`, `in_passiv_value`, `out_passiv_value`, `current_passiv_value`, `player_sym`, `order_connect`, `is_steping`, `is_active`, `last_activity`) VALUES
@@ -15465,7 +15488,7 @@ CREATE TABLE IF NOT EXISTS `game_rate_hist` (
   CONSTRAINT `FK_game_rate_hist_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15124 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_rate_hist: ~11 179 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_rate_hist: ~11 233 rows (приблизительно)
 DELETE FROM `game_rate_hist`;
 /*!40000 ALTER TABLE `game_rate_hist` DISABLE KEYS */;
 INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, `game_step_id`, `field_type_id`, `fields_count`) VALUES
@@ -31579,7 +31602,7 @@ CREATE TABLE IF NOT EXISTS `game_step_results` (
   CONSTRAINT `FK_game_step_results_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1940 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_step_results: ~1 594 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step_results: ~1 568 rows (приблизительно)
 DELETE FROM `game_step_results`;
 /*!40000 ALTER TABLE `game_step_results` DISABLE KEYS */;
 INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_id`, `game_step_id`, `game_step_result`) VALUES
@@ -33216,17 +33239,18 @@ CREATE TABLE IF NOT EXISTS `player` (
   `balance` decimal(10,2) NOT NULL,
   `registration_date` datetime NOT NULL,
   `rating` decimal(10,2) NOT NULL,
+  `uploadnum` int(11) NOT NULL,
   PRIMARY KEY (`player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.player: ~4 rows (приблизительно)
 DELETE FROM `player`;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` (`player_id`, `player_log`, `player_phone`, `player_pass`, `player_first_name`, `player_last_name`, `player_middle_name`, `player_birth_date`, `player_ava`, `player_email`, `balance`, `registration_date`, `rating`) VALUES
-	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00, '2017-01-01 00:00:00', 12.00),
-	(2, 'tutunia', '435', '8', 'Serg', 'Tut', 'A', '2016-08-01', 'tutunia.png', 'hth@mail.ru', 1000.00, '2017-02-01 00:00:00', 9.10),
-	(3, 'k', '+79162664924', '7', 'kalistrat', 'kalistratov', 'koldybovich', '1985-06-26', 'k.png', 'kauredinas@mail.ru', 5000.00, '2017-03-01 00:00:00', 77.70),
-	(4, 'ADMIN', '0', '7onofN', 'ADMIN', 'ADMIN', 'ADMIN', '2016-08-09', NULL, 'admin@mail.ru', 500000.00, '2017-04-01 00:00:00', 2.00);
+INSERT INTO `player` (`player_id`, `player_log`, `player_phone`, `player_pass`, `player_first_name`, `player_last_name`, `player_middle_name`, `player_birth_date`, `player_ava`, `player_email`, `balance`, `registration_date`, `rating`, `uploadnum`) VALUES
+	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00, '2017-01-01 00:00:00', 12.00, 0),
+	(2, 'tutunia', '435', '8', 'Serg', 'Tut', 'A', '2016-08-01', 'tutunia_1.png', 'hth@mail.ru', 1000.00, '2017-02-01 00:00:00', 9.10, 1),
+	(3, 'k', '+79162664924', '7', 'kalistrat', 'kalistratov', 'koldybovich', '1985-06-26', 'k_10.png', 'kauredinas@mail.ru', 5000.00, '2017-03-01 00:00:00', 77.70, 10),
+	(4, 'ADMIN', '0', '7onofN', 'ADMIN', 'ADMIN', 'ADMIN', '2016-08-09', NULL, 'admin@mail.ru', 500000.00, '2017-04-01 00:00:00', 2.00, 0);
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 
 

@@ -21,10 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,76 +49,76 @@ public class tUploadButtonWindow {
         upload.addStyleName("myCustomUploadTiny");
         upload.addStyleName("upload-with-icon");
 
-        upload.addListener(new Upload.StartedListener() {
-            public void uploadStarted(Upload.StartedEvent event) {
-                // This method gets called immediatedly after upload is started
+        upload.addStartedListener(new Upload.StartedListener() {
+            @Override
+            public void uploadStarted(Upload.StartedEvent startedEvent) {
                 UI.getCurrent().addWindow(UploadWindow);
                 UploadWindow.pi.setValue(0f);
-                UploadWindow.status.setValue("Загружается файл \"" + event.getFilename()
+                UploadWindow.status.setValue("Загружается файл \"" + startedEvent.getFilename()
                         + "\"");
             }
         });
 
-        upload.addListener(new Upload.ProgressListener() {
-            public void updateProgress(long readBytes, long contentLength) {
-                // This method gets called several times during the update
-                UploadWindow.pi.setValue(new Float(readBytes / (float) contentLength));
-            }
+        upload.addProgressListener(new Upload.ProgressListener() {
+            @Override
+            public void updateProgress(long l, long l1) {
+                UploadWindow.pi.setValue(new Float(l / (float) l1));
 
+            }
         });
 
-        upload.addListener(new Upload.SucceededListener() {
-            public void uploadSucceeded(Upload.SucceededEvent event) {
-                // This method gets called when the upload finished successfully
-                UploadWindow.status.setValue("Файл \"" + event.getFilename()
+        upload.addSucceededListener(new Upload.SucceededListener() {
+            @Override
+            public void uploadSucceeded(Upload.SucceededEvent succeededEvent) {
+                UploadWindow.status.setValue("Файл \"" + succeededEvent.getFilename()
                         + "\" успешно загружен");
-
             }
         });
 
-        upload.addListener(new Upload.FailedListener() {
-            public void uploadFailed(Upload.FailedEvent event) {
-                // This method gets called when the upload failed
+        upload.addFailedListener(new Upload.FailedListener() {
+            @Override
+            public void uploadFailed(Upload.FailedEvent failedEvent) {
                 UploadWindow.status.setValue("Загрузка прервана.");
             }
         });
 
-        upload.addListener(new Upload.FinishedListener() {
-            public void uploadFinished(Upload.FinishedEvent event) {
-
+        upload.addFinishedListener(new Upload.FinishedListener() {
+            @Override
+            public void uploadFinished(Upload.FinishedEvent finishedEvent) {
                 Pattern PatternMime = Pattern.compile("/(.*)");
-                Matcher matcherMime = PatternMime.matcher(event.getMIMEType());
+                Matcher matcherMime = PatternMime.matcher(finishedEvent.getMIMEType());
                 matcherMime.find();
                 String FileMimeType = matcherMime.group(1);
 
                 Pattern PatternType = Pattern.compile("(.*)/");
-                Matcher matcherType = PatternType.matcher(event.getMIMEType());
+                Matcher matcherType = PatternType.matcher(finishedEvent.getMIMEType());
                 matcherType.find();
                 String FileType = matcherType.group(1);
 
-                Path SourceOldName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + event.getFilename());
+                Path SourceOldName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + finishedEvent.getFilename());
 
                 if (FileType.equals("image")) {
 
-                    Path SourceNewName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + iUserLog + "." + "png");
-                    Path Dst = Paths.get(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + "png");
+                    String sNewFileName = GetAvaFileName();
+
+                    Path SourceNewName = Paths.get(tAppCommonStatic.MyThemepath + "/ava/" + sNewFileName);
+                    Path Dst = Paths.get(tAppCommonStatic.MyThemepath + "/mava/" + sNewFileName);
                     int MiniImgWidth = 30;
                     int MiniImgHeight = 30;
 
+
                     try {
-                        Files.move(SourceOldName, SourceOldName.resolveSibling(iUserLog + "." + "png"), StandardCopyOption.REPLACE_EXISTING);
+                        Files.move(SourceOldName, SourceOldName.resolveSibling(sNewFileName), StandardCopyOption.REPLACE_EXISTING);
                         Files.copy(SourceNewName, Dst, StandardCopyOption.REPLACE_EXISTING);
 
-                        BufferedImage originalImage = ImageIO.read(new File(tAppCommonStatic.MyThemepath + "/mava/" + iUserLog + "." + "png"));
+                        BufferedImage originalImage = ImageIO.read(new File(tAppCommonStatic.MyThemepath + "/mava/" + sNewFileName));
                         int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 
                         BufferedImage resizeImageJpg = resizeImage(originalImage, type, MiniImgWidth, MiniImgHeight);
-                        ImageIO.write(resizeImageJpg, FileMimeType, new File(tAppCommonStatic.MyThemepath + "/mava/" + "m_" + iUserLog + "." + "png"));
+                        ImageIO.write(resizeImageJpg, FileMimeType, new File(tAppCommonStatic.MyThemepath + "/mava/" + "m_" + sNewFileName));
                         Files.delete(Dst);
 
-                        ChangePlayerAva(iUserLog + "." + "png");
-
-                        Image iNewAvatarImage = new Image(null, new FileResource(new File(tAppCommonStatic.MyThemepath + "/ava/" + iUserLog + "." + "png")));
+                        Image iNewAvatarImage = new Image(null, new ThemeResource("ava/" + sNewFileName));
                         iNewAvatarImage.setHeight(100, Sizeable.Unit.PIXELS);
                         iNewAvatarImage.setWidth(100, Sizeable.Unit.PIXELS);
                         iUserDataLayout.ImageLayout.replaceComponent(iUserDataLayout.AvatarImage,iNewAvatarImage);
@@ -144,9 +141,9 @@ public class tUploadButtonWindow {
                     }
 
                 }
-
             }
         });
+
 
     }
 
@@ -226,7 +223,9 @@ public class tUploadButtonWindow {
             return resizedImage;
         }
 
-    public void ChangePlayerAva(String iUserNewAvaFileName){
+    public String GetAvaFileName(){
+
+        String NewAvaFileName = "";
 
         try {
             Class.forName(tAppCommonStatic.JDBC_DRIVER);
@@ -236,10 +235,11 @@ public class tUploadButtonWindow {
                     , tAppCommonStatic.PASS
             );
 
-            CallableStatement ChangeAvaStmt = Con.prepareCall("{call p_user_ava_update(?, ?)}");
-            ChangeAvaStmt.setString(1, this.iUserLog);
-            ChangeAvaStmt.setString(2, iUserNewAvaFileName);
+            CallableStatement ChangeAvaStmt = Con.prepareCall("{? = call f_user_ava_change(?)}");
+            ChangeAvaStmt.registerOutParameter(1, Types.VARCHAR);
+            ChangeAvaStmt.setString(2, this.iUserLog);
             ChangeAvaStmt.execute();
+            NewAvaFileName = ChangeAvaStmt.getString(1);
 
             Con.close();
 
@@ -250,6 +250,8 @@ public class tUploadButtonWindow {
             //Handle errors for Class.forName
             e13.printStackTrace();
         }
+
+        return NewAvaFileName;
 
     }
 
