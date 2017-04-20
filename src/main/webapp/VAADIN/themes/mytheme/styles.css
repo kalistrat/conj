@@ -13232,3 +13232,7 @@ div.v-layout.v-horizontal.v-widget {
 	background-size: 15px 14px;
 	background-position: left;
 }
+
+.mytheme .v-table-cell-content-mytabletext {
+	font-size: 12px;
+}
