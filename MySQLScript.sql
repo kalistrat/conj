@@ -984,9 +984,9 @@ CREATE TABLE IF NOT EXISTS `game_field` (
   CONSTRAINT `FK_game_field_field_type` FOREIGN KEY (`field_type_id`) REFERENCES `field_type` (`field_type_id`),
   CONSTRAINT `FK_game_field_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_field_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22934 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22871 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_field: ~14 051 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_field: ~13 950 rows (приблизительно)
 DELETE FROM `game_field`;
 /*!40000 ALTER TABLE `game_field` DISABLE KEYS */;
 INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_index`, `field_type_id`, `game_player_id`) VALUES
@@ -14915,7 +14915,7 @@ CREATE TABLE IF NOT EXISTS `game_player` (
   CONSTRAINT `FK_game_player_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=498 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_player: ~751 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_player: ~462 rows (приблизительно)
 DELETE FROM `game_player`;
 /*!40000 ALTER TABLE `game_player` DISABLE KEYS */;
 INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, `out_time`, `in_passiv_value`, `out_passiv_value`, `current_passiv_value`, `player_sym`, `order_connect`, `is_steping`, `is_active`, `last_activity`) VALUES
@@ -15555,7 +15555,7 @@ CREATE TABLE IF NOT EXISTS `game_rate_hist` (
   CONSTRAINT `FK_game_rate_hist_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15124 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_rate_hist: ~11 212 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_rate_hist: ~11 926 rows (приблизительно)
 DELETE FROM `game_rate_hist`;
 /*!40000 ALTER TABLE `game_rate_hist` DISABLE KEYS */;
 INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, `game_step_id`, `field_type_id`, `fields_count`) VALUES
@@ -27112,7 +27112,7 @@ CREATE TABLE IF NOT EXISTS `game_step` (
   CONSTRAINT `FK_game_step_game_player` FOREIGN KEY (`step_game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4535 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_step: ~4 378 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step: ~4 613 rows (приблизительно)
 DELETE FROM `game_step`;
 /*!40000 ALTER TABLE `game_step` DISABLE KEYS */;
 INSERT INTO `game_step` (`game_step_id`, `game_id`, `step_game_player_id`, `trand_value`) VALUES
@@ -31669,7 +31669,7 @@ CREATE TABLE IF NOT EXISTS `game_step_results` (
   CONSTRAINT `FK_game_step_results_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1940 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_step_results: ~1 346 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step_results: ~1 594 rows (приблизительно)
 DELETE FROM `game_step_results`;
 /*!40000 ALTER TABLE `game_step_results` DISABLE KEYS */;
 INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_id`, `game_step_id`, `game_step_result`) VALUES
@@ -33289,6 +33289,32 @@ INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_
 	(1938, 490, 327, 4534, -23600.00),
 	(1939, 491, 327, 4534, -8400.00);
 /*!40000 ALTER TABLE `game_step_results` ENABLE KEYS */;
+
+
+-- Дамп структуры для таблица conjuncture.invites
+CREATE TABLE IF NOT EXISTS `invites` (
+  `invite_id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_from` int(11) NOT NULL,
+  `player_to` int(11) NOT NULL,
+  `status_value` varchar(20) DEFAULT NULL,
+  `date_from` datetime DEFAULT NULL,
+  `game_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`invite_id`),
+  KEY `FK_invites_player` (`player_from`),
+  KEY `FK_invites_player_2` (`player_to`),
+  KEY `FK_invites_game` (`game_id`),
+  CONSTRAINT `FK_invites_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
+  CONSTRAINT `FK_invites_player` FOREIGN KEY (`player_from`) REFERENCES `player` (`player_id`),
+  CONSTRAINT `FK_invites_player_2` FOREIGN KEY (`player_to`) REFERENCES `player` (`player_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- Дамп данных таблицы conjuncture.invites: ~2 rows (приблизительно)
+DELETE FROM `invites`;
+/*!40000 ALTER TABLE `invites` DISABLE KEYS */;
+INSERT INTO `invites` (`invite_id`, `player_from`, `player_to`, `status_value`, `date_from`, `game_id`) VALUES
+	(1, 1, 3, 'в ожидании', '2017-04-25 14:50:55', 41),
+	(2, 3, 1, 'в ожидании', '2017-04-25 14:53:01', 41);
+/*!40000 ALTER TABLE `invites` ENABLE KEYS */;
 
 
 -- Дамп структуры для таблица conjuncture.player

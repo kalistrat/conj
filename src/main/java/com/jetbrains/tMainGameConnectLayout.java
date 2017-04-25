@@ -56,7 +56,7 @@ public class tMainGameConnectLayout extends VerticalLayout {
                     if (event.getProperty().getValue().equals("Приглашения в игру")){
                         //RightContentLayout.removeAllComponents();
                         RightContentLayout.removeAllComponents();
-                        RightContentLayout.addComponent(new tGameInvitesLayout());
+                        RightContentLayout.addComponent(new tGameInvitesLayout(iUserLog));
                     }
 
                     if (event.getProperty().getValue().equals("Создание новой игры")){
@@ -89,24 +89,24 @@ public class tMainGameConnectLayout extends VerticalLayout {
         RightContentLayout = new VerticalLayout(
                 oNewGameFormLayout
         );
+        //oNewGameFormLayout.setSizeUndefined();
+        //RightContentLayout.setComponentAlignment(oNewGameFormLayout,Alignment.TOP_CENTER);
 
         RightContentLayout.setMargin(true);
 
 
-
-
         HorizontalSplitPanel UserDataSection = new HorizontalSplitPanel();
         UserDataSection.setHeight("750px");
-        UserDataSection.setWidth("800px");
+        UserDataSection.setWidth("870px");
         UserDataSection.setFirstComponent(LeftContentLayout);
         UserDataSection.setSecondComponent(RightContentLayout);
-        UserDataSection.setSplitPosition(25f,UNITS_PERCENTAGE);
-        UserDataSection.setMinSplitPosition(25f,UNITS_PERCENTAGE);
-        UserDataSection.setMaxSplitPosition(25f,UNITS_PERCENTAGE);
+        UserDataSection.setSplitPosition(25.5f,UNITS_PERCENTAGE);
+        //UserDataSection.setMinSplitPosition(24f,UNITS_PERCENTAGE);
+        //UserDataSection.setMaxSplitPosition(24f,UNITS_PERCENTAGE);
 
         VerticalLayout ContentLayout = new VerticalLayout(UserDataSection);
         ContentLayout.setHeight("750px");
-        ContentLayout.setWidth("800px");
+        ContentLayout.setWidth("870px");
         ContentLayout.addStyleName(ValoTheme.LAYOUT_CARD);
 
 
