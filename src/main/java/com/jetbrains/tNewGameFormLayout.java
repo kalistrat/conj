@@ -23,11 +23,13 @@ public class tNewGameFormLayout extends VerticalLayout {
     tSelectGameAreaGrid iSelectGameAreaGrid;
     String iUserLog;
     Integer iGameId;
+    TabSheet iMainTabSheet;
 
 
-    public tNewGameFormLayout(String eUserLog){
+    public tNewGameFormLayout(String eUserLog,TabSheet eMainTabSheet){
 
         iUserLog = eUserLog;
+        iMainTabSheet = eMainTabSheet;
 
         GameBalanceField = new TextField("Начальный баланс игры :");
         GameBalanceField.setIcon(VaadinIcons.MONEY);

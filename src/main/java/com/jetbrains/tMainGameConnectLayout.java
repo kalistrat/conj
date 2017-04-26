@@ -16,11 +16,13 @@ public class tMainGameConnectLayout extends VerticalLayout {
     tConnectTree GameConnectTree;
     public String iUserLog;
     public VerticalLayout RightContentLayout;
+    public TabSheet iMainTabSheet;
 
 
-    public  tMainGameConnectLayout(String eUserLogin){
+    public  tMainGameConnectLayout(String eUserLogin,TabSheet eMainTabSheet){
 
         iUserLog = eUserLogin;
+        iMainTabSheet = eMainTabSheet;
 
         Image CubeImage = new Image(null, new ClassResource("/pics/c_page_blue2.png"));
         CubeImage.setHeight(100,Unit.PIXELS);
@@ -56,13 +58,13 @@ public class tMainGameConnectLayout extends VerticalLayout {
                     if (event.getProperty().getValue().equals("Приглашения в игру")){
                         //RightContentLayout.removeAllComponents();
                         RightContentLayout.removeAllComponents();
-                        RightContentLayout.addComponent(new tGameInvitesLayout(iUserLog));
+                        RightContentLayout.addComponent(new tGameInvitesLayout(iUserLog,iMainTabSheet));
                     }
 
                     if (event.getProperty().getValue().equals("Создание новой игры")){
                         //RightContentLayout.removeAllComponents();
                         RightContentLayout.removeAllComponents();
-                        RightContentLayout.addComponent(new tNewGameFormLayout(iUserLog));
+                        RightContentLayout.addComponent(new tNewGameFormLayout(iUserLog,iMainTabSheet));
                     }
 
                 }
@@ -83,7 +85,7 @@ public class tMainGameConnectLayout extends VerticalLayout {
         LeftContentLayout.setSpacing(true);
         LeftContentLayout.setWidth("100%");
 
-        tNewGameFormLayout oNewGameFormLayout = new tNewGameFormLayout(iUserLog);
+        tNewGameFormLayout oNewGameFormLayout = new tNewGameFormLayout(iUserLog,iMainTabSheet);
 
 
         RightContentLayout = new VerticalLayout(

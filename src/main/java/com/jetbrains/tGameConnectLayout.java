@@ -50,7 +50,7 @@ public class tGameConnectLayout extends VerticalLayout {
         ActiveGamesContainer.addContainerProperty(4, Integer.class, null);
         ActiveGamesContainer.addContainerProperty(5, Double.class, null);
         ActiveGamesContainer.addContainerProperty(6, Button.class, null);
-        GetActiveGamesData();
+        SetActiveGamesData();
 
         ActiveGamesTable.setContainerDataSource(ActiveGamesContainer);
         ActiveGamesTable.setPageLength(6);
@@ -85,7 +85,7 @@ public class tGameConnectLayout extends VerticalLayout {
         ActivePlayersContainer.addContainerProperty(4, String.class, null);
         ActivePlayersContainer.addContainerProperty(5, Button.class, null);
 
-        GetActivePlayersData();
+        SetActivePlayersData();
 
         ActivePlayersTable.setContainerDataSource(ActivePlayersContainer);
         ActivePlayersTable.setPageLength(3);
@@ -126,9 +126,11 @@ public class tGameConnectLayout extends VerticalLayout {
 
         this.addComponent(ContentLayout);
 
+
+
     }
 
-    public void GetActiveGamesData() {
+    public void SetActiveGamesData() {
 
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -140,26 +142,35 @@ public class tGameConnectLayout extends VerticalLayout {
                     , tAppCommonStatic.PASS
             );
 
-            String ActiveGamesSql = "select g.game_id\n" +
+            String ActiveGamesSql = "select t.game_id\n" +
+                    ",t.date_from\n" +
+                    ",t.size\n" +
+                    ",t.cnt_players\n" +
+                    ",t.sum_players\n" +
+                    "from (\n" +
+                    "select g.game_id\n" +
                     ",g.date_from\n" +
                     ",concat(art.area_size,'x',art.area_size) size\n" +
-                    ",(\n" +
-                    "select count(*)\n" +
-                    "from game_player gp\n" +
-                    "where gp.game_id=g.game_id\n" +
-                    ") cnt_players\n" +
-                    ",(\n" +
-                    "select sum(gp.in_passiv_value)\n" +
-                    "from game_player gp\n" +
-                    "where gp.game_id=g.game_id\n" +
-                    ") sum_players\n" +
+                    ",count(*) cnt_players\n" +
+                    ",sum(gap.in_passiv_value) sum_players\n" +
+                    ",sum(\n" +
+                    "if(p.player_log = ?,1,0)\n" +
+                    ") is_have_a_part\n" +
                     "from game g\n" +
-                    "join player p on p.player_id=g.create_player_id\n" +
                     "join area_type art on art.area_type_id=g.area_type_id\n" +
-                    "where g.game_id > 40\n" +
-                    "order by g.game_id";
+                    "left join game_player gap on gap.game_id=g.game_id\n" +
+                    "left join player p on p.player_id=gap.player_id\n" +
+                    "where g.is_single_game=0\n" +
+                    "and g.game_id > 40\n" +
+                    "group by g.game_id\n" +
+                    ",g.date_from\n" +
+                    ",concat(art.area_size,'x',art.area_size) \n" +
+                    "order by g.game_id desc\n" +
+                    ") t\n" +
+                    "where t.is_have_a_part=0";
 
             PreparedStatement ActiveGamesStmt = Con.prepareStatement(ActiveGamesSql);
+            ActiveGamesStmt.setString(1,this.iUserLog);
             ResultSet ActiveGameslRes = ActiveGamesStmt.executeQuery();
 
             while (ActiveGameslRes.next()) {
@@ -195,8 +206,9 @@ public class tGameConnectLayout extends VerticalLayout {
 
     }
 
-    public void GetActivePlayersData() {
+    public void SetActivePlayersData() {
 
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
         try {
             Class.forName(tAppCommonStatic.JDBC_DRIVER);
@@ -206,19 +218,29 @@ public class tGameConnectLayout extends VerticalLayout {
                     , tAppCommonStatic.PASS
             );
 
-            String ActivePlayersSql = "select p.player_log\n" +
-                    ",ifnull(p.player_ava,'ava7.png')\n" +
+            String ActivePlayersSql = "select t.player_log\n" +
+                    ",t.player_ava\n" +
+                    ",t.rating\n" +
+                    ",t.last_activity\n" +
+                    "from (\n" +
+                    "select p.player_log\n" +
+                    ",ifnull(p.player_ava,'ava7.png') player_ava\n" +
                     ",p.rating\n" +
-                    ",case when (\n" +
+                    ",p.last_activity\n" +
+                    ",(\n" +
                     "select count(*)\n" +
                     "from game_player gp\n" +
                     "where gp.player_id=p.player_id\n" +
                     "and gp.is_active='Y'\n" +
-                    ") != 0 then 'да' else 'нет' end\n" +
+                    ") is_active\n" +
                     "from player p\n" +
-                    "where p.player_log!='ADMIN'";
+                    "where p.player_log!='ADMIN'\n" +
+                    "and p.player_log!=?\n" +
+                    ") t\n" +
+                    "where t.is_active=0";
 
             PreparedStatement ActivePlayersStmt = Con.prepareStatement(ActivePlayersSql);
+            ActivePlayersStmt.setString(1,this.iUserLog);
             ResultSet ActivePlayersRes = ActivePlayersStmt.executeQuery();
 
             while (ActivePlayersRes.next()) {
@@ -238,7 +260,7 @@ public class tGameConnectLayout extends VerticalLayout {
                 newItem.getItemProperty(1).setValue(IconImg);
                 newItem.getItemProperty(2).setValue(ActivePlayersRes.getString(1));
                 newItem.getItemProperty(3).setValue(ActivePlayersRes.getDouble(3));
-                newItem.getItemProperty(4).setValue(ActivePlayersRes.getString(4));
+                newItem.getItemProperty(4).setValue(df.format(new java.util.Date(ActivePlayersRes.getTimestamp(4).getTime())));
                 newItem.getItemProperty(5).setValue(RequestButton);
 
             }
@@ -253,6 +275,15 @@ public class tGameConnectLayout extends VerticalLayout {
             e13.printStackTrace();
         }
 
+
+    }
+
+    public void RefreshLayout(){
+
+        ActiveGamesContainer.removeAllItems();
+        ActivePlayersContainer.removeAllItems();
+        SetActivePlayersData();
+        SetActiveGamesData();
 
     }
 }

@@ -21,10 +21,12 @@ public class tGameInvitesLayout extends VerticalLayout {
     Table OutComingInvitesTable;
     IndexedContainer InComingInvitesContainer;
     IndexedContainer OutComingInvitesContainer;
+    TabSheet iMainTabSheet;
 
-    public tGameInvitesLayout(String eUserLog){
+    public tGameInvitesLayout(String eUserLog,TabSheet eMainTabSheet){
 
         iUserLog = eUserLog;
+        iMainTabSheet = eMainTabSheet;
 
         InComingInvitesTable = new Table();
 
@@ -153,14 +155,14 @@ public class tGameInvitesLayout extends VerticalLayout {
 
                 Item newItem = InComingInvitesContainer.getItem(InComingInvitesContainer.addItem());
 
-                Button AcceptButton = new Button("Принять");
+                Button AcceptButton = new Button("Подтвердить");
                 AcceptButton.setIcon(VaadinIcons.PLUG);
                 AcceptButton.addStyleName(ValoTheme.BUTTON_LINK);
                 AcceptButton.addStyleName(ValoTheme.BUTTON_TINY);
                 //AcceptButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
                 //AcceptButton.addStyleName("greenicon");
                 AcceptButton.setHeight("20px");
-                //AcceptButton.setWidth("50px");
+                AcceptButton.setWidth("120px");
                 AcceptButton.setData(InComingInvitesRes.getInt(1));
 
                 Button CancelButton = new Button("Отклонить");
@@ -170,7 +172,7 @@ public class tGameInvitesLayout extends VerticalLayout {
                 //CancelButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
                 //CancelButton.addStyleName("redicon");
                 CancelButton.setHeight("20px");
-                //CancelButton.setWidth("50px");
+                CancelButton.setWidth("120px");
                 CancelButton.setData(InComingInvitesRes.getInt(1));
 
                 VerticalLayout TableCellLayout = new VerticalLayout(
@@ -233,7 +235,7 @@ public class tGameInvitesLayout extends VerticalLayout {
 
                 Item newItem = OutComingInvitesContainer.getItem(OutComingInvitesContainer.addItem());
 
-                Button AcceptButton = new Button("Принять");
+                Button AcceptButton = new Button("Подтвердить");
                 AcceptButton.setIcon(VaadinIcons.PLUG);
                 AcceptButton.addStyleName(ValoTheme.BUTTON_LINK);
                 AcceptButton.addStyleName(ValoTheme.BUTTON_TINY);

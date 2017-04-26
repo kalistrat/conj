@@ -61,7 +61,7 @@ public class GMainView extends CustomComponent implements View {
 
         GameMenuTabSheet = new TabSheet();
         tUserDataLayout oUserDataLayout = new tUserDataLayout(CurrentUsr);
-        tMainGameConnectLayout oMainGameConnectLayout = new tMainGameConnectLayout(CurrentUsr);
+        tMainGameConnectLayout oMainGameConnectLayout = new tMainGameConnectLayout(CurrentUsr,GameMenuTabSheet);
 
         GameMenuTabSheet.addTab(oMainGameConnectLayout, "Подключение к игре", VaadinIcons.CONNECT);
         GameMenuTabSheet.addTab(oUserDataLayout, "Личные данные",VaadinIcons.HOME);
