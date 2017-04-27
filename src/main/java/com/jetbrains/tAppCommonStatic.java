@@ -3,6 +3,9 @@ package com.jetbrains;
 
 import com.vaadin.server.VaadinService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kalistrat on 05.04.2017.
  */
@@ -20,10 +23,29 @@ public class tAppCommonStatic {
     public static Integer StrToIntValue(String Sval) {
 
         try {
+            //System.out.println(Sval);
             return Integer.parseInt(Sval);
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    public static List<String> GetListFromString(String DevidedString){
+        List<String> StrPieces = new ArrayList<String>();
+        int k = 0;
+        String iDevidedString = DevidedString;
+
+        while (!iDevidedString.equals("")) {
+            int Pos = iDevidedString.indexOf("/");
+            StrPieces.add(iDevidedString.substring(0, Pos));
+            iDevidedString = iDevidedString.substring(Pos + 1);
+            k = k + 1;
+            if (k > 100000) {
+                iDevidedString = "";
+            }
+        }
+
+        return StrPieces;
     }
 
 

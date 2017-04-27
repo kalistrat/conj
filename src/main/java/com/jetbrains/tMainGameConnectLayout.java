@@ -49,20 +49,17 @@ public class tMainGameConnectLayout extends VerticalLayout {
                 if(event.getProperty().getValue() != null)
                 {
 
-                    if (event.getProperty().getValue().equals("Подключение к игре")){
-                        //RightContentLayout.removeAllComponents();
+                    if (event.getProperty().getValue().equals("Приглашения в игру")){
                         RightContentLayout.removeAllComponents();
-                        RightContentLayout.addComponent(new tGameConnectLayout(iUserLog));
+                        RightContentLayout.addComponent(new tGameConnectLayout(iUserLog,(Integer) iMainTabSheet.getData()));
                     }
 
-                    if (event.getProperty().getValue().equals("Приглашения в игру")){
-                        //RightContentLayout.removeAllComponents();
+                    if (event.getProperty().getValue().equals("Подключение к игре")){
                         RightContentLayout.removeAllComponents();
                         RightContentLayout.addComponent(new tGameInvitesLayout(iUserLog,iMainTabSheet));
                     }
 
                     if (event.getProperty().getValue().equals("Создание новой игры")){
-                        //RightContentLayout.removeAllComponents();
                         RightContentLayout.removeAllComponents();
                         RightContentLayout.addComponent(new tNewGameFormLayout(iUserLog,iMainTabSheet));
                     }

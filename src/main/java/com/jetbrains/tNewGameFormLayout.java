@@ -10,6 +10,8 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 import java.sql.*;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import static com.jetbrains.tAppCommonStatic.StrToIntValue;
 
@@ -24,6 +26,8 @@ public class tNewGameFormLayout extends VerticalLayout {
     String iUserLog;
     Integer iGameId;
     TabSheet iMainTabSheet;
+    tGameRunningLayout iGameRunningLayout;
+
 
 
     public tNewGameFormLayout(String eUserLog,TabSheet eMainTabSheet){
@@ -33,7 +37,15 @@ public class tNewGameFormLayout extends VerticalLayout {
 
         GameBalanceField = new TextField("Начальный баланс игры :");
         GameBalanceField.setIcon(VaadinIcons.MONEY);
-        GameBalanceField.setConverter(new StringToIntegerConverter());
+
+        StringToIntegerConverter plainIntegerConverter = new StringToIntegerConverter() {
+            protected java.text.NumberFormat getFormat(Locale locale) {
+                NumberFormat format = super.getFormat(locale);
+                format.setGroupingUsed(false);
+                return format;
+            };
+        };
+        GameBalanceField.setConverter(plainIntegerConverter);
         GameBalanceField.addValidator(new IntegerRangeValidator("Значение может изменяться от 100 до 10000000", 100, 10000000));
         GameBalanceField.setConversionError("Введённое значение не является целочисленным");
         GameBalanceField.setNullRepresentation("");
@@ -113,7 +125,16 @@ public class tNewGameFormLayout extends VerticalLayout {
                 }
 
                 if (StrToIntValue(GameBalanceField.getValue()) == null) {
-                    sErrorMessage = sErrorMessage + "Не задан начальный баланс игры";
+                    sErrorMessage = sErrorMessage + "Не задан начальный баланс игры\n";
+                } else {
+
+                    if ((StrToIntValue(GameBalanceField.getValue()).intValue() < 100) || (StrToIntValue(GameBalanceField.getValue()).intValue() > 10000000)) {
+                        sErrorMessage = sErrorMessage + "Не задан начальный баланс игры\n";
+                    }
+                }
+
+                if ((Integer) eMainTabSheet.getData()!= null){
+                    sErrorMessage = sErrorMessage + "Вы не завершили предыдущую игру";
                 }
 
                 if (!sErrorMessage.equals("")){
@@ -123,7 +144,10 @@ public class tNewGameFormLayout extends VerticalLayout {
                 } else {
 
                     iGameId = fNewGameCreate(GameAreaType,StrToIntValue(GameBalanceField.getValue()),GameModeVal);
-                    System.out.println("iGameId " + iGameId);
+                    iGameRunningLayout = new tGameRunningLayout(iGameId);
+                    iMainTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.MONEY_EXCHANGE);
+                    iMainTabSheet.setData(iGameId);
+                    //System.out.println("iGameId " + iGameId);
 
                     Notification.show("Новая игра создана!",
                             null,

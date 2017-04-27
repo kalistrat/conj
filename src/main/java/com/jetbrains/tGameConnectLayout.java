@@ -27,10 +27,12 @@ public class tGameConnectLayout extends VerticalLayout {
     Table ActivePlayersTable;
     IndexedContainer ActiveGamesContainer;
     IndexedContainer ActivePlayersContainer;
+    Integer iActiveGameId;
 
-    public tGameConnectLayout(String eUserLog) {
+    public tGameConnectLayout(String eUserLog,Integer eActiveGameId) {
 
         iUserLog = eUserLog;
+        iActiveGameId = eActiveGameId;
 
         ActiveGamesTable = new Table();
 
@@ -183,6 +185,18 @@ public class tGameConnectLayout extends VerticalLayout {
                 //RequestButton.setWidth("100px");
                 RequestButton.setHeight("20px");
 
+                RequestButton.addClickListener(new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+
+                            GameInviteAdd(iUserLog, (Integer) clickEvent.getButton().getData());
+                            Notification.show("Приглашение создано:",
+                                    "Ждите его подтверждения владельцем игры",
+                                    Notification.Type.TRAY_NOTIFICATION);
+
+                    }
+                });
+
 
                 newItem.getItemProperty(1).setValue(ActiveGameslRes.getInt(1));
                 newItem.getItemProperty(2).setValue(df.format(new java.util.Date(ActiveGameslRes.getTimestamp(2).getTime())));
@@ -253,6 +267,22 @@ public class tGameConnectLayout extends VerticalLayout {
                 //RequestButton.setWidth("100px");
                 RequestButton.setHeight("20px");
 
+                RequestButton.addClickListener(new Button.ClickListener() {
+                    @Override
+                    public void buttonClick(Button.ClickEvent clickEvent) {
+                        if (iActiveGameId != null) {
+                            PlayerInviteAdd(iUserLog, (String) clickEvent.getButton().getData());
+                            Notification.show("Приглашение создано:",
+                                    "Ждите решения приглашаемого игрока",
+                                    Notification.Type.TRAY_NOTIFICATION);
+                        } else {
+                            Notification.show("Ошибка создания приглашения:",
+                                    "Вы не можете приглашать в игру, если Вы её не создали",
+                                    Notification.Type.TRAY_NOTIFICATION);
+                        }
+                    }
+                });
+
                 Embedded IconImg = new Embedded(null, new ThemeResource("ava/"+ActivePlayersRes.getString(2)));
                 IconImg.setWidth("40px");
                 IconImg.setHeight("40px");
@@ -276,6 +306,58 @@ public class tGameConnectLayout extends VerticalLayout {
         }
 
 
+    }
+
+    public void PlayerInviteAdd(String eUserFrom,String eUserTo){
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement PlayerInviteStmt = Con.prepareCall("{call p_player_invate_add(?, ?)}");
+            PlayerInviteStmt.setString(1, eUserFrom);
+            PlayerInviteStmt.setString(2, eUserTo);
+            PlayerInviteStmt.execute();
+
+            Con.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+    }
+
+    public void GameInviteAdd(String eUserFrom,Integer eGameTo){
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement GameInviteStmt = Con.prepareCall("{call p_game_invate_add(?, ?)}");
+            GameInviteStmt.setString(1, eUserFrom);
+            GameInviteStmt.setInt(2, eGameTo);
+            GameInviteStmt.execute();
+
+            Con.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
     }
 
     public void RefreshLayout(){

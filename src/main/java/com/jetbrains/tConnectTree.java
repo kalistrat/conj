@@ -35,12 +35,12 @@ public class tConnectTree extends Tree {
         this.addItem("Создание новой игры");
         this.setItemIcon("Создание новой игры", VaadinIcons.PLUS_SQUARE_LEFT_O);
         this.setChildrenAllowed("Создание новой игры", false);
-        this.addItem("Подключение к игре");
-        this.setItemIcon("Подключение к игре", VaadinIcons.PLUG);
-        this.setChildrenAllowed("Подключение к игре", false);
         this.addItem("Приглашения в игру");
         this.setItemIcon("Приглашения в игру", VaadinIcons.CHAT);
         this.setChildrenAllowed("Приглашения в игру", false);
+        this.addItem("Подключение к игре");
+        this.setItemIcon("Подключение к игре", VaadinIcons.PLUG);
+        this.setChildrenAllowed("Подключение к игре", false);
 
         this.setItemStyleGenerator(new ItemStyleGenerator() {
             @Override

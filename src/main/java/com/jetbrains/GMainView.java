@@ -28,6 +28,10 @@ public class GMainView extends CustomComponent implements View {
     });
 
     TabSheet GameMenuTabSheet;
+    tUserDataLayout iUserDataLayout;
+    tMainGameConnectLayout iMainGameConnectLayout;
+    tGameRunningLayout iGameRunningLayout;
+
 
     public GMainView(){
 
@@ -60,13 +64,20 @@ public class GMainView extends CustomComponent implements View {
         TopSectionLayout.setHeight("50px");
 
         GameMenuTabSheet = new TabSheet();
-        tUserDataLayout oUserDataLayout = new tUserDataLayout(CurrentUsr);
-        tMainGameConnectLayout oMainGameConnectLayout = new tMainGameConnectLayout(CurrentUsr,GameMenuTabSheet);
+        iUserDataLayout = new tUserDataLayout(CurrentUsr);
+        iMainGameConnectLayout = new tMainGameConnectLayout(CurrentUsr,GameMenuTabSheet);
 
-        GameMenuTabSheet.addTab(oMainGameConnectLayout, "Подключение к игре", VaadinIcons.CONNECT);
-        GameMenuTabSheet.addTab(oUserDataLayout, "Личные данные",VaadinIcons.HOME);
-        GameMenuTabSheet.addTab(new Label("Здесь будет архив"), "История игр",VaadinIcons.ARCHIVE);
+        GameMenuTabSheet.addTab(iMainGameConnectLayout, "Подключение к игре", VaadinIcons.CONNECT);
+        GameMenuTabSheet.addTab(iUserDataLayout, "Личные данные",VaadinIcons.HOME);
+        //GameMenuTabSheet.addTab(new Label("Здесь будет архив"), "История игр",VaadinIcons.ARCHIVE);
 
+        int UserGameId = tGameRunningLayout.getLastUserGame(CurrentUsr);
+
+        if (UserGameId != 0){
+            iGameRunningLayout = new tGameRunningLayout(UserGameId);
+            GameMenuTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.MONEY_EXCHANGE);
+            GameMenuTabSheet.setData(UserGameId);
+        }
 
         VerticalLayout MainViewContentLayout = new VerticalLayout(
                 TopSectionLayout
