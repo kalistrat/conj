@@ -33,7 +33,7 @@ public class g_current_game_layout extends HorizontalLayout {
         //TopSec.setSizeFull();
 
 
-        g_area_table gti = new g_area_table(iCurrentUser,iGameId,iAreaSize,iIsSingleGame);
+        tGameAreaTable gti = new tGameAreaTable(iGameId,iCurrentUser);
         g_user_rates_table gurt = new g_user_rates_table(iGameId,iCurrentUser);
         g_step_layout gsli = new g_step_layout(gti,gurt,gtchart,r_lo,greschart);
         MidSec.addComponent(gti);

@@ -13,25 +13,22 @@ import java.util.List;
 /**
  * Created by SemenovNA on 08.08.2016.
  */
-public class g_area_table extends Table {
+public class tGameAreaTable extends Table {
 
-    static final private String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final private String DB_URL = "jdbc:mysql://localhost/conjuncture";
-    static final private String USER = "gumbler";
-    static final private String PASS = "tutunia";
+
     public String InsUserName;
     public Integer InsGameId;
-    public int InsIsSingleGame;
 
 
     List<String> engage_index = new ArrayList<>();
     IndexedContainer GameAreaContainer;
 
 
-    public g_area_table(String jCurrentUser,Integer jGameId,int jAreaSize,int jIsSingleGame){
+    public tGameAreaTable(Integer jGameId, String jCurrentUser){
+
+        int jAreaSize = GetGameAreaSize(jGameId);
         this.InsGameId = jGameId;
         this.InsUserName = jCurrentUser;
-        this.InsIsSingleGame = jIsSingleGame;
         this.GameAreaContainer = new IndexedContainer();
 
 
@@ -41,8 +38,12 @@ public class g_area_table extends Table {
         String jUserSym = jCurrentUser.toUpperCase().substring(0,1);
 
         try {
-            Class.forName(JDBC_DRIVER);
-            Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection conn = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
 
             String AreaSql = "select af.field_index\n" +
                     ",ft.filed_color\n" +
@@ -117,25 +118,12 @@ public class g_area_table extends Table {
                                 } else {
                                     Notification.show("Ваш баланс недостаточен");
                                 }
-                            //engage_index.add(ButVal.field_index);
-
-//                            for (int i=0;i<engage_index.size();i++){
-//                                System.out.println("engage_index  = " + engage_index.get(i));
-//                            }
-//                            System.out.println("/");
-
 
                         } else {
                             clickEvent.getButton().setCaption(ButVal.field_rate);
 
                             SellGameField(InsGameId,InsUserName,ButVal.field_index);
 
-                            //engage_index.remove(ButVal.field_index);
-
-//                            for (int i=0;i<engage_index.size();i++){
-//                                System.out.println("engage_index  = " + engage_index.get(i));
-//                            }
-//                            System.out.println("/");
                         }
                     }
                 });
@@ -172,8 +160,13 @@ public class g_area_table extends Table {
     public void AreaContainerRefresh(int IsUserStepping){
 
         try {
-            Class.forName(JDBC_DRIVER);
-            Connection ConRef = DriverManager.getConnection(DB_URL,USER,PASS);
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection ConRef = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
             String AreaRefreshSql = "select gf.field_index\n" +
                     ", gf.field_value\n" +
                     ", gp.player_sym\n" +
@@ -230,8 +223,12 @@ public class g_area_table extends Table {
     public void BuyGameField(int qGameId,String qPlayerLog,String qFieldIndex) {
 
         try {
-            Class.forName(JDBC_DRIVER);
-            Connection ConBuy = DriverManager.getConnection(DB_URL, USER, PASS);
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection ConBuy = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
 
             CallableStatement BuyStmt = ConBuy.prepareCall("{call p_buy_game_field_n(?, ?, ?)}");
             BuyStmt.setInt(1, qGameId);
@@ -252,8 +249,12 @@ public class g_area_table extends Table {
     public void SellGameField(int qGameId,String qPlayerLog,String qFieldIndex) {
 
         try {
-            Class.forName(JDBC_DRIVER);
-            Connection SellBuy = DriverManager.getConnection(DB_URL, USER, PASS);
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection SellBuy = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
 
             CallableStatement SellStmt = SellBuy.prepareCall("{call p_sell_game_field_n(?, ?, ?)}");
             SellStmt.setInt(1, qGameId);
@@ -276,8 +277,12 @@ public class g_area_table extends Table {
 
 
         try {
-            Class.forName(JDBC_DRIVER);
-            Connection BalCon = DriverManager.getConnection(DB_URL, USER, PASS);
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection BalCon = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
 
             CallableStatement BalStmt = BalCon.prepareCall("{? = call f_is_possible_to_buy(?, ?, ?)}");
             BalStmt.registerOutParameter(1,Types.BOOLEAN);
@@ -298,6 +303,36 @@ public class g_area_table extends Table {
 
 
         return IsPossible;
+    }
+
+    public int GetGameAreaSize(int qGameId){
+        int aSize = 0;
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection conn = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement SizeStmt = conn.prepareCall("{? = call f_get_game_size(?)}");
+            SizeStmt.registerOutParameter(1,Types.INTEGER);
+            SizeStmt.setInt(2, qGameId);
+            SizeStmt.execute();
+            aSize = SizeStmt.getInt(1);
+            conn.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+
+        return aSize;
     }
 
 }

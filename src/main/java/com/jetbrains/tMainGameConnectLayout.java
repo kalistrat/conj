@@ -100,8 +100,8 @@ public class tMainGameConnectLayout extends VerticalLayout {
         UserDataSection.setFirstComponent(LeftContentLayout);
         UserDataSection.setSecondComponent(RightContentLayout);
         UserDataSection.setSplitPosition(25.5f,UNITS_PERCENTAGE);
-        //UserDataSection.setMinSplitPosition(24f,UNITS_PERCENTAGE);
-        //UserDataSection.setMaxSplitPosition(24f,UNITS_PERCENTAGE);
+        UserDataSection.setMinSplitPosition(25.5f,UNITS_PERCENTAGE);
+        UserDataSection.setMaxSplitPosition(25.5f,UNITS_PERCENTAGE);
 
         VerticalLayout ContentLayout = new VerticalLayout(UserDataSection);
         ContentLayout.setHeight("750px");

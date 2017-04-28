@@ -144,7 +144,7 @@ public class tNewGameFormLayout extends VerticalLayout {
                 } else {
 
                     iGameId = fNewGameCreate(GameAreaType,StrToIntValue(GameBalanceField.getValue()),GameModeVal);
-                    iGameRunningLayout = new tGameRunningLayout(iGameId);
+                    iGameRunningLayout = new tGameRunningLayout(iGameId,iUserLog);
                     iMainTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.MONEY_EXCHANGE);
                     iMainTabSheet.setData(iGameId);
                     //System.out.println("iGameId " + iGameId);

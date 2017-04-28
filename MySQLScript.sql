@@ -270,6 +270,25 @@ INSERT INTO `field_type` (`field_type_id`, `field_price`, `field_value`, `filed_
 /*!40000 ALTER TABLE `field_type` ENABLE KEYS */;
 
 
+-- Дамп структуры для функция conjuncture.f_current_game_by_user
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_current_game_by_user`(`eUserLog` varchar(50)) RETURNS int(11)
+begin
+
+return(
+select max(g.game_id)
+from game g
+join game_player gp on gp.game_id=g.game_id
+join player p on p.player_id=gp.player_id
+where g.date_till is null
+and gp.is_active=1
+and p.player_log=eUserLog
+);
+
+end//
+DELIMITER ;
+
+
 -- Дамп структуры для функция conjuncture.f_gameisover
 DELIMITER //
 CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_gameisover`(eGameId int) RETURNS int(11)
@@ -670,9 +689,9 @@ CREATE TABLE IF NOT EXISTS `game` (
   `is_single_game` int(11) DEFAULT NULL,
   `last_activity` datetime DEFAULT NULL,
   PRIMARY KEY (`game_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=338 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game: ~290 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game: ~296 rows (приблизительно)
 DELETE FROM `game`;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
 INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `area_type_id`, `last_activity_date`, `is_single_game`, `last_activity`) VALUES
@@ -965,7 +984,13 @@ INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `ar
 	(328, '2017-04-13 18:47:48', NULL, 3, 3, NULL, 0, NULL),
 	(329, '2017-04-13 18:49:48', NULL, 3, 3, NULL, 0, NULL),
 	(330, '2017-04-13 18:53:03', NULL, 3, 1, NULL, 1, NULL),
-	(331, '2017-04-20 13:55:55', NULL, 3, 2, NULL, 1, NULL);
+	(331, '2017-04-20 13:55:55', NULL, 3, 2, NULL, 1, NULL),
+	(332, '2017-04-27 16:52:16', NULL, 3, 1, NULL, 1, NULL),
+	(333, '2017-04-27 17:03:11', NULL, 3, 2, NULL, 0, NULL),
+	(334, '2017-04-27 17:03:25', NULL, 3, 2, NULL, 0, NULL),
+	(335, '2017-04-27 18:09:58', NULL, 3, 2, NULL, 1, NULL),
+	(336, '2017-04-27 18:10:54', NULL, 1, 2, NULL, 1, NULL),
+	(337, '2017-04-27 18:16:13', NULL, 1, 2, NULL, 1, NULL);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 
 
@@ -984,9 +1009,9 @@ CREATE TABLE IF NOT EXISTS `game_field` (
   CONSTRAINT `FK_game_field_field_type` FOREIGN KEY (`field_type_id`) REFERENCES `field_type` (`field_type_id`),
   CONSTRAINT `FK_game_field_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_field_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22871 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23506 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_field: ~14 222 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_field: ~13 671 rows (приблизительно)
 DELETE FROM `game_field`;
 /*!40000 ALTER TABLE `game_field` DISABLE KEYS */;
 INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_index`, `field_type_id`, `game_player_id`) VALUES
@@ -14877,7 +14902,363 @@ INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_inde
 	(22867, 331, 5.00, '33', 4, NULL),
 	(22868, 331, 5.00, '34', 4, NULL),
 	(22869, 331, 5.00, '43', 4, NULL),
-	(22870, 331, 5.00, '44', 4, NULL);
+	(22870, 331, 5.00, '44', 4, NULL),
+	(22871, 332, 2.00, '00', 1, NULL),
+	(22872, 332, 2.00, '01', 1, NULL),
+	(22873, 332, 2.00, '02', 1, NULL),
+	(22874, 332, 2.00, '03', 1, NULL),
+	(22875, 332, 2.00, '04', 1, NULL),
+	(22876, 332, 2.00, '05', 1, NULL),
+	(22877, 332, 2.00, '10', 1, NULL),
+	(22878, 332, 2.00, '15', 1, NULL),
+	(22879, 332, 2.00, '20', 1, NULL),
+	(22880, 332, 2.00, '25', 1, NULL),
+	(22881, 332, 2.00, '30', 1, NULL),
+	(22882, 332, 2.00, '35', 1, NULL),
+	(22883, 332, 2.00, '40', 1, NULL),
+	(22884, 332, 2.00, '45', 1, NULL),
+	(22885, 332, 2.00, '50', 1, NULL),
+	(22886, 332, 2.00, '51', 1, NULL),
+	(22887, 332, 2.00, '52', 1, NULL),
+	(22888, 332, 2.00, '53', 1, NULL),
+	(22889, 332, 2.00, '54', 1, NULL),
+	(22890, 332, 2.00, '55', 1, NULL),
+	(22891, 332, 3.00, '11', 2, NULL),
+	(22892, 332, 3.00, '12', 2, NULL),
+	(22893, 332, 3.00, '13', 2, NULL),
+	(22894, 332, 3.00, '14', 2, NULL),
+	(22895, 332, 3.00, '21', 2, NULL),
+	(22896, 332, 3.00, '24', 2, NULL),
+	(22897, 332, 3.00, '31', 2, NULL),
+	(22898, 332, 3.00, '34', 2, NULL),
+	(22899, 332, 3.00, '41', 2, NULL),
+	(22900, 332, 3.00, '42', 2, NULL),
+	(22901, 332, 3.00, '43', 2, NULL),
+	(22902, 332, 3.00, '44', 2, NULL),
+	(22903, 332, 4.00, '22', 3, NULL),
+	(22904, 332, 4.00, '23', 3, NULL),
+	(22905, 332, 4.00, '32', 3, NULL),
+	(22906, 332, 4.00, '33', 3, NULL),
+	(22934, 333, 2.00, '00', 1, NULL),
+	(22935, 333, 2.00, '01', 1, NULL),
+	(22936, 333, 2.00, '02', 1, NULL),
+	(22937, 333, 2.00, '03', 1, NULL),
+	(22938, 333, 2.00, '04', 1, NULL),
+	(22939, 333, 2.00, '05', 1, NULL),
+	(22940, 333, 2.00, '06', 1, NULL),
+	(22941, 333, 2.00, '07', 1, NULL),
+	(22942, 333, 2.00, '10', 1, NULL),
+	(22943, 333, 2.00, '17', 1, NULL),
+	(22944, 333, 2.00, '20', 1, NULL),
+	(22945, 333, 2.00, '27', 1, NULL),
+	(22946, 333, 2.00, '30', 1, NULL),
+	(22947, 333, 2.00, '37', 1, NULL),
+	(22948, 333, 2.00, '40', 1, NULL),
+	(22949, 333, 2.00, '47', 1, NULL),
+	(22950, 333, 2.00, '50', 1, NULL),
+	(22951, 333, 2.00, '57', 1, NULL),
+	(22952, 333, 2.00, '60', 1, NULL),
+	(22953, 333, 2.00, '67', 1, NULL),
+	(22954, 333, 2.00, '70', 1, NULL),
+	(22955, 333, 2.00, '71', 1, NULL),
+	(22956, 333, 2.00, '72', 1, NULL),
+	(22957, 333, 2.00, '73', 1, NULL),
+	(22958, 333, 2.00, '74', 1, NULL),
+	(22959, 333, 2.00, '75', 1, NULL),
+	(22960, 333, 2.00, '76', 1, NULL),
+	(22961, 333, 2.00, '77', 1, NULL),
+	(22962, 333, 3.00, '11', 2, NULL),
+	(22963, 333, 3.00, '12', 2, NULL),
+	(22964, 333, 3.00, '13', 2, NULL),
+	(22965, 333, 3.00, '14', 2, NULL),
+	(22966, 333, 3.00, '15', 2, NULL),
+	(22967, 333, 3.00, '16', 2, NULL),
+	(22968, 333, 3.00, '21', 2, NULL),
+	(22969, 333, 3.00, '26', 2, NULL),
+	(22970, 333, 3.00, '31', 2, NULL),
+	(22971, 333, 3.00, '36', 2, NULL),
+	(22972, 333, 3.00, '41', 2, NULL),
+	(22973, 333, 3.00, '46', 2, NULL),
+	(22974, 333, 3.00, '51', 2, NULL),
+	(22975, 333, 3.00, '56', 2, NULL),
+	(22976, 333, 3.00, '61', 2, NULL),
+	(22977, 333, 3.00, '62', 2, NULL),
+	(22978, 333, 3.00, '63', 2, NULL),
+	(22979, 333, 3.00, '64', 2, NULL),
+	(22980, 333, 3.00, '65', 2, NULL),
+	(22981, 333, 3.00, '66', 2, NULL),
+	(22982, 333, 4.00, '22', 3, NULL),
+	(22983, 333, 4.00, '23', 3, NULL),
+	(22984, 333, 4.00, '24', 3, NULL),
+	(22985, 333, 4.00, '25', 3, NULL),
+	(22986, 333, 4.00, '32', 3, NULL),
+	(22987, 333, 4.00, '35', 3, NULL),
+	(22988, 333, 4.00, '42', 3, NULL),
+	(22989, 333, 4.00, '45', 3, NULL),
+	(22990, 333, 4.00, '52', 3, NULL),
+	(22991, 333, 4.00, '53', 3, NULL),
+	(22992, 333, 4.00, '54', 3, NULL),
+	(22993, 333, 4.00, '55', 3, NULL),
+	(22994, 333, 5.00, '33', 4, NULL),
+	(22995, 333, 5.00, '34', 4, NULL),
+	(22996, 333, 5.00, '43', 4, NULL),
+	(22997, 333, 5.00, '44', 4, NULL),
+	(23061, 334, 2.00, '00', 1, NULL),
+	(23062, 334, 2.00, '01', 1, NULL),
+	(23063, 334, 2.00, '02', 1, NULL),
+	(23064, 334, 2.00, '03', 1, NULL),
+	(23065, 334, 2.00, '04', 1, NULL),
+	(23066, 334, 2.00, '05', 1, NULL),
+	(23067, 334, 2.00, '06', 1, NULL),
+	(23068, 334, 2.00, '07', 1, NULL),
+	(23069, 334, 2.00, '10', 1, NULL),
+	(23070, 334, 2.00, '17', 1, NULL),
+	(23071, 334, 2.00, '20', 1, NULL),
+	(23072, 334, 2.00, '27', 1, NULL),
+	(23073, 334, 2.00, '30', 1, NULL),
+	(23074, 334, 2.00, '37', 1, NULL),
+	(23075, 334, 2.00, '40', 1, NULL),
+	(23076, 334, 2.00, '47', 1, NULL),
+	(23077, 334, 2.00, '50', 1, NULL),
+	(23078, 334, 2.00, '57', 1, NULL),
+	(23079, 334, 2.00, '60', 1, NULL),
+	(23080, 334, 2.00, '67', 1, NULL),
+	(23081, 334, 2.00, '70', 1, NULL),
+	(23082, 334, 2.00, '71', 1, NULL),
+	(23083, 334, 2.00, '72', 1, NULL),
+	(23084, 334, 2.00, '73', 1, NULL),
+	(23085, 334, 2.00, '74', 1, NULL),
+	(23086, 334, 2.00, '75', 1, NULL),
+	(23087, 334, 2.00, '76', 1, NULL),
+	(23088, 334, 2.00, '77', 1, 501),
+	(23089, 334, 3.00, '11', 2, NULL),
+	(23090, 334, 3.00, '12', 2, NULL),
+	(23091, 334, 3.00, '13', 2, NULL),
+	(23092, 334, 3.00, '14', 2, NULL),
+	(23093, 334, 3.00, '15', 2, NULL),
+	(23094, 334, 3.00, '16', 2, NULL),
+	(23095, 334, 3.00, '21', 2, NULL),
+	(23096, 334, 3.00, '26', 2, NULL),
+	(23097, 334, 3.00, '31', 2, NULL),
+	(23098, 334, 3.00, '36', 2, NULL),
+	(23099, 334, 3.00, '41', 2, NULL),
+	(23100, 334, 3.00, '46', 2, NULL),
+	(23101, 334, 3.00, '51', 2, NULL),
+	(23102, 334, 3.00, '56', 2, NULL),
+	(23103, 334, 3.00, '61', 2, NULL),
+	(23104, 334, 3.00, '62', 2, NULL),
+	(23105, 334, 3.00, '63', 2, NULL),
+	(23106, 334, 3.00, '64', 2, NULL),
+	(23107, 334, 3.00, '65', 2, NULL),
+	(23108, 334, 3.00, '66', 2, NULL),
+	(23109, 334, 4.00, '22', 3, NULL),
+	(23110, 334, 4.00, '23', 3, NULL),
+	(23111, 334, 4.00, '24', 3, NULL),
+	(23112, 334, 4.00, '25', 3, NULL),
+	(23113, 334, 4.00, '32', 3, NULL),
+	(23114, 334, 4.00, '35', 3, NULL),
+	(23115, 334, 4.00, '42', 3, NULL),
+	(23116, 334, 4.00, '45', 3, NULL),
+	(23117, 334, 4.00, '52', 3, NULL),
+	(23118, 334, 4.00, '53', 3, NULL),
+	(23119, 334, 4.00, '54', 3, NULL),
+	(23120, 334, 4.00, '55', 3, NULL),
+	(23121, 334, 5.00, '33', 4, NULL),
+	(23122, 334, 5.00, '34', 4, NULL),
+	(23123, 334, 5.00, '43', 4, NULL),
+	(23124, 334, 5.00, '44', 4, NULL),
+	(23188, 335, 2.00, '00', 1, NULL),
+	(23189, 335, 2.00, '01', 1, NULL),
+	(23190, 335, 2.00, '02', 1, NULL),
+	(23191, 335, 2.00, '03', 1, NULL),
+	(23192, 335, 2.00, '04', 1, NULL),
+	(23193, 335, 2.00, '05', 1, NULL),
+	(23194, 335, 2.00, '06', 1, NULL),
+	(23195, 335, 2.00, '07', 1, NULL),
+	(23196, 335, 2.00, '10', 1, NULL),
+	(23197, 335, 2.00, '17', 1, NULL),
+	(23198, 335, 2.00, '20', 1, NULL),
+	(23199, 335, 2.00, '27', 1, NULL),
+	(23200, 335, 2.00, '30', 1, NULL),
+	(23201, 335, 2.00, '37', 1, NULL),
+	(23202, 335, 2.00, '40', 1, NULL),
+	(23203, 335, 2.00, '47', 1, NULL),
+	(23204, 335, 2.00, '50', 1, NULL),
+	(23205, 335, 2.00, '57', 1, NULL),
+	(23206, 335, 2.00, '60', 1, NULL),
+	(23207, 335, 2.00, '67', 1, NULL),
+	(23208, 335, 2.00, '70', 1, NULL),
+	(23209, 335, 2.00, '71', 1, NULL),
+	(23210, 335, 2.00, '72', 1, NULL),
+	(23211, 335, 2.00, '73', 1, NULL),
+	(23212, 335, 2.00, '74', 1, NULL),
+	(23213, 335, 2.00, '75', 1, NULL),
+	(23214, 335, 2.00, '76', 1, NULL),
+	(23215, 335, 2.00, '77', 1, NULL),
+	(23216, 335, 3.00, '11', 2, NULL),
+	(23217, 335, 3.00, '12', 2, NULL),
+	(23218, 335, 3.00, '13', 2, NULL),
+	(23219, 335, 3.00, '14', 2, NULL),
+	(23220, 335, 3.00, '15', 2, NULL),
+	(23221, 335, 3.00, '16', 2, NULL),
+	(23222, 335, 3.00, '21', 2, NULL),
+	(23223, 335, 3.00, '26', 2, NULL),
+	(23224, 335, 3.00, '31', 2, NULL),
+	(23225, 335, 3.00, '36', 2, NULL),
+	(23226, 335, 3.00, '41', 2, NULL),
+	(23227, 335, 3.00, '46', 2, NULL),
+	(23228, 335, 3.00, '51', 2, NULL),
+	(23229, 335, 3.00, '56', 2, NULL),
+	(23230, 335, 3.00, '61', 2, NULL),
+	(23231, 335, 3.00, '62', 2, NULL),
+	(23232, 335, 3.00, '63', 2, NULL),
+	(23233, 335, 3.00, '64', 2, NULL),
+	(23234, 335, 3.00, '65', 2, NULL),
+	(23235, 335, 3.00, '66', 2, NULL),
+	(23236, 335, 4.00, '22', 3, NULL),
+	(23237, 335, 4.00, '23', 3, NULL),
+	(23238, 335, 4.00, '24', 3, NULL),
+	(23239, 335, 4.00, '25', 3, NULL),
+	(23240, 335, 4.00, '32', 3, NULL),
+	(23241, 335, 4.00, '35', 3, NULL),
+	(23242, 335, 4.00, '42', 3, NULL),
+	(23243, 335, 4.00, '45', 3, NULL),
+	(23244, 335, 4.00, '52', 3, NULL),
+	(23245, 335, 4.00, '53', 3, NULL),
+	(23246, 335, 4.00, '54', 3, NULL),
+	(23247, 335, 4.00, '55', 3, NULL),
+	(23248, 335, 5.00, '33', 4, NULL),
+	(23249, 335, 5.00, '34', 4, NULL),
+	(23250, 335, 5.00, '43', 4, NULL),
+	(23251, 335, 5.00, '44', 4, NULL),
+	(23315, 336, 2.00, '00', 1, NULL),
+	(23316, 336, 2.00, '01', 1, NULL),
+	(23317, 336, 2.00, '02', 1, NULL),
+	(23318, 336, 2.00, '03', 1, NULL),
+	(23319, 336, 2.00, '04', 1, NULL),
+	(23320, 336, 2.00, '05', 1, NULL),
+	(23321, 336, 2.00, '06', 1, NULL),
+	(23322, 336, 2.00, '07', 1, NULL),
+	(23323, 336, 2.00, '10', 1, NULL),
+	(23324, 336, 2.00, '17', 1, NULL),
+	(23325, 336, 2.00, '20', 1, NULL),
+	(23326, 336, 2.00, '27', 1, NULL),
+	(23327, 336, 2.00, '30', 1, NULL),
+	(23328, 336, 2.00, '37', 1, NULL),
+	(23329, 336, 2.00, '40', 1, NULL),
+	(23330, 336, 2.00, '47', 1, NULL),
+	(23331, 336, 2.00, '50', 1, NULL),
+	(23332, 336, 2.00, '57', 1, NULL),
+	(23333, 336, 2.00, '60', 1, NULL),
+	(23334, 336, 2.00, '67', 1, NULL),
+	(23335, 336, 2.00, '70', 1, NULL),
+	(23336, 336, 2.00, '71', 1, NULL),
+	(23337, 336, 2.00, '72', 1, NULL),
+	(23338, 336, 2.00, '73', 1, NULL),
+	(23339, 336, 2.00, '74', 1, NULL),
+	(23340, 336, 2.00, '75', 1, NULL),
+	(23341, 336, 2.00, '76', 1, NULL),
+	(23342, 336, 2.00, '77', 1, NULL),
+	(23343, 336, 3.00, '11', 2, NULL),
+	(23344, 336, 3.00, '12', 2, NULL),
+	(23345, 336, 3.00, '13', 2, NULL),
+	(23346, 336, 3.00, '14', 2, NULL),
+	(23347, 336, 3.00, '15', 2, NULL),
+	(23348, 336, 3.00, '16', 2, NULL),
+	(23349, 336, 3.00, '21', 2, NULL),
+	(23350, 336, 3.00, '26', 2, NULL),
+	(23351, 336, 3.00, '31', 2, NULL),
+	(23352, 336, 3.00, '36', 2, NULL),
+	(23353, 336, 3.00, '41', 2, NULL),
+	(23354, 336, 3.00, '46', 2, NULL),
+	(23355, 336, 3.00, '51', 2, NULL),
+	(23356, 336, 3.00, '56', 2, NULL),
+	(23357, 336, 3.00, '61', 2, NULL),
+	(23358, 336, 3.00, '62', 2, NULL),
+	(23359, 336, 3.00, '63', 2, NULL),
+	(23360, 336, 3.00, '64', 2, NULL),
+	(23361, 336, 3.00, '65', 2, NULL),
+	(23362, 336, 3.00, '66', 2, NULL),
+	(23363, 336, 4.00, '22', 3, NULL),
+	(23364, 336, 4.00, '23', 3, NULL),
+	(23365, 336, 4.00, '24', 3, NULL),
+	(23366, 336, 4.00, '25', 3, NULL),
+	(23367, 336, 4.00, '32', 3, NULL),
+	(23368, 336, 4.00, '35', 3, NULL),
+	(23369, 336, 4.00, '42', 3, NULL),
+	(23370, 336, 4.00, '45', 3, NULL),
+	(23371, 336, 4.00, '52', 3, NULL),
+	(23372, 336, 4.00, '53', 3, NULL),
+	(23373, 336, 4.00, '54', 3, NULL),
+	(23374, 336, 4.00, '55', 3, NULL),
+	(23375, 336, 5.00, '33', 4, NULL),
+	(23376, 336, 5.00, '34', 4, NULL),
+	(23377, 336, 5.00, '43', 4, NULL),
+	(23378, 336, 5.00, '44', 4, NULL),
+	(23442, 337, 2.00, '00', 1, NULL),
+	(23443, 337, 2.00, '01', 1, NULL),
+	(23444, 337, 2.00, '02', 1, NULL),
+	(23445, 337, 2.00, '03', 1, NULL),
+	(23446, 337, 2.00, '04', 1, NULL),
+	(23447, 337, 2.00, '05', 1, NULL),
+	(23448, 337, 2.00, '06', 1, NULL),
+	(23449, 337, 2.00, '07', 1, NULL),
+	(23450, 337, 2.00, '10', 1, NULL),
+	(23451, 337, 2.00, '17', 1, NULL),
+	(23452, 337, 2.00, '20', 1, NULL),
+	(23453, 337, 2.00, '27', 1, NULL),
+	(23454, 337, 2.00, '30', 1, NULL),
+	(23455, 337, 2.00, '37', 1, NULL),
+	(23456, 337, 2.00, '40', 1, NULL),
+	(23457, 337, 2.00, '47', 1, NULL),
+	(23458, 337, 2.00, '50', 1, NULL),
+	(23459, 337, 2.00, '57', 1, NULL),
+	(23460, 337, 2.00, '60', 1, NULL),
+	(23461, 337, 2.00, '67', 1, NULL),
+	(23462, 337, 2.00, '70', 1, NULL),
+	(23463, 337, 2.00, '71', 1, NULL),
+	(23464, 337, 2.00, '72', 1, NULL),
+	(23465, 337, 2.00, '73', 1, NULL),
+	(23466, 337, 2.00, '74', 1, NULL),
+	(23467, 337, 2.00, '75', 1, NULL),
+	(23468, 337, 2.00, '76', 1, NULL),
+	(23469, 337, 2.00, '77', 1, NULL),
+	(23470, 337, 3.00, '11', 2, NULL),
+	(23471, 337, 3.00, '12', 2, NULL),
+	(23472, 337, 3.00, '13', 2, NULL),
+	(23473, 337, 3.00, '14', 2, NULL),
+	(23474, 337, 3.00, '15', 2, NULL),
+	(23475, 337, 3.00, '16', 2, NULL),
+	(23476, 337, 3.00, '21', 2, NULL),
+	(23477, 337, 3.00, '26', 2, NULL),
+	(23478, 337, 3.00, '31', 2, NULL),
+	(23479, 337, 3.00, '36', 2, NULL),
+	(23480, 337, 3.00, '41', 2, NULL),
+	(23481, 337, 3.00, '46', 2, NULL),
+	(23482, 337, 3.00, '51', 2, NULL),
+	(23483, 337, 3.00, '56', 2, NULL),
+	(23484, 337, 3.00, '61', 2, NULL),
+	(23485, 337, 3.00, '62', 2, NULL),
+	(23486, 337, 3.00, '63', 2, NULL),
+	(23487, 337, 3.00, '64', 2, NULL),
+	(23488, 337, 3.00, '65', 2, NULL),
+	(23489, 337, 3.00, '66', 2, NULL),
+	(23490, 337, 4.00, '22', 3, NULL),
+	(23491, 337, 4.00, '23', 3, NULL),
+	(23492, 337, 4.00, '24', 3, NULL),
+	(23493, 337, 4.00, '25', 3, NULL),
+	(23494, 337, 4.00, '32', 3, NULL),
+	(23495, 337, 4.00, '35', 3, NULL),
+	(23496, 337, 4.00, '42', 3, NULL),
+	(23497, 337, 4.00, '45', 3, NULL),
+	(23498, 337, 4.00, '52', 3, NULL),
+	(23499, 337, 4.00, '53', 3, NULL),
+	(23500, 337, 4.00, '54', 3, NULL),
+	(23501, 337, 4.00, '55', 3, NULL),
+	(23502, 337, 5.00, '33', 4, NULL),
+	(23503, 337, 5.00, '34', 4, NULL),
+	(23504, 337, 5.00, '43', 4, NULL),
+	(23505, 337, 5.00, '44', 4, NULL);
 /*!40000 ALTER TABLE `game_field` ENABLE KEYS */;
 
 
@@ -14913,9 +15294,9 @@ CREATE TABLE IF NOT EXISTS `game_player` (
   KEY `FK_game_player_player` (`player_id`),
   CONSTRAINT `FK_game_player_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_player_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=498 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=508 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_player: ~560 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_player: ~477 rows (приблизительно)
 DELETE FROM `game_player`;
 /*!40000 ALTER TABLE `game_player` DISABLE KEYS */;
 INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, `out_time`, `in_passiv_value`, `out_passiv_value`, `current_passiv_value`, `player_sym`, `order_connect`, `is_steping`, `is_active`, `last_activity`) VALUES
@@ -15414,7 +15795,17 @@ INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, 
 	(494, 330, 3, '2017-04-13 18:53:03', NULL, 500.00, NULL, 500.00, 'k1', 1, 1, NULL, NULL),
 	(495, 330, 4, '2017-04-13 18:53:03', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL),
 	(496, 331, 3, '2017-04-20 13:55:55', NULL, -1.00, NULL, -1.00, 'k1', 1, 1, NULL, NULL),
-	(497, 331, 4, '2017-04-20 13:55:55', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL);
+	(497, 331, 4, '2017-04-20 13:55:55', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL),
+	(498, 332, 3, '2017-04-27 16:52:16', NULL, 100000.00, NULL, 100000.00, 'k1', 1, 1, NULL, NULL),
+	(499, 332, 4, '2017-04-27 16:52:16', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL),
+	(500, 333, 3, '2017-04-27 17:03:11', NULL, 100.00, NULL, 100.00, 'k1', 1, 0, NULL, NULL),
+	(501, 334, 3, '2017-04-27 17:03:25', NULL, 100.00, NULL, 0.00, 'k1', 1, 0, 1, NULL),
+	(502, 335, 3, '2017-04-27 18:09:58', NULL, 300.00, NULL, 300.00, 'k1', 1, 1, NULL, NULL),
+	(503, 335, 4, '2017-04-27 18:09:58', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL),
+	(504, 336, 1, '2017-04-27 18:10:54', NULL, 300.00, NULL, 300.00, 'Semen', 1, 1, NULL, NULL),
+	(505, 336, 4, '2017-04-27 18:10:54', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL),
+	(506, 337, 1, '2017-04-27 18:16:13', NULL, 4000.00, NULL, 4000.00, 'Semen', 1, 1, NULL, NULL),
+	(507, 337, 4, '2017-04-27 18:16:13', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL);
 /*!40000 ALTER TABLE `game_player` ENABLE KEYS */;
 
 
@@ -15555,7 +15946,7 @@ CREATE TABLE IF NOT EXISTS `game_rate_hist` (
   CONSTRAINT `FK_game_rate_hist_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15124 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_rate_hist: ~10 936 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_rate_hist: ~10 952 rows (приблизительно)
 DELETE FROM `game_rate_hist`;
 /*!40000 ALTER TABLE `game_rate_hist` DISABLE KEYS */;
 INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, `game_step_id`, `field_type_id`, `fields_count`) VALUES
@@ -27112,7 +27503,7 @@ CREATE TABLE IF NOT EXISTS `game_step` (
   CONSTRAINT `FK_game_step_game_player` FOREIGN KEY (`step_game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4535 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_step: ~4 378 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step: ~4 691 rows (приблизительно)
 DELETE FROM `game_step`;
 /*!40000 ALTER TABLE `game_step` DISABLE KEYS */;
 INSERT INTO `game_step` (`game_step_id`, `game_id`, `step_game_player_id`, `trand_value`) VALUES
@@ -31669,7 +32060,7 @@ CREATE TABLE IF NOT EXISTS `game_step_results` (
   CONSTRAINT `FK_game_step_results_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1940 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_step_results: ~1 816 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step_results: ~1 464 rows (приблизительно)
 DELETE FROM `game_step_results`;
 /*!40000 ALTER TABLE `game_step_results` DISABLE KEYS */;
 INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_id`, `game_step_id`, `game_step_result`) VALUES
@@ -33306,14 +33697,16 @@ CREATE TABLE IF NOT EXISTS `invites` (
   CONSTRAINT `FK_invites_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_invites_player` FOREIGN KEY (`player_from`) REFERENCES `player` (`player_id`),
   CONSTRAINT `FK_invites_player_2` FOREIGN KEY (`player_to`) REFERENCES `player` (`player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.invites: ~2 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.invites: ~4 rows (приблизительно)
 DELETE FROM `invites`;
 /*!40000 ALTER TABLE `invites` DISABLE KEYS */;
 INSERT INTO `invites` (`invite_id`, `player_from`, `player_to`, `status_value`, `date_from`, `game_id`) VALUES
 	(1, 1, 3, 'в ожидании', '2017-04-25 14:50:55', 41),
-	(2, 3, 1, 'в ожидании', '2017-04-25 14:53:01', 41);
+	(2, 3, 1, 'в ожидании', '2017-04-25 14:53:01', 41),
+	(3, 3, 1, 'в ожидании', '2017-04-27 14:13:22', 331),
+	(4, 1, 3, 'в ожидании', '2017-04-27 15:02:27', 328);
 /*!40000 ALTER TABLE `invites` ENABLE KEYS */;
 
 
@@ -33614,6 +34007,37 @@ end//
 DELIMITER ;
 
 
+-- Дамп структуры для процедура conjuncture.p_game_invate_add
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_game_invate_add`(eUserFrom varchar(50)
+,eGameTo int
+)
+begin
+
+insert into invites(
+player_from
+,player_to
+,status_value
+,date_from
+,game_id
+) 
+select pfrom.player_id player_from
+,(
+select p.player_id
+from game g
+join player p on p.player_id=g.create_player_id
+where g.game_id=eGameTo
+) player_to
+,'в ожидании' status_value
+,sysdate() date_from
+,eGameTo
+from player pfrom
+where pfrom.player_log=eUserFrom;
+
+end//
+DELIMITER ;
+
+
 -- Дамп структуры для процедура conjuncture.p_game_player_insert
 DELIMITER //
 CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_game_player_insert`(eGameId int,ePlayerId int,eInTime datetime,ePassiv decimal(10,2),eSym varchar(5))
@@ -33785,6 +34209,41 @@ call p_switch_game_player(eGameId,i_admin_game_player_id);
 
 end if;
 
+
+end//
+DELIMITER ;
+
+
+-- Дамп структуры для процедура conjuncture.p_player_invate_add
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_player_invate_add`(eUserFrom varchar(50)
+,eUserTo varchar(50)
+)
+begin
+
+insert into invites(
+player_from
+,player_to
+,status_value
+,date_from
+,game_id
+) 
+select pfrom.player_id player_from
+,(
+select pto.player_id
+from player pto
+where pto.player_log=eUserTo
+) player_to
+,'в ожидании' status_value
+,sysdate() date_from
+,(
+select max(g.game_id)
+from game g
+join player p on p.player_id=g.create_player_id
+where p.player_log=eUserFrom
+) game_id
+from player pfrom
+where pfrom.player_log=eUserFrom;
 
 end//
 DELIMITER ;
