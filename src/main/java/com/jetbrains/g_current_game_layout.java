@@ -19,7 +19,7 @@ public class g_current_game_layout extends HorizontalLayout {
         this.addComponent(LeftSec);
 
 
-        g_trand_chart gtchart = new g_trand_chart(iGameId,iCurrentUser);
+        tTrandChartLayout gtchart = new tTrandChartLayout(iGameId,iCurrentUser);
         RateLayout r_lo = new RateLayout(iGameId,iCurrentUser);
         g_results_chart greschart = new g_results_chart(iGameId,iCurrentUser);
         LeftSec.addComponent(gtchart);
@@ -34,7 +34,7 @@ public class g_current_game_layout extends HorizontalLayout {
 
 
         tGameAreaTable gti = new tGameAreaTable(iGameId,iCurrentUser);
-        g_user_rates_table gurt = new g_user_rates_table(iGameId,iCurrentUser);
+        tUserRatesTable gurt = new tUserRatesTable(iGameId,iCurrentUser);
         g_step_layout gsli = new g_step_layout(gti,gurt,gtchart,r_lo,greschart);
         MidSec.addComponent(gti);
         MidSec.addComponent(gurt);

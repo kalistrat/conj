@@ -85,10 +85,10 @@ public class tGameAreaTable extends Table {
                 Double AreaFieldVal = AreaSqlRs.getDouble(3);
                 String AreaFieldOwner = AreaSqlRs.getString(4);
 
-                String Field_RateX = String.valueOf(AreaFieldVal.intValue())+"X";
+                String Field_RateX = String.valueOf(AreaFieldVal.intValue())+"x";
 
                 Button ButtonField = new Button(Field_RateX);
-                ButtonField.setHeight("30px");
+                ButtonField.setHeight("25px");
                 ButtonField.setWidth("50px");
 
                 //System.out.println("jCurrentUser  = " + jCurrentUser);

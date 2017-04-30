@@ -12,12 +12,7 @@ import java.util.List;
 /**
  * Created by kalistrat on 05.09.2016.
  */
-public class g_trand_chart extends HorizontalLayout {
-
-    static final private String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final private String DB_URL = "jdbc:mysql://localhost/conjuncture";
-    static final private String USER = "gumbler";
-    static final private String PASS = "tutunia";
+public class tTrandChartLayout extends HorizontalLayout {
 
     public String iUserName;
     public Integer iGameId;
@@ -25,7 +20,7 @@ public class g_trand_chart extends HorizontalLayout {
     List<Double> XX = new ArrayList<Double>();
     List<Double> YY = new ArrayList<Double>();
 
-    public g_trand_chart(int qGameId,String qUserName){
+    public tTrandChartLayout(int qGameId, String qUserName){
         this.iUserName = qUserName;
         this.iGameId = qGameId;
 
@@ -40,8 +35,12 @@ public class g_trand_chart extends HorizontalLayout {
         try {
             int s = 0;
 
-            Class.forName(JDBC_DRIVER);
-            Connection Con = DriverManager.getConnection(DB_URL, USER, PASS);
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
 
             String TrandValSql = "select @num := @num +1 row_number\n" +
                     ",gsp.trand_value\n" +
@@ -80,7 +79,6 @@ public class g_trand_chart extends HorizontalLayout {
         this.YY.removeAll(this.YY);
         this.GetTrendData();
         this.addComponent(new Graph("Изменение тренда","Шаги игры","Значение тренда",this.XX,this.YY,"RED"));
-        //this.setSizeFull();
     }
 
 }

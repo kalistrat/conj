@@ -30,8 +30,8 @@ public class g_step_layout extends VerticalLayout {
     public Integer iGameId;
     public String iPlayerLog;
     tGameAreaTable jGAT;
-    g_user_rates_table jGURT;
-    g_trand_chart jGTRCH;
+    tUserRatesTable jGURT;
+    tTrandChartLayout jGTRCH;
     RateLayout jGRATCH;
     g_results_chart jResChart;
 
@@ -39,7 +39,7 @@ public class g_step_layout extends VerticalLayout {
     TimerThread TimThr;
 
 
-    public g_step_layout(tGameAreaTable GAT, g_user_rates_table GURT, g_trand_chart GTRCH, RateLayout GRATCH, g_results_chart GRESCHART){
+    public g_step_layout(tGameAreaTable GAT, tUserRatesTable GURT, tTrandChartLayout GTRCH, RateLayout GRATCH, g_results_chart GRESCHART){
 
 
         this.iGameId = GAT.InsGameId;

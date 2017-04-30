@@ -54,25 +54,25 @@ $v-component-group-spacing: 6px;
   @include valo;
 
   .RED.v-button {
-    @include valo-button-style($background-color: #ff1c29);
+    @include valo-button-style($background-color: #ff1c29,$font-size: $v-font-size--tiny);
   }
 
   .BLUE.v-button  {
-    @include valo-button-style($background-color: #322dff);
+    @include valo-button-style($background-color: #322dff,$font-size: $v-font-size--tiny);
   }
 
   .MAGENTA.v-button {
-    @include valo-button-style($background-color: #c341ff);
+    @include valo-button-style($background-color: #c341ff,$font-size: $v-font-size--tiny);
   }
   .GREEN.v-button {
-    @include valo-button-style($background-color: #128e27);
+    @include valo-button-style($background-color: #128e27,$font-size: $v-font-size--tiny);
   }
   .PINK.v-button {
-    @include valo-button-style($background-color: #fcbaff);
+    @include valo-button-style($background-color: #fcbaff,$font-size: $v-font-size--tiny);
   }
 
   .YELLOW.v-button {
-    @include valo-button-style($background-color: #ffcf43);
+    @include valo-button-style($background-color: #ffcf43,$font-size: $v-font-size--tiny);
   }
 
 
