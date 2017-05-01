@@ -32,14 +32,14 @@ public class g_step_layout extends VerticalLayout {
     tGameAreaTable jGAT;
     tUserRatesTable jGURT;
     tTrandChartLayout jGTRCH;
-    RateLayout jGRATCH;
+    tUserRatesChartsLayout jGRATCH;
     g_results_chart jResChart;
 
     StepButtonEnableThread StepButThr;
     TimerThread TimThr;
 
 
-    public g_step_layout(tGameAreaTable GAT, tUserRatesTable GURT, tTrandChartLayout GTRCH, RateLayout GRATCH, g_results_chart GRESCHART){
+    public g_step_layout(tGameAreaTable GAT, tUserRatesTable GURT, tTrandChartLayout GTRCH, tUserRatesChartsLayout GRATCH, g_results_chart GRESCHART){
 
 
         this.iGameId = GAT.InsGameId;

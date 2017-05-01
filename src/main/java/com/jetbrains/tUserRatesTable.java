@@ -19,6 +19,7 @@ public class tUserRatesTable extends Table {
 
     public tUserRatesTable(int jGameId, String jUserLog){
 
+
         setColumnHeader(1, "Цвет<br/>ставки");
         setColumnHeader(2, "Стоимость ставки");
         setColumnHeader(3, "Множитель ставки");

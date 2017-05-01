@@ -23,8 +23,8 @@ public class Graph extends VerticalLayout {
         //TitleStr = new Label(sTitle);
         Cnvs = new Canvas();
 
-        int GraphWidth = 300;
-        int GraphHeight = 150;
+        int GraphWidth = 350;
+        int GraphHeight = 175;
         int GraphNx = 10;
         int GraphNy = 4;
         int PadVal = 120;

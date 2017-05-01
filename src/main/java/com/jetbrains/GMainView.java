@@ -75,7 +75,7 @@ public class GMainView extends CustomComponent implements View {
 
         if (UserGameId != 0){
             iGameRunningLayout = new tGameRunningLayout(UserGameId,CurrentUsr);
-            GameMenuTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.MONEY_EXCHANGE);
+            GameMenuTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.PLAY_CIRCLE);
             GameMenuTabSheet.setData(UserGameId);
         }
 

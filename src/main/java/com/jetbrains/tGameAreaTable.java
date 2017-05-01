@@ -116,7 +116,9 @@ public class tGameAreaTable extends Table {
                                     ButVal.BuAttachChangeOwner(ButVal.field_user_create_sym);
                                     BuyGameField(InsGameId, InsUserName, ButVal.field_index);
                                 } else {
-                                    Notification.show("Ваш баланс недостаточен");
+                                    Notification.show(null,
+                                            "Ваш баланс недостаточен для покупки",
+                                            Notification.Type.TRAY_NOTIFICATION);
                                 }
 
                         } else {

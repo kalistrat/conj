@@ -20,7 +20,7 @@ public class g_current_game_layout extends HorizontalLayout {
 
 
         tTrandChartLayout gtchart = new tTrandChartLayout(iGameId,iCurrentUser);
-        RateLayout r_lo = new RateLayout(iGameId,iCurrentUser);
+        tUserRatesChartsLayout r_lo = new tUserRatesChartsLayout(iGameId,iCurrentUser);
         g_results_chart greschart = new g_results_chart(iGameId,iCurrentUser);
         LeftSec.addComponent(gtchart);
         LeftSec.addComponent(r_lo);

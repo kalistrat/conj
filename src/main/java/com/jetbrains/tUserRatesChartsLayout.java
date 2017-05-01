@@ -1,8 +1,10 @@
 package com.jetbrains;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 import java.sql.*;
@@ -12,12 +14,7 @@ import java.util.List;
 /**
  * Created by kalistrat on 26.09.2016.
  */
-public class RateLayout extends HorizontalLayout {
-
-    static final private String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final private String DB_URL = "jdbc:mysql://localhost/conjuncture";
-    static final private String USER = "gumbler";
-    static final private String PASS = "tutunia";
+public class tUserRatesChartsLayout extends VerticalLayout {
 
     public String iUserName;
     public Integer iGameId;
@@ -25,62 +22,49 @@ public class RateLayout extends HorizontalLayout {
     List<MultiGraphData> RatesData;
     Button LeftMove;
     Button RightMove;
-    HorizontalLayout LeftSec;
-    HorizontalLayout RightSec;
-    HorizontalLayout MidSec;
+    VerticalLayout MidSec;
     Integer GraphNumber;
 
 
-    public RateLayout(int wGameId,String wUserName){
+    public tUserRatesChartsLayout(int wGameId, String wUserName){
 
 
-        this.iGameId = wGameId;
-        this.iUserName = wUserName;
+        iGameId = wGameId;
+        iUserName = wUserName;
 
         RatesData = new ArrayList<MultiGraphData>();
-        this.GetRatesData();
-
-
-//        List<Double> xr = new ArrayList<Double>();
-//        List<Double> yr = new ArrayList<Double>();
-//        xr.add(0,0.0);
-//        xr.add(1,1.0);
-//        yr.add(0,0.0);
-//        yr.add(1,1.0);
-
-//        List<Double> xb = new ArrayList<Double>();
-//        List<Double> yb = new ArrayList<Double>();
-//        xb.add(0,0.0);
-//        xb.add(1,1.0);
-//        yb.add(0,0.0);
-//        yb.add(1,1.0);
-//
-//        List<Double> xg = new ArrayList<Double>();
-//        List<Double> yg = new ArrayList<Double>();
-//        xg.add(0,0.0);
-//        xg.add(1,1.0);
-//        yg.add(0,0.0);
-//        yg.add(1,1.0);
-//
-//        this.RatesData.add(new MultiGraphData(xr,yr,"RED"));
-//        this.RatesData.add(new MultiGraphData(xb,yb,"BLUE"));
-//        this.RatesData.add(new MultiGraphData(xg,yg,"GREEN"));
+        GetRatesData();
 
         GraphNumber = 0;
 
-        this.LeftMove = new Button("<");
-        this.RightMove = new Button(">");
-        this.LeftSec = new HorizontalLayout();
-        this.MidSec = new HorizontalLayout();
-        this.RightSec = new HorizontalLayout();
+        Graph InitialGraph = new Graph("Изменение тренда","Шаги игры","Значение ставки",this.RatesData.get(GraphNumber).XData,this.RatesData.get(GraphNumber).YData,this.RatesData.get(GraphNumber).LineColor);
 
-        this.LeftMove.setData(this);
-        this.RightMove.setData(this);
 
-        this.LeftMove.addClickListener(new Button.ClickListener() {
+        MidSec = new VerticalLayout(
+                InitialGraph
+        );
+
+        LeftMove = new Button();
+        RightMove = new Button();
+        LeftMove.setHeight("50px");
+        LeftMove.setWidth("50px");
+        RightMove.setHeight("50px");
+        RightMove.setWidth("50px");
+
+        LeftMove.setIcon(VaadinIcons.ARROW_CIRCLE_LEFT);
+        RightMove.setIcon(VaadinIcons.ARROW_CIRCLE_RIGHT);
+        LeftMove.addStyleName(ValoTheme.BUTTON_LINK);
+        RightMove.addStyleName(ValoTheme.BUTTON_LINK);
+        LeftMove.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        RightMove.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+
+        LeftMove.setData(this);
+        RightMove.setData(this);
+
+        LeftMove.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                RateLayout RLo = (RateLayout) clickEvent.getButton().getData();
+                tUserRatesChartsLayout RLo = (tUserRatesChartsLayout) clickEvent.getButton().getData();
                 RLo.MidSec.removeAllComponents();
                 if (RLo.GraphNumber == 0) {
                     GraphNumber = RLo.RatesData.size()-1;
@@ -91,10 +75,10 @@ public class RateLayout extends HorizontalLayout {
             }
         });
 
-        this.RightMove.addClickListener(new Button.ClickListener() {
+        RightMove.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                RateLayout RLo = (RateLayout) clickEvent.getButton().getData();
+                tUserRatesChartsLayout RLo = (tUserRatesChartsLayout) clickEvent.getButton().getData();
                 RLo.MidSec.removeAllComponents();
                 if (RLo.GraphNumber == RLo.RatesData.size()-1) {
                     GraphNumber = 0;
@@ -105,26 +89,29 @@ public class RateLayout extends HorizontalLayout {
             }
         });
 
+        VerticalLayout LeftMoveLayout = new VerticalLayout(
+                LeftMove
+        );
 
-        this.LeftSec.addComponent(LeftMove);
-        this.addComponent(LeftSec);
-
-        this.MidSec.addComponent(new Graph("Изменение тренда","Шаги игры","Значение ставки",this.RatesData.get(GraphNumber).XData,this.RatesData.get(GraphNumber).YData,this.RatesData.get(GraphNumber).LineColor));
-        this.addComponent(MidSec);
-
-        this.RightSec.addComponent(RightMove);
-        this.addComponent(RightSec);
-
-        this.LeftMove.setHeight("70px");
-        this.RightMove.setHeight("70px");
-        this.LeftMove.addStyleName(ValoTheme.BUTTON_LINK);
-        this.RightMove.addStyleName(ValoTheme.BUTTON_LINK);
-        this.setComponentAlignment(LeftSec, Alignment.MIDDLE_LEFT);
-        this.setComponentAlignment(RightSec, Alignment.MIDDLE_RIGHT);
-        this.setComponentAlignment(MidSec,Alignment.MIDDLE_CENTER);
+        VerticalLayout RightMoveLayout = new VerticalLayout(
+                RightMove
+        );
 
 
-        this.setSizeFull();
+        HorizontalLayout ContentLayout = new HorizontalLayout(
+                LeftMoveLayout
+                ,MidSec
+                ,RightMoveLayout
+        );
+        ContentLayout.setSpacing(true);
+        ContentLayout.setComponentAlignment(LeftMoveLayout,Alignment.MIDDLE_CENTER);
+        ContentLayout.setComponentAlignment(RightMoveLayout,Alignment.MIDDLE_CENTER);
+        ContentLayout.setComponentAlignment(MidSec,Alignment.MIDDLE_CENTER);
+
+        //ContentLayout.setSizeUndefined();
+
+
+        addComponent(ContentLayout);
 
     }
 
@@ -134,11 +121,14 @@ public class RateLayout extends HorizontalLayout {
             String GraphColor;
             int sj = 0;
             int si = 0;
-            //List<Double> xD = new ArrayList<Double>();
-            //List<Double> yD = new ArrayList<Double>();
 
-            Class.forName(JDBC_DRIVER);
-            Connection Con = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
 
             String RateListSql = "select ft.filed_color\n" +
                     "from game_field gf\n" +

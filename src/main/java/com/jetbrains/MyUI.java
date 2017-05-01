@@ -29,6 +29,8 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
+        setPollInterval(1000);
+
         new Navigator(this, this);
         getNavigator().addView(GLoginView.NAME, GLoginView.class);//
         getNavigator().addView(GMainView.NAME,GMainView.class);

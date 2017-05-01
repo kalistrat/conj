@@ -2,16 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ddde6b31-a495-409b-8058-81e99483d4b2" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameMembersTable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tResultsGraphLayout.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MySQLScript.sql" afterPath="$PROJECT_DIR$/MySQLScript.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/GMainView.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/GMainView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/Graph.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/Graph.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/MyUI.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/MyUI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/g_current_game_layout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/g_current_game_layout.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/g_step_layout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/g_step_layout.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaLayout.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaTable.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss" afterPath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/styles.css" afterPath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/styles.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/g_trand_chart.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tTrandChartLayout.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/g_user_rates_table.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesTable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningLayout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningTree.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningTree.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tNewGameFormLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tNewGameFormLayout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tTrandChartLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tTrandChartLayout.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesTable.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesTable.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/jetbrains/RateLayout.java" afterPath="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesChartsLayout.java" />
     </list>
     <ignored path="conj.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,11 +40,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="tGameAreaLayout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaLayout.java">
+      <file leaf-file-name="tResultsGraphLayout.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tResultsGraphLayout.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="31" column="66" selection-start-line="31" selection-start-column="66" selection-end-line="31" selection-end-column="66" />
+              <caret line="31" column="59" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -46,73 +52,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tUserRatesTable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesTable.java">
+      <file leaf-file-name="g_results_chart.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/g_results_chart.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="51" selection-end-column="14" />
+            <state vertical-scroll-proportion="-1.0389408">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
               <folding>
-                <marker date="1493579085362" expanded="true" signature="1701:2972" placeholder="select t.fil... game_id" />
-                <marker date="1493579085362" expanded="true" signature="1859:2243" placeholder="select count... game_field" />
-                <marker date="1493579085362" expanded="true" signature="2367:2942" placeholder="select gf.ga... game_field" />
+                <marker date="1490984932453" expanded="true" signature="1176:1608" placeholder="select @num:... " />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tTrandChartLayout.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tTrandChartLayout.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1486698">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding>
-                <marker date="1493579330002" expanded="true" signature="1126:1397" placeholder="select @num " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tGameInvitesLayout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameInvitesLayout.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="73" column="56" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="56" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="g_step_layout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/g_step_layout.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="58" column="24" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tGameAreaTable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="91" column="41" selection-start-line="91" selection-start-column="41" selection-end-line="91" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <marker date="1493578611211" expanded="true" signature="1293:2128" placeholder="select af.fi... area_type" />
-                <marker date="1493578611211" expanded="true" signature="1454:1776" placeholder="select p.pla... game_field" />
-                <marker date="1493578611211" expanded="true" signature="6334:6693" placeholder="select gf.fi... game_field" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mytheme.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9230769">
-              <caret line="56" column="88" selection-start-line="56" selection-start-column="88" selection-end-line="56" selection-end-column="88" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -153,19 +100,26 @@
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameConnectLayout.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tConnectTree.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tAppCommonStatic.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningTree.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/g_area_table.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningLayout.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tNewGameFormLayout.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/g_current_game_layout.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/GMainView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaLayout.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaTable.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesTable.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/g_trand_chart.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameMembersLayout.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesTable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameMembersTable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaTable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tNewGameFormLayout.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/GMainView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/MyUI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningTree.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaLayout.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/Graph.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/RateLayout.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tResultsGraphLayout.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesChartsLayout.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tTrandChartLayout.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningLayout.java" />
       </list>
     </option>
   </component>
@@ -292,9 +246,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -487,6 +439,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1031,15 +985,16 @@
       <workItem from="1493286190700" duration="11670000" />
       <workItem from="1493383945526" duration="10056000" />
       <workItem from="1493571715254" duration="5712000" />
+      <workItem from="1493644607885" duration="16308000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="220506000" />
+    <option name="totallyTimeSpent" value="236814000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1048,7 +1003,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21953125" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2514029" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24803591" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25390625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1109,34 +1064,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUploadButtonWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/g_step_layout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="74" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserDataLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/UserDataPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1268,13 +1195,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/MyUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.039534885">
-          <caret line="33" column="35" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tSelectGameAreaGrid.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.37037036">
@@ -1332,13 +1252,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameConnectLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.618005">
-          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tAppCommonStatic.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.90997565">
@@ -1347,64 +1260,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/MultiGraphData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2895377">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/RateLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5790754">
-          <caret line="117" column="40" selection-start-line="117" selection-start-column="40" selection-end-line="117" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/g_results_chart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.8272506">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningTree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2822385">
-          <caret line="34" column="36" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tConnectTree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2895377">
           <caret line="15" column="38" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="103" column="49" selection-start-line="103" selection-start-column="49" selection-end-line="103" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/GMainView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17265354">
-          <caret line="37" column="5" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tNewGameFormLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.019698726">
-          <caret line="170" column="39" selection-start-line="170" selection-start-column="39" selection-end-line="170" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1416,27 +1275,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="132" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="31" column="66" selection-start-line="31" selection-start-column="66" selection-end-line="31" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9230769">
+        <state vertical-scroll-proportion="0.0">
           <caret line="56" column="88" selection-start-line="56" selection-start-column="88" selection-end-line="56" selection-end-column="88" />
           <folding />
         </state>
@@ -1450,45 +1291,185 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaTable.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesTable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="91" column="41" selection-start-line="91" selection-start-column="41" selection-end-line="91" selection-end-column="41" />
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="120" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1493578611211" expanded="true" signature="1293:2128" placeholder="select af.fi... area_type" />
-            <marker date="1493578611211" expanded="true" signature="1454:1776" placeholder="select p.pla... game_field" />
-            <marker date="1493578611211" expanded="true" signature="6334:6693" placeholder="select gf.fi... game_field" />
+            <marker date="1493645588759" expanded="true" signature="1702:2973" placeholder="select t.fil... game_id" />
+            <marker date="1493645588759" expanded="true" signature="1860:2244" placeholder="select count... game_field" />
+            <marker date="1493645588759" expanded="true" signature="2368:2943" placeholder="select gf.ga... game_field" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameInvitesLayout.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="-2.538341">
           <caret line="73" column="56" selection-start-line="73" selection-start-column="51" selection-end-line="73" selection-end-column="56" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesTable.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tNewGameFormLayout.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="51" selection-end-column="14" />
+          <caret line="147" column="100" selection-start-line="147" selection-start-column="100" selection-end-line="147" selection-end-column="100" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tMainGameConnectLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="103" column="49" selection-start-line="103" selection-start-column="49" selection-end-line="103" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameConnectLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="201" column="124" selection-start-line="201" selection-start-column="52" selection-end-line="201" selection-end-column="124" />
           <folding>
-            <marker date="1493579085362" expanded="true" signature="1701:2972" placeholder="select t.fil... game_id" />
-            <marker date="1493579085362" expanded="true" signature="1859:2243" placeholder="select count... game_field" />
-            <marker date="1493579085362" expanded="true" signature="2367:2942" placeholder="select gf.ga... game_field" />
+            <marker date="1493571198015" expanded="true" signature="5208:6452" placeholder="select t.gam... game_id" />
+            <marker date="1493571198015" expanded="true" signature="5439:6371" placeholder="select g.gam... " />
+            <marker date="1493571198015" expanded="true" signature="8969:9810" placeholder="select t.pla... player_log" />
+            <marker date="1493571198015" expanded="true" signature="9167:9734" placeholder="select p.pla... player" />
+            <marker date="1493571198015" expanded="true" signature="9391:9556" placeholder="select count... game_player" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/GLoginView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/Graph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/MultiGraphData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18622848">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.9264476">
+          <caret line="119" column="80" selection-start-line="119" selection-start-column="80" selection-end-line="119" selection-end-column="80" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1493647607737" expanded="true" signature="1293:2128" placeholder="select af.fi... area_type" />
+            <marker date="1493647607737" expanded="true" signature="1454:1776" placeholder="select p.pla... game_field" />
+            <marker date="1493647607737" expanded="true" signature="6477:6836" placeholder="select gf.fi... game_field" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/MyUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2535211">
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningTree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20187794">
+          <caret line="17" column="44" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameMembersTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4256651">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="52" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1493646702504" expanded="true" signature="1631:2334" placeholder="select p.pla... game" />
+            <marker date="1493646702504" expanded="true" signature="1902:2030" placeholder="select count... game_field" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameAreaLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46791863">
+          <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tUserRatesChartsLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="117" column="28" selection-start-line="117" selection-start-column="16" selection-end-line="117" selection-end-column="28" />
+          <folding>
+            <marker date="1493659402589" expanded="true" signature="4410:4653" placeholder="select ft.fi... game_field" />
+            <marker date="1493659402589" expanded="true" signature="4984:6090" placeholder="select @num:... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/GMainView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5233645">
+          <caret line="76" column="26" selection-start-line="76" selection-start-column="26" selection-end-line="76" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tTrandChartLayout.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1486698">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.74766356">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding>
-            <marker date="1493579330002" expanded="true" signature="1126:1397" placeholder="select @num " />
+            <element signature="imports" expanded="true" />
+            <marker date="1493660999994" expanded="true" signature="1404:1675" placeholder="select @num " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tGameRunningLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.87383175">
+          <caret line="181" column="48" selection-start-line="181" selection-start-column="48" selection-end-line="181" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/tResultsGraphLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="59" selection-start-line="31" selection-start-column="37" selection-end-line="31" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jetbrains/g_results_chart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.0389408">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding>
+            <marker date="1490984932453" expanded="true" signature="1176:1608" placeholder="select @num:... " />
           </folding>
         </state>
       </provider>
