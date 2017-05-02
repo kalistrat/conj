@@ -23,21 +23,15 @@ public class tTrandChartLayout extends HorizontalLayout {
     List<Double> XX = new ArrayList<Double>();
     List<Double> YY = new ArrayList<Double>();
 
-    Graph iGraph;
+    //Graph iGraph;
 
     public tTrandChartLayout(int qGameId, String qUserName){
         this.iUserName = qUserName;
         this.iGameId = qGameId;
 
-        Label SpaceLabel1 = new Label();
-        SpaceLabel1.setWidth("65px");
-        SpaceLabel1.setHeight("50px");
         this.GetTrendData();
 
-        iGraph = new Graph("Изменение тренда","Шаги игры","Значение тренда",this.XX,this.YY,"red");
-
-        this.addComponent(SpaceLabel1);
-        this.addComponent(iGraph);
+        this.addComponent(new Graph("Изменение тренда","Шаги игры","Значение тренда",this.XX,this.YY,"red"));
 
     }
 
@@ -85,13 +79,11 @@ public class tTrandChartLayout extends HorizontalLayout {
     }
 
     public void refreshGraph(){
+        this.removeAllComponents();
         this.XX.removeAll(this.XX);
         this.YY.removeAll(this.YY);
         this.GetTrendData();
-        Graph NewGraph = new Graph("Изменение тренда","Шаги игры","Значение тренда",this.XX,this.YY,"RED");
-        this.replaceComponent(this.iGraph,NewGraph);
-        this.iGraph = NewGraph;
-
+        this.addComponent(new Graph("Изменение тренда","Шаги игры","Значение тренда",this.XX,this.YY,"RED"));
     }
 
 }

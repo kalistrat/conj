@@ -21,7 +21,7 @@ public class g_current_game_layout extends HorizontalLayout {
 
         tTrandChartLayout gtchart = new tTrandChartLayout(iGameId,iCurrentUser);
         tUserRatesChartsLayout r_lo = new tUserRatesChartsLayout(iGameId,iCurrentUser);
-        g_results_chart greschart = new g_results_chart(iGameId,iCurrentUser);
+        tAmountChartLayout greschart = new tAmountChartLayout(iGameId,iCurrentUser);
         LeftSec.addComponent(gtchart);
         LeftSec.addComponent(r_lo);
         LeftSec.addComponent(greschart);

@@ -179,7 +179,7 @@ public class tGameRunningLayout extends VerticalLayout {
                 getCurrentBalance();
                 getWatingTime();
                 iGameAreaLayout.iTrandChartLayout.refreshGraph();
-                System.out.println("do refresh..");
+                //System.out.println("do refresh..");
             }
         });
 

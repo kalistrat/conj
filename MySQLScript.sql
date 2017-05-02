@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Хост:                         127.0.0.1
 -- Версия сервера:               5.5.23 - MySQL Community Server (GPL)
--- ОС Сервера:                   Win64
--- HeidiSQL Версия:              9.1.0.4867
+-- ОС Сервера:                   Win32
+-- HeidiSQL Версия:              9.3.0.4984
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `area_field` (
 ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы conjuncture.area_field: ~200 rows (приблизительно)
+DELETE FROM `area_field`;
 /*!40000 ALTER TABLE `area_field` DISABLE KEYS */;
 INSERT INTO `area_field` (`area_field_id`, `area_type_id`, `field_type_id`, `field_index`) VALUES
 	(1, 1, 1, '00'),
@@ -237,6 +238,7 @@ CREATE TABLE IF NOT EXISTS `area_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы conjuncture.area_type: ~3 rows (приблизительно)
+DELETE FROM `area_type`;
 /*!40000 ALTER TABLE `area_type` DISABLE KEYS */;
 INSERT INTO `area_type` (`area_type_id`, `area_size`) VALUES
 	(1, 6),
@@ -256,6 +258,7 @@ CREATE TABLE IF NOT EXISTS `field_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.field_type: ~6 rows (приблизительно)
+DELETE FROM `field_type`;
 /*!40000 ALTER TABLE `field_type` DISABLE KEYS */;
 INSERT INTO `field_type` (`field_type_id`, `field_price`, `field_value`, `filed_color`, `field_icon`) VALUES
 	(1, 100.00, 2.00, 'BLUE', NULL),
@@ -503,6 +506,36 @@ end//
 DELIMITER ;
 
 
+-- Дамп структуры для функция conjuncture.f_get_invite_game
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_get_invite_game`(eInviteId int) RETURNS varchar(50) CHARSET utf8
+begin
+
+return(
+select inv.game_id
+from invites inv
+where inv.invite_id=eInviteId
+);
+
+end//
+DELIMITER ;
+
+
+-- Дамп структуры для функция conjuncture.f_get_invite_status
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_get_invite_status`(eInviteId int) RETURNS varchar(50) CHARSET utf8
+begin
+
+return(
+select inv.status_value
+from invites inv
+where inv.invite_id=eInviteId
+);
+
+end//
+DELIMITER ;
+
+
 -- Дамп структуры для функция conjuncture.f_get_steping_time
 DELIMITER //
 CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_get_steping_time`(`eGameId` int, `eUserLog` varchar(50)) RETURNS time
@@ -721,6 +754,7 @@ CREATE TABLE IF NOT EXISTS `game` (
 ) ENGINE=InnoDB AUTO_INCREMENT=338 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.game: ~296 rows (приблизительно)
+DELETE FROM `game`;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
 INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `area_type_id`, `last_activity_date`, `is_single_game`, `last_activity`) VALUES
 	(41, '2016-07-27 17:54:35', NULL, 1, 3, NULL, NULL, NULL),
@@ -1039,7 +1073,8 @@ CREATE TABLE IF NOT EXISTS `game_field` (
   CONSTRAINT `FK_game_field_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23506 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_field: ~14 679 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_field: ~14 903 rows (приблизительно)
+DELETE FROM `game_field`;
 /*!40000 ALTER TABLE `game_field` DISABLE KEYS */;
 INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_index`, `field_type_id`, `game_player_id`) VALUES
 	(64, 41, 2.00, '00', 1, NULL),
@@ -15296,6 +15331,7 @@ CREATE TABLE IF NOT EXISTS `game_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы conjuncture.game_log: ~0 rows (приблизительно)
+DELETE FROM `game_log`;
 /*!40000 ALTER TABLE `game_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `game_log` ENABLE KEYS */;
 
@@ -15323,7 +15359,8 @@ CREATE TABLE IF NOT EXISTS `game_player` (
   CONSTRAINT `FK_game_player_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=508 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_player: ~477 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_player: ~660 rows (приблизительно)
+DELETE FROM `game_player`;
 /*!40000 ALTER TABLE `game_player` DISABLE KEYS */;
 INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, `out_time`, `in_passiv_value`, `out_passiv_value`, `current_passiv_value`, `player_sym`, `order_connect`, `is_steping`, `is_active`, `last_activity`, `start_steping`) VALUES
 	(2, 41, 1, '2016-07-27 17:54:35', NULL, 768.00, NULL, NULL, 'S', 1, NULL, NULL, NULL, NULL),
@@ -15853,6 +15890,7 @@ CREATE TABLE IF NOT EXISTS `game_player_step_hist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.game_player_step_hist: ~0 rows (приблизительно)
+DELETE FROM `game_player_step_hist`;
 /*!40000 ALTER TABLE `game_player_step_hist` DISABLE KEYS */;
 /*!40000 ALTER TABLE `game_player_step_hist` ENABLE KEYS */;
 
@@ -15876,6 +15914,7 @@ CREATE TABLE IF NOT EXISTS `game_rate` (
 ) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.game_rate: ~70 rows (приблизительно)
+DELETE FROM `game_rate`;
 /*!40000 ALTER TABLE `game_rate` DISABLE KEYS */;
 INSERT INTO `game_rate` (`game_rate_id`, `game_id`, `game_player_id`, `game_step_id`, `game_field_id`) VALUES
 	(1, 61, 22, NULL, 2575),
@@ -15970,7 +16009,8 @@ CREATE TABLE IF NOT EXISTS `game_rate_hist` (
   CONSTRAINT `FK_game_rate_hist_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15124 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_rate_hist: ~11 996 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_rate_hist: ~11 249 rows (приблизительно)
+DELETE FROM `game_rate_hist`;
 /*!40000 ALTER TABLE `game_rate_hist` DISABLE KEYS */;
 INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, `game_step_id`, `field_type_id`, `fields_count`) VALUES
 	(1, 229, 294, 1, 1, 1),
@@ -27527,6 +27567,7 @@ CREATE TABLE IF NOT EXISTS `game_step` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4535 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.game_step: ~4 613 rows (приблизительно)
+DELETE FROM `game_step`;
 /*!40000 ALTER TABLE `game_step` DISABLE KEYS */;
 INSERT INTO `game_step` (`game_step_id`, `game_id`, `step_game_player_id`, `trand_value`) VALUES
 	(1, 86, 47, 5.00),
@@ -32082,7 +32123,8 @@ CREATE TABLE IF NOT EXISTS `game_step_results` (
   CONSTRAINT `FK_game_step_results_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1940 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_step_results: ~1 660 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step_results: ~1 725 rows (приблизительно)
+DELETE FROM `game_step_results`;
 /*!40000 ALTER TABLE `game_step_results` DISABLE KEYS */;
 INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_id`, `game_step_id`, `game_step_result`) VALUES
 	(1, 378, 271, 3470, 0.00),
@@ -33718,15 +33760,19 @@ CREATE TABLE IF NOT EXISTS `invites` (
   CONSTRAINT `FK_invites_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_invites_player` FOREIGN KEY (`player_from`) REFERENCES `player` (`player_id`),
   CONSTRAINT `FK_invites_player_2` FOREIGN KEY (`player_to`) REFERENCES `player` (`player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.invites: ~4 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.invites: ~7 rows (приблизительно)
+DELETE FROM `invites`;
 /*!40000 ALTER TABLE `invites` DISABLE KEYS */;
 INSERT INTO `invites` (`invite_id`, `player_from`, `player_to`, `status_value`, `date_from`, `game_id`) VALUES
-	(1, 1, 3, 'в ожидании', '2017-04-25 14:50:55', 41),
+	(1, 1, 3, 'отклонено', '2017-04-25 14:50:55', 41),
 	(2, 3, 1, 'в ожидании', '2017-04-25 14:53:01', 41),
 	(3, 3, 1, 'в ожидании', '2017-04-27 14:13:22', 331),
-	(4, 1, 3, 'в ожидании', '2017-04-27 15:02:27', 328);
+	(4, 1, 3, 'подтверждено', '2017-04-27 15:02:27', 328),
+	(5, 3, 1, 'в ожидании', '2017-05-02 13:03:04', 335),
+	(6, 3, 2, 'в ожидании', '2017-05-02 13:03:06', 335),
+	(7, 1, 3, 'отклонено', '2017-05-02 13:03:23', 333);
 /*!40000 ALTER TABLE `invites` ENABLE KEYS */;
 
 
@@ -33751,6 +33797,7 @@ CREATE TABLE IF NOT EXISTS `player` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Дамп данных таблицы conjuncture.player: ~4 rows (приблизительно)
+DELETE FROM `player`;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
 INSERT INTO `player` (`player_id`, `player_log`, `player_phone`, `player_pass`, `player_first_name`, `player_last_name`, `player_middle_name`, `player_birth_date`, `player_ava`, `player_email`, `balance`, `registration_date`, `rating`, `uploadnum`, `last_activity`) VALUES
 	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00, '2017-01-01 00:00:00', 12.00, 0, '2017-01-01 00:00:00'),
@@ -34129,6 +34176,19 @@ where gf.game_id=jGame
 group by gf.game_id
 ,game_player_id
 ,gf.field_type_id;
+
+end//
+DELIMITER ;
+
+
+-- Дамп структуры для процедура conjuncture.p_invite_update
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_invite_update`(eINviteId int,eStatus varchar(20))
+begin
+
+update invites inv
+set inv.status_value=eStatus
+where inv.invite_id=eINviteId;
 
 end//
 DELIMITER ;
@@ -34517,6 +34577,7 @@ CREATE TABLE IF NOT EXISTS `test_refresh` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы conjuncture.test_refresh: ~7 rows (приблизительно)
+DELETE FROM `test_refresh`;
 /*!40000 ALTER TABLE `test_refresh` DISABLE KEYS */;
 INSERT INTO `test_refresh` (`id`, `val`) VALUES
 	(1, 'qqq'),
@@ -34535,6 +34596,7 @@ CREATE TABLE IF NOT EXISTS `test_xml` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы conjuncture.test_xml: ~1 rows (приблизительно)
+DELETE FROM `test_xml`;
 /*!40000 ALTER TABLE `test_xml` DISABLE KEYS */;
 INSERT INTO `test_xml` (`xmlval`) VALUES
 	('<selected_fields>\r\n<field>324</field>\r\n<field>678</field>\r\n<field>17289</field>\r\n</selected_fields>');

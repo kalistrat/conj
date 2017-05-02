@@ -43,6 +43,7 @@ public class tUserRatesChartsLayout extends VerticalLayout {
         MidSec = new VerticalLayout(
                 InitialGraph
         );
+        MidSec.setSizeUndefined();
 
         LeftMove = new Button();
         RightMove = new Button();
@@ -96,6 +97,8 @@ public class tUserRatesChartsLayout extends VerticalLayout {
         VerticalLayout RightMoveLayout = new VerticalLayout(
                 RightMove
         );
+        LeftMoveLayout.setSizeUndefined();
+        RightMoveLayout.setSizeUndefined();
 
 
         HorizontalLayout ContentLayout = new HorizontalLayout(
@@ -108,10 +111,11 @@ public class tUserRatesChartsLayout extends VerticalLayout {
         ContentLayout.setComponentAlignment(RightMoveLayout,Alignment.MIDDLE_CENTER);
         ContentLayout.setComponentAlignment(MidSec,Alignment.MIDDLE_CENTER);
 
-        //ContentLayout.setSizeUndefined();
+        ContentLayout.setSizeUndefined();
 
 
         addComponent(ContentLayout);
+        this.setSizeUndefined();
 
     }
 

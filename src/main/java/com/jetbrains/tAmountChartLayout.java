@@ -9,11 +9,8 @@ import java.util.List;
 /**
  * Created by kalistrat on 28.09.2016.
  */
-public class g_results_chart extends HorizontalLayout {
-    static final private String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final private String DB_URL = "jdbc:mysql://localhost/conjuncture";
-    static final private String USER = "gumbler";
-    static final private String PASS = "tutunia";
+public class tAmountChartLayout extends HorizontalLayout {
+
 
     public String iUserName;
     public Integer iGameId;
@@ -21,13 +18,12 @@ public class g_results_chart extends HorizontalLayout {
     List<Double> XX = new ArrayList<Double>();
     List<Double> YY = new ArrayList<Double>();
 
-    public g_results_chart(int aGameId,String aUserName){
+    public tAmountChartLayout(int aGameId, String aUserName){
         this.iUserName = aUserName;
         this.iGameId = aGameId;
 
         this.GetResultsData();
         this.addComponent(new Graph("Изменение тренда","Шаги игры","Величина выигрыша",this.XX,this.YY,"red"));
-        this.setSizeFull();
 
     }
 
@@ -36,8 +32,12 @@ public class g_results_chart extends HorizontalLayout {
         try {
             int s = 0;
 
-            Class.forName(JDBC_DRIVER);
-            Connection Con = DriverManager.getConnection(DB_URL, USER, PASS);
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
 
             String ResultsValSql = "select @num:=@num+1 row_number\n" +
                     ",grs.game_step_result\n" +

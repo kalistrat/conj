@@ -2,6 +2,7 @@ package com.jetbrains;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -48,21 +49,44 @@ public class tGameAreaLayout extends VerticalLayout {
         GameTrandHeader.addStyleName(ValoTheme.LABEL_COLORED);
 
         iGameAreaTable = new tGameAreaTable(iGameId,iUserLog);
+        VerticalLayout GameAreaTableLayout = new VerticalLayout(
+                iGameAreaTable
+        );
+        GameAreaTableLayout.setWidth("100%");
+        GameAreaTableLayout.setComponentAlignment(iGameAreaTable, Alignment.MIDDLE_CENTER);
+
         iUserRatesTable = new tUserRatesTable(iGameId,iUserLog);
+        VerticalLayout UserRatesTableLayout = new VerticalLayout(
+                iUserRatesTable
+        );
+        UserRatesTableLayout.setWidth("100%");
+        UserRatesTableLayout.setComponentAlignment(iUserRatesTable, Alignment.MIDDLE_CENTER);
+
         iGameMembersTable = new tGameMembersTable(iGameId);
+        VerticalLayout GameMembersTableLayout = new VerticalLayout(
+                iGameMembersTable
+        );
+        GameMembersTableLayout.setWidth("100%");
+        GameMembersTableLayout.setComponentAlignment(iGameMembersTable, Alignment.MIDDLE_CENTER);
+
         iTrandChartLayout = new tTrandChartLayout(iGameId, iUserLog);
+        VerticalLayout TrandChartLayout = new VerticalLayout(
+                iTrandChartLayout
+        );
+        TrandChartLayout.setWidth("100%");
+        TrandChartLayout.setComponentAlignment(iTrandChartLayout, Alignment.MIDDLE_CENTER);
 
         VerticalLayout ContentLayout = new VerticalLayout(
                 GameTrandHeader
-                ,iTrandChartLayout
+                ,TrandChartLayout
                 ,GameAreaHeader
-                ,iGameAreaTable
+                ,GameAreaTableLayout
                 ,new Label()
                 ,GameRatesHeader
-                ,iUserRatesTable
+                ,UserRatesTableLayout
                 ,new Label()
                 ,GameMembersHeader
-                ,iGameMembersTable
+                ,GameMembersTableLayout
         );
 
         ContentLayout.setSpacing(true);
