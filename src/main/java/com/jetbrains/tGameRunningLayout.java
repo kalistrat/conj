@@ -58,6 +58,13 @@ public class tGameRunningLayout extends VerticalLayout {
         GameExitButton.addStyleName(ValoTheme.BUTTON_SMALL);
         GameExitButton.setIcon(VaadinIcons.EXIT);
 
+        GameExitButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                UI.getCurrent().addWindow(new tGameLeftWindow(iGameId,iUserLog));
+            }
+        });
+
 
         VerticalLayout GameMenuLayout = new VerticalLayout(
                 iStepingPlayer
