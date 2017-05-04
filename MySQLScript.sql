@@ -337,13 +337,17 @@ values (i_date_from,null,i_player_id,i_area_type_id,eSingleGame);
 SELECT LAST_INSERT_ID() into i_game_id;
 
 if (eSingleGame = 0) then
-call p_game_player_insert(i_game_id,i_player_id,i_date_from,ePassiv,eSym);
+call p_game_player_insert(i_game_id,ePassiv,eUser);
 else
-call p_game_player_insert(i_game_id,i_player_id,i_date_from,ePassiv,eSym);
-call p_game_player_insert(i_game_id,4,i_date_from,5000,'AD');
+call p_game_player_insert(i_game_id,ePassiv,eUser);
+call p_game_player_insert(i_game_id,5000,'ADMIN');
 end if;
 
 call p_game_field_insert(i_game_id);
+
+call p_game_activity_update(i_game_id);
+call p_player_activity_update(eUser);
+
 
 return i_game_id;
 
@@ -609,6 +613,72 @@ end//
 DELIMITER ;
 
 
+-- Дамп структуры для функция conjuncture.f_is_player_lost
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_is_player_lost`(eGameId int, eUserLog varchar(50)) RETURNS int(11)
+begin
+
+declare i_current_passiv_value int;
+
+select ifnull(gp.current_passiv_value,0) into i_current_passiv_value
+from game_player gp
+join player p on p.player_id=gp.player_id
+where gp.game_id = eGameId
+and p.player_log = eUserLog;
+
+if (i_current_passiv_value<=0) then
+return 1;
+else
+return 0;
+end if;
+
+end//
+DELIMITER ;
+
+
+-- Дамп структуры для функция conjuncture.f_is_player_won
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_is_player_won`(eGameId int, eUserLog varchar(50)) RETURNS int(11)
+begin
+
+declare i_cnt_active_players int;
+declare i_cnt_players int;
+declare is_player_active int;
+
+select (
+select count(*)
+from game_player gp
+where gp.game_id=g.game_id
+) cnt
+,(
+select count(*)
+from game_player gp
+where gp.game_id=g.game_id
+and gp.is_active=1
+) cnt_active
+into i_cnt_players
+,i_cnt_active_players
+from game g
+where g.game_id = eGameId;
+
+select gp.is_active into is_player_active
+from game_player gp
+join player p on p.player_id=gp.player_id
+where gp.game_id = eGameId
+and p.player_log = eUserLog;
+
+if (i_cnt_active_players = 1) 
+and (i_cnt_players > 1)
+and (is_player_active = 1) then
+return 1;
+else
+return 0;
+end if;
+
+end//
+DELIMITER ;
+
+
 -- Дамп структуры для функция conjuncture.f_is_possible_to_buy
 DELIMITER //
 CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_is_possible_to_buy`(eGameId int,ePlayerLog varchar(20),eIndexVal varchar(5)) RETURNS tinyint(1)
@@ -677,7 +747,7 @@ DELIMITER ;
 
 -- Дамп структуры для функция conjuncture.f_is_user_exists
 DELIMITER //
-CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_is_user_exists`(eUserLog varchar(20),ePassWord varchar(20)) RETURNS int(11)
+CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_is_user_exists`(`eUserLog` varchar(20), `ePassWord` varchar(20)) RETURNS int(11)
 begin
 declare i_cnt_players int;
 declare i_is_exists int;
@@ -689,6 +759,7 @@ and p.player_pass = ePassWord;
 
 if (i_cnt_players > 0) then
 set i_is_exists = 1;
+call p_player_activity_update(eUserLog);
 else
 set i_is_exists = 0;
 end if;
@@ -747,7 +818,6 @@ CREATE TABLE IF NOT EXISTS `game` (
   `date_till` datetime DEFAULT NULL,
   `create_player_id` int(11) NOT NULL,
   `area_type_id` int(11) NOT NULL,
-  `last_activity_date` datetime DEFAULT NULL,
   `is_single_game` int(11) DEFAULT NULL,
   `last_activity` datetime DEFAULT NULL,
   PRIMARY KEY (`game_id`)
@@ -756,303 +826,303 @@ CREATE TABLE IF NOT EXISTS `game` (
 -- Дамп данных таблицы conjuncture.game: ~296 rows (приблизительно)
 DELETE FROM `game`;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
-INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `area_type_id`, `last_activity_date`, `is_single_game`, `last_activity`) VALUES
-	(41, '2016-07-27 17:54:35', NULL, 1, 3, NULL, NULL, NULL),
-	(42, '2016-07-28 12:26:39', NULL, 1, 3, NULL, NULL, NULL),
-	(43, '2016-07-28 12:28:24', NULL, 1, 3, NULL, NULL, NULL),
-	(44, '2016-07-28 12:35:39', NULL, 1, 2, NULL, NULL, NULL),
-	(45, '2016-07-28 12:40:36', NULL, 1, 3, NULL, NULL, NULL),
-	(46, '2016-07-28 12:40:58', NULL, 1, 2, NULL, NULL, NULL),
-	(47, '2016-07-28 12:41:04', NULL, 1, 2, NULL, NULL, NULL),
-	(48, '2016-07-28 12:41:08', NULL, 1, 2, NULL, NULL, NULL),
-	(49, '2016-07-28 12:41:18', NULL, 1, 2, NULL, NULL, NULL),
-	(50, '2016-07-28 12:41:21', NULL, 1, 2, NULL, NULL, NULL),
-	(51, '2016-07-28 12:51:10', NULL, 1, 3, NULL, NULL, NULL),
-	(52, '2016-07-28 12:51:35', NULL, 1, 2, NULL, NULL, NULL),
-	(53, '2016-07-28 12:51:43', NULL, 1, 1, NULL, NULL, NULL),
-	(54, '2016-07-28 12:52:03', NULL, 1, 3, NULL, NULL, NULL),
-	(55, '2016-07-28 12:55:13', NULL, 1, 3, NULL, NULL, NULL),
-	(56, '2016-07-28 12:56:56', NULL, 1, 2, NULL, NULL, NULL),
-	(57, '2016-07-28 12:57:04', NULL, 1, 3, NULL, NULL, NULL),
-	(58, '2016-07-28 12:58:04', NULL, 1, 3, NULL, NULL, NULL),
-	(59, '2016-07-28 12:58:25', NULL, 1, 1, NULL, NULL, NULL),
-	(60, '2016-07-28 13:01:38', NULL, 1, 3, NULL, NULL, NULL),
-	(61, '2016-07-28 14:00:28', NULL, 1, 3, NULL, NULL, NULL),
-	(62, '2016-07-28 14:07:39', NULL, 1, 3, NULL, NULL, NULL),
-	(63, '2016-07-28 14:07:45', NULL, 1, 3, NULL, NULL, NULL),
-	(64, '2016-07-28 14:15:14', NULL, 1, 3, NULL, NULL, NULL),
-	(65, '2016-07-28 18:13:55', NULL, 1, 3, NULL, NULL, NULL),
-	(67, '2016-07-28 18:29:38', NULL, 1, 2, NULL, NULL, NULL),
-	(68, '2016-07-28 18:41:20', NULL, 1, 2, NULL, NULL, NULL),
-	(69, '2016-07-29 13:49:55', NULL, 1, 2, NULL, NULL, NULL),
-	(70, '2016-07-29 15:22:06', NULL, 1, 3, NULL, NULL, NULL),
-	(71, '2016-07-29 15:51:32', NULL, 1, 2, NULL, NULL, NULL),
-	(72, '2016-07-29 15:53:26', NULL, 1, 2, NULL, NULL, NULL),
-	(73, '2016-07-29 15:57:12', NULL, 1, 1, NULL, NULL, NULL),
-	(74, '2016-07-29 15:58:22', NULL, 1, 2, NULL, NULL, NULL),
-	(75, '2016-07-29 16:42:58', NULL, 1, 3, NULL, NULL, NULL),
-	(76, '2016-07-29 16:48:07', NULL, 1, 3, NULL, NULL, NULL),
-	(77, '2016-07-29 17:17:35', NULL, 1, 3, NULL, NULL, NULL),
-	(78, '2016-07-29 17:17:40', NULL, 1, 2, NULL, NULL, NULL),
-	(79, '2016-08-01 12:19:40', NULL, 1, 1, NULL, NULL, NULL),
-	(80, '2016-08-01 13:04:58', NULL, 1, 2, NULL, NULL, NULL),
-	(81, '2016-08-01 13:09:21', NULL, 1, 2, NULL, NULL, NULL),
-	(82, '2016-08-01 13:13:16', NULL, 1, 2, NULL, NULL, NULL),
-	(83, '2016-08-01 13:16:21', NULL, 1, 2, NULL, NULL, NULL),
-	(84, '2016-08-01 13:18:31', NULL, 1, 1, NULL, NULL, NULL),
-	(85, '2016-08-01 16:15:18', NULL, 1, 2, NULL, NULL, NULL),
-	(86, '2016-08-01 16:25:31', NULL, 1, 2, NULL, NULL, NULL),
-	(87, '2016-08-01 16:37:54', NULL, 1, 2, NULL, NULL, NULL),
-	(88, '2016-08-01 17:05:24', NULL, 1, 2, NULL, NULL, NULL),
-	(89, '2016-08-01 17:22:39', NULL, 1, 3, NULL, NULL, NULL),
-	(90, '2016-08-01 17:25:26', NULL, 1, 1, NULL, NULL, NULL),
-	(91, '2016-08-01 17:27:45', NULL, 1, 1, NULL, NULL, NULL),
-	(92, '2016-08-01 17:39:04', NULL, 1, 1, NULL, NULL, NULL),
-	(93, '2016-08-01 17:43:25', NULL, 1, 1, NULL, NULL, NULL),
-	(94, '2016-08-01 18:09:58', NULL, 1, 2, NULL, NULL, NULL),
-	(95, '2016-08-01 18:29:06', NULL, 1, 1, NULL, NULL, NULL),
-	(96, '2016-08-01 18:45:32', NULL, 1, 2, NULL, NULL, NULL),
-	(97, '2016-08-01 18:52:38', NULL, 1, 2, NULL, NULL, NULL),
-	(98, '2016-08-01 19:14:54', NULL, 1, 2, NULL, NULL, NULL),
-	(99, '2016-08-01 19:20:39', NULL, 1, 2, '2016-08-04 17:56:59', NULL, NULL),
-	(100, '2016-08-01 19:23:59', NULL, 1, 2, '2016-08-04 17:57:04', NULL, NULL),
-	(101, '2016-08-01 19:32:18', NULL, 1, 1, '2016-08-04 17:57:06', NULL, NULL),
-	(102, '2016-08-01 19:36:06', NULL, 1, 1, NULL, NULL, NULL),
-	(103, '2016-08-01 19:40:36', NULL, 1, 1, '2016-08-04 17:57:08', NULL, NULL),
-	(104, '2016-08-01 20:09:43', NULL, 1, 2, NULL, NULL, NULL),
-	(105, '2016-08-01 20:23:19', NULL, 1, 2, '2016-08-04 17:57:09', NULL, NULL),
-	(106, '2016-08-02 11:58:04', NULL, 1, 2, NULL, NULL, NULL),
-	(107, '2016-08-02 12:02:22', NULL, 1, 1, NULL, NULL, NULL),
-	(108, '2016-08-02 12:06:55', NULL, 1, 2, NULL, NULL, NULL),
-	(109, '2016-08-02 12:19:40', NULL, 1, 1, NULL, NULL, NULL),
-	(110, '2016-08-02 12:22:31', NULL, 1, 1, NULL, NULL, NULL),
-	(111, '2016-08-02 12:23:32', NULL, 1, 1, NULL, NULL, NULL),
-	(112, '2016-08-02 12:24:27', NULL, 1, 3, NULL, NULL, NULL),
-	(113, '2016-08-02 12:25:12', NULL, 1, 2, NULL, NULL, NULL),
-	(114, '2016-08-02 12:25:43', NULL, 1, 1, NULL, NULL, NULL),
-	(115, '2016-08-02 12:26:04', NULL, 1, 1, NULL, NULL, NULL),
-	(116, '2016-08-02 12:32:35', NULL, 1, 1, NULL, NULL, NULL),
-	(117, '2016-08-02 12:38:38', NULL, 1, 1, NULL, NULL, NULL),
-	(118, '2016-08-02 12:40:12', NULL, 1, 1, NULL, NULL, NULL),
-	(119, '2016-08-02 12:43:37', NULL, 1, 1, NULL, NULL, NULL),
-	(120, '2016-08-02 13:48:20', NULL, 1, 1, NULL, NULL, NULL),
-	(121, '2016-08-02 13:55:44', NULL, 1, 1, NULL, NULL, NULL),
-	(122, '2016-08-02 14:00:44', NULL, 1, 1, NULL, NULL, NULL),
-	(123, '2016-08-02 14:03:32', NULL, 1, 2, NULL, NULL, NULL),
-	(124, '2016-08-02 14:06:42', NULL, 1, 1, NULL, NULL, NULL),
-	(125, '2016-08-02 14:08:34', NULL, 1, 1, NULL, NULL, NULL),
-	(126, '2016-08-02 14:11:05', NULL, 1, 1, NULL, NULL, NULL),
-	(127, '2016-08-02 14:12:54', NULL, 1, 1, NULL, NULL, NULL),
-	(128, '2016-08-02 14:15:18', NULL, 1, 2, NULL, NULL, NULL),
-	(129, '2016-08-02 14:52:18', NULL, 1, 1, NULL, NULL, NULL),
-	(130, '2016-08-02 15:09:51', NULL, 1, 1, NULL, NULL, NULL),
-	(131, '2016-08-03 13:26:53', NULL, 1, 2, NULL, NULL, NULL),
-	(132, '2016-08-08 18:29:19', NULL, 3, 1, NULL, NULL, NULL),
-	(133, '2016-08-08 18:30:46', NULL, 3, 1, NULL, NULL, NULL),
-	(134, '2016-08-08 18:31:59', NULL, 3, 1, NULL, NULL, NULL),
-	(135, '2016-08-08 18:34:11', NULL, 3, 1, NULL, NULL, NULL),
-	(136, '2016-08-08 18:36:02', NULL, 3, 1, NULL, NULL, NULL),
-	(137, '2016-08-08 18:37:35', NULL, 3, 1, NULL, NULL, NULL),
-	(138, '2016-08-08 18:39:22', NULL, 3, 1, NULL, NULL, NULL),
-	(139, '2016-08-08 18:45:28', NULL, 3, 1, NULL, NULL, NULL),
-	(140, '2016-08-08 18:47:45', NULL, 3, 1, NULL, NULL, NULL),
-	(141, '2016-08-08 18:50:26', NULL, 3, 1, NULL, NULL, NULL),
-	(142, '2016-08-08 18:57:07', NULL, 3, 3, NULL, NULL, NULL),
-	(143, '2016-08-08 18:58:59', NULL, 3, 2, NULL, NULL, NULL),
-	(144, '2016-08-08 19:34:32', NULL, 3, 1, NULL, NULL, NULL),
-	(145, '2016-08-08 19:40:22', NULL, 3, 2, NULL, NULL, NULL),
-	(146, '2016-08-08 19:42:10', NULL, 3, 1, NULL, NULL, NULL),
-	(147, '2016-08-09 13:16:49', NULL, 3, 1, NULL, NULL, NULL),
-	(148, '2016-08-09 13:35:42', NULL, 3, 1, NULL, NULL, NULL),
-	(149, '2016-08-09 13:37:46', NULL, 3, 2, NULL, NULL, NULL),
-	(150, '2016-08-09 13:48:54', NULL, 3, 1, NULL, NULL, NULL),
-	(151, '2016-08-09 13:53:49', NULL, 3, 1, NULL, NULL, NULL),
-	(152, '2016-08-09 13:54:44', NULL, 3, 1, NULL, NULL, NULL),
-	(153, '2016-08-09 13:55:49', NULL, 2, 1, NULL, NULL, NULL),
-	(154, '2016-08-09 13:56:36', NULL, 2, 1, NULL, NULL, NULL),
-	(155, '2016-08-09 13:57:40', NULL, 2, 1, NULL, NULL, NULL),
-	(156, '2016-08-09 15:48:50', NULL, 2, 2, NULL, NULL, NULL),
-	(157, '2016-08-09 18:52:25', NULL, 3, 1, NULL, 0, NULL),
-	(158, '2016-08-09 18:53:00', NULL, 3, 1, NULL, 1, NULL),
-	(159, '2016-08-09 19:30:07', NULL, 3, 1, NULL, 1, NULL),
-	(160, '2016-08-09 19:32:55', NULL, 3, 1, NULL, 1, NULL),
-	(161, '2016-08-09 19:35:00', NULL, 3, 1, NULL, 1, NULL),
-	(162, '2016-08-09 19:39:17', NULL, 3, 1, NULL, 1, NULL),
-	(163, '2016-08-09 19:48:20', NULL, 3, 1, NULL, 1, NULL),
-	(164, '2016-08-09 20:00:00', NULL, 3, 1, NULL, 1, NULL),
-	(165, '2016-08-09 20:00:24', NULL, 3, 1, NULL, 0, NULL),
-	(166, '2016-08-09 20:02:02', NULL, 3, 1, NULL, 0, NULL),
-	(167, '2016-08-09 20:06:33', NULL, 3, 1, NULL, 0, NULL),
-	(168, '2016-08-09 20:09:07', NULL, 3, 1, NULL, 0, NULL),
-	(169, '2016-08-09 20:11:49', NULL, 3, 1, NULL, 0, NULL),
-	(170, '2016-08-09 20:13:59', NULL, 3, 1, NULL, 0, NULL),
-	(171, '2016-08-09 20:17:55', NULL, 3, 1, NULL, 0, NULL),
-	(172, '2016-08-09 20:19:48', NULL, 3, 1, NULL, 0, NULL),
-	(173, '2016-08-09 20:27:25', NULL, 3, 1, NULL, 1, NULL),
-	(174, '2016-08-09 20:31:13', NULL, 3, 1, NULL, 0, NULL),
-	(175, '2016-08-09 20:31:41', NULL, 3, 1, NULL, 1, NULL),
-	(176, '2016-08-09 20:40:37', NULL, 3, 3, NULL, 1, NULL),
-	(177, '2016-08-09 21:07:49', NULL, 3, 1, NULL, 1, NULL),
-	(178, '2016-08-09 21:10:20', NULL, 3, 1, NULL, 0, NULL),
-	(179, '2016-08-10 17:37:52', NULL, 3, 1, NULL, 1, NULL),
-	(180, '2016-08-10 17:41:16', NULL, 3, 1, NULL, 1, NULL),
-	(181, '2016-08-10 17:47:44', NULL, 3, 1, NULL, 1, NULL),
-	(182, '2016-08-10 18:03:54', NULL, 3, 1, NULL, 1, NULL),
-	(183, '2016-08-10 18:07:37', NULL, 3, 1, NULL, 1, NULL),
-	(184, '2016-08-10 18:15:15', NULL, 3, 1, NULL, 1, NULL),
-	(185, '2016-08-10 18:36:52', NULL, 3, 1, NULL, 1, NULL),
-	(186, '2016-08-10 18:42:58', NULL, 3, 1, NULL, 1, NULL),
-	(187, '2016-08-10 18:45:43', NULL, 3, 1, NULL, 1, NULL),
-	(188, '2016-08-10 18:48:06', NULL, 3, 1, NULL, 1, NULL),
-	(189, '2016-08-22 15:45:49', NULL, 3, 1, NULL, 1, NULL),
-	(190, '2016-08-22 15:53:32', NULL, 3, 1, NULL, 1, NULL),
-	(191, '2016-08-22 16:00:13', NULL, 3, 1, NULL, 1, NULL),
-	(192, '2016-08-22 17:17:08', NULL, 3, 1, NULL, 1, NULL),
-	(193, '2016-08-22 17:34:37', NULL, 3, 1, NULL, 1, NULL),
-	(194, '2016-08-22 17:38:56', NULL, 3, 1, NULL, 1, NULL),
-	(195, '2016-08-22 17:49:37', NULL, 3, 1, NULL, 1, NULL),
-	(196, '2016-08-22 17:53:41', NULL, 3, 1, NULL, 0, NULL),
-	(197, '2016-08-22 17:53:53', NULL, 3, 1, NULL, 1, NULL),
-	(198, '2016-08-22 17:57:30', NULL, 3, 3, NULL, 1, NULL),
-	(199, '2016-08-22 18:01:22', NULL, 3, 1, NULL, 1, NULL),
-	(200, '2016-08-22 18:43:19', NULL, 3, 1, NULL, 1, NULL),
-	(201, '2016-08-22 18:45:25', NULL, 3, 1, NULL, 1, NULL),
-	(202, '2016-08-22 18:54:48', NULL, 3, 1, NULL, 1, NULL),
-	(203, '2016-08-22 18:59:25', NULL, 3, 1, NULL, 1, NULL),
-	(204, '2016-08-22 19:04:10', NULL, 3, 1, NULL, 1, NULL),
-	(205, '2016-08-22 19:09:28', NULL, 3, 1, NULL, 1, NULL),
-	(206, '2016-08-22 19:18:46', NULL, 3, 1, NULL, 1, NULL),
-	(207, '2016-08-23 15:48:35', NULL, 3, 1, NULL, 1, NULL),
-	(208, '2016-08-23 16:04:05', NULL, 3, 1, NULL, 1, NULL),
-	(209, '2016-08-24 16:17:42', NULL, 3, 1, NULL, 1, NULL),
-	(210, '2016-08-24 16:22:23', NULL, 3, 1, NULL, 1, NULL),
-	(211, '2016-08-24 16:26:10', NULL, 3, 1, NULL, 1, NULL),
-	(212, '2016-08-24 16:27:29', NULL, 2, 1, NULL, 1, NULL),
-	(213, '2016-08-24 17:58:45', NULL, 3, 1, NULL, 1, NULL),
-	(214, '2016-08-25 15:12:14', NULL, 3, 1, NULL, 1, NULL),
-	(215, '2016-08-25 16:41:07', NULL, 3, 1, NULL, 1, NULL),
-	(216, '2016-08-25 16:46:19', NULL, 3, 1, NULL, 1, NULL),
-	(217, '2016-08-25 16:48:07', NULL, 3, 1, NULL, 1, NULL),
-	(218, '2016-08-25 17:14:41', NULL, 3, 1, NULL, 1, NULL),
-	(219, '2016-08-25 17:16:08', NULL, 3, 1, NULL, 1, NULL),
-	(220, '2016-08-26 13:59:13', NULL, 3, 1, NULL, 1, NULL),
-	(221, '2016-08-26 14:39:06', NULL, 3, 3, NULL, 0, NULL),
-	(222, '2016-08-26 14:39:32', NULL, 3, 3, NULL, 1, NULL),
-	(223, '2016-09-05 17:13:37', NULL, 3, 1, NULL, 1, NULL),
-	(224, '2016-09-05 18:32:43', NULL, 3, 2, NULL, 1, NULL),
-	(225, '2016-09-22 16:02:06', NULL, 3, 1, NULL, 1, NULL),
-	(226, '2016-09-22 16:06:16', NULL, 3, 2, NULL, 1, NULL),
-	(227, '2016-09-22 17:28:24', NULL, 3, 1, NULL, 0, NULL),
-	(228, '2016-09-22 17:28:42', NULL, 3, 1, NULL, 1, NULL),
-	(229, '2016-09-22 17:46:09', NULL, 3, 1, NULL, 1, NULL),
-	(230, '2016-09-22 17:50:29', NULL, 3, 1, NULL, 1, NULL),
-	(231, '2016-09-22 17:59:30', NULL, 3, 1, NULL, 1, NULL),
-	(232, '2016-09-22 18:05:18', NULL, 3, 1, NULL, 1, NULL),
-	(233, '2016-09-22 18:25:28', NULL, 3, 1, NULL, 1, NULL),
-	(234, '2016-09-22 18:26:41', NULL, 3, 1, NULL, 1, NULL),
-	(235, '2016-09-22 18:38:54', NULL, 3, 1, NULL, 1, NULL),
-	(236, '2016-09-22 18:44:00', NULL, 3, 1, NULL, 1, NULL),
-	(237, '2016-09-22 18:47:22', NULL, 3, 1, NULL, 1, NULL),
-	(238, '2016-09-22 18:50:03', NULL, 3, 1, NULL, 1, NULL),
-	(239, '2016-09-22 18:54:16', NULL, 3, 1, NULL, 1, NULL),
-	(240, '2016-09-22 19:02:51', NULL, 3, 1, NULL, 1, NULL),
-	(241, '2016-09-22 20:18:36', NULL, 3, 1, NULL, 1, NULL),
-	(242, '2016-09-26 14:49:38', NULL, 3, 1, NULL, 1, NULL),
-	(243, '2016-09-26 14:54:31', NULL, 3, 1, NULL, 1, NULL),
-	(244, '2016-09-26 15:43:17', NULL, 3, 1, NULL, 1, NULL),
-	(245, '2016-09-26 15:51:08', NULL, 3, 1, NULL, 1, NULL),
-	(246, '2016-09-26 15:58:40', NULL, 3, 1, NULL, 1, NULL),
-	(247, '2016-09-26 16:02:56', NULL, 3, 1, NULL, 1, NULL),
-	(248, '2016-09-26 16:09:15', NULL, 3, 1, NULL, 1, NULL),
-	(249, '2016-09-26 16:14:38', NULL, 3, 1, NULL, 1, NULL),
-	(250, '2016-09-26 16:52:40', NULL, 3, 1, NULL, 1, NULL),
-	(251, '2016-09-26 16:53:12', NULL, 3, 1, NULL, 1, NULL),
-	(252, '2016-09-26 18:06:44', NULL, 3, 1, NULL, 1, NULL),
-	(253, '2016-09-26 18:50:40', NULL, 3, 1, NULL, 1, NULL),
-	(254, '2016-09-26 18:51:43', NULL, 3, 1, NULL, 1, NULL),
-	(255, '2016-09-26 18:54:35', NULL, 3, 1, NULL, 1, NULL),
-	(256, '2016-09-26 18:56:48', NULL, 3, 1, NULL, 1, NULL),
-	(257, '2016-09-26 19:01:15', NULL, 3, 1, NULL, 1, NULL),
-	(258, '2016-09-26 19:05:00', NULL, 3, 1, NULL, 1, NULL),
-	(259, '2016-09-26 19:12:51', NULL, 3, 1, NULL, 1, NULL),
-	(260, '2016-09-26 19:14:26', NULL, 3, 1, NULL, 1, NULL),
-	(261, '2016-09-26 20:22:06', NULL, 3, 1, NULL, 1, NULL),
-	(262, '2016-09-26 20:22:46', NULL, 3, 1, NULL, 1, NULL),
-	(263, '2016-09-26 20:50:04', NULL, 3, 1, NULL, 1, NULL),
-	(264, '2016-09-26 21:00:05', NULL, 3, 1, NULL, 1, NULL),
-	(265, '2016-09-26 21:02:00', NULL, 3, 1, NULL, 1, NULL),
-	(266, '2016-09-26 21:11:12', NULL, 3, 1, NULL, 1, NULL),
-	(267, '2016-09-27 14:33:54', NULL, 3, 1, NULL, 1, NULL),
-	(268, '2016-09-27 14:39:05', NULL, 3, 1, NULL, 1, NULL),
-	(269, '2016-09-27 14:45:17', NULL, 3, 1, NULL, 1, NULL),
-	(270, '2016-09-27 14:53:35', NULL, 3, 1, NULL, 1, NULL),
-	(271, '2016-09-27 14:57:24', NULL, 3, 1, NULL, 1, NULL),
-	(272, '2016-09-27 16:28:27', NULL, 3, 1, NULL, 1, NULL),
-	(273, '2016-09-27 17:17:59', NULL, 3, 1, NULL, 1, NULL),
-	(274, '2016-09-27 17:26:16', NULL, 3, 1, NULL, 1, NULL),
-	(275, '2016-09-27 18:28:43', NULL, 3, 1, NULL, 1, NULL),
-	(276, '2016-09-28 15:30:26', NULL, 3, 1, NULL, 1, NULL),
-	(277, '2016-09-28 19:24:02', NULL, 3, 2, NULL, 1, NULL),
-	(278, '2016-09-29 13:20:06', NULL, 3, 1, NULL, 1, NULL),
-	(279, '2016-09-29 13:22:18', NULL, 3, 2, NULL, 1, NULL),
-	(280, '2016-09-29 13:34:04', NULL, 3, 1, NULL, 1, NULL),
-	(281, '2016-09-29 13:36:20', NULL, 3, 1, NULL, 1, NULL),
-	(282, '2016-09-29 13:41:30', NULL, 3, 1, NULL, 1, NULL),
-	(283, '2016-09-29 14:08:34', NULL, 3, 1, NULL, 1, NULL),
-	(284, '2016-09-29 14:11:24', NULL, 3, 2, NULL, 1, NULL),
-	(285, '2016-09-29 14:12:50', NULL, 3, 1, NULL, 1, NULL),
-	(286, '2016-09-29 14:20:12', NULL, 3, 1, NULL, 1, NULL),
-	(287, '2016-09-29 14:23:21', NULL, 3, 1, NULL, 1, NULL),
-	(288, '2016-09-29 14:27:42', NULL, 3, 1, NULL, 1, NULL),
-	(289, '2016-09-29 16:59:03', NULL, 3, 1, NULL, 1, NULL),
-	(290, '2016-09-29 17:10:22', NULL, 3, 1, NULL, 1, NULL),
-	(291, '2016-09-29 17:35:04', NULL, 3, 2, NULL, 1, NULL),
-	(292, '2016-09-29 17:51:15', NULL, 3, 1, NULL, 1, NULL),
-	(293, '2016-10-04 16:16:09', NULL, 3, 1, NULL, 1, NULL),
-	(294, '2016-10-04 16:21:20', NULL, 3, 1, NULL, 1, NULL),
-	(295, '2016-10-04 16:26:58', NULL, 3, 3, NULL, 1, NULL),
-	(296, '2016-10-04 16:31:19', NULL, 3, 1, NULL, 1, NULL),
-	(297, '2016-10-04 16:42:49', NULL, 3, 1, NULL, 1, NULL),
-	(298, '2016-10-04 16:51:39', NULL, 3, 1, NULL, 1, NULL),
-	(299, '2016-10-04 19:10:08', NULL, 3, 1, NULL, 1, NULL),
-	(300, '2016-10-04 19:12:21', NULL, 3, 1, NULL, 1, NULL),
-	(301, '2016-10-04 19:14:11', NULL, 3, 1, NULL, 1, NULL),
-	(302, '2016-10-04 19:15:31', NULL, 3, 1, NULL, 1, NULL),
-	(303, '2016-10-04 19:15:51', NULL, 3, 1, NULL, 1, NULL),
-	(304, '2016-10-05 17:23:45', NULL, 3, 1, NULL, 1, NULL),
-	(305, '2016-10-05 17:56:20', NULL, 3, 1, NULL, 1, NULL),
-	(306, '2016-10-05 18:38:57', NULL, 3, 3, NULL, 1, NULL),
-	(307, '2016-10-05 18:41:21', NULL, 3, 1, NULL, 1, NULL),
-	(308, '2016-10-05 18:42:59', NULL, 3, 1, NULL, 1, NULL),
-	(309, '2016-10-05 18:45:01', NULL, 3, 1, NULL, 1, NULL),
-	(310, '2016-10-05 18:48:35', NULL, 3, 1, NULL, 1, NULL),
-	(311, '2016-10-05 18:51:10', NULL, 3, 1, NULL, 1, NULL),
-	(312, '2016-10-05 18:54:20', NULL, 3, 1, NULL, 1, NULL),
-	(313, '2016-10-13 18:42:48', NULL, 3, 3, NULL, 1, NULL),
-	(314, '2016-10-19 16:35:03', NULL, 3, 2, NULL, 1, NULL),
-	(315, '2016-10-19 16:37:33', NULL, 3, 1, NULL, 1, NULL),
-	(316, '2016-10-19 17:56:27', NULL, 3, 1, NULL, 1, NULL),
-	(317, '2016-10-19 18:01:19', NULL, 3, 1, NULL, 1, NULL),
-	(318, '2016-10-19 19:15:07', NULL, 3, 1, NULL, 1, NULL),
-	(319, '2016-10-19 19:18:35', NULL, 3, 1, NULL, 1, NULL),
-	(320, '2016-10-21 16:19:54', NULL, 3, 1, NULL, 1, NULL),
-	(321, '2016-10-23 17:28:56', NULL, 3, 1, NULL, 1, NULL),
-	(322, '2016-10-23 17:58:03', NULL, 2, 3, NULL, 1, NULL),
-	(323, '2016-11-19 17:40:33', NULL, 3, 2, NULL, 1, NULL),
-	(324, '2017-03-13 18:31:40', NULL, 3, 1, NULL, 1, NULL),
-	(325, '2017-03-29 15:50:05', NULL, 3, 1, NULL, 1, NULL),
-	(326, '2017-03-30 20:02:11', NULL, 3, 1, NULL, 1, NULL),
-	(327, '2017-04-10 15:35:04', NULL, 3, 1, NULL, 1, NULL),
-	(328, '2017-04-13 18:47:48', NULL, 3, 3, NULL, 0, NULL),
-	(329, '2017-04-13 18:49:48', NULL, 3, 3, NULL, 0, NULL),
-	(330, '2017-04-13 18:53:03', NULL, 3, 1, NULL, 1, NULL),
-	(331, '2017-04-20 13:55:55', NULL, 3, 2, NULL, 1, NULL),
-	(332, '2017-04-27 16:52:16', NULL, 3, 1, NULL, 1, NULL),
-	(333, '2017-04-27 17:03:11', NULL, 3, 2, NULL, 0, NULL),
-	(334, '2017-04-27 17:03:25', NULL, 3, 2, NULL, 0, NULL),
-	(335, '2017-04-27 18:09:58', NULL, 3, 2, NULL, 1, NULL),
-	(336, '2017-04-27 18:10:54', NULL, 1, 2, NULL, 1, NULL),
-	(337, '2017-04-27 18:16:13', NULL, 1, 2, NULL, 1, NULL);
+INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `area_type_id`, `is_single_game`, `last_activity`) VALUES
+	(41, '2016-07-27 17:54:35', NULL, 1, 3, NULL, NULL),
+	(42, '2016-07-28 12:26:39', NULL, 1, 3, NULL, NULL),
+	(43, '2016-07-28 12:28:24', NULL, 1, 3, NULL, NULL),
+	(44, '2016-07-28 12:35:39', NULL, 1, 2, NULL, NULL),
+	(45, '2016-07-28 12:40:36', NULL, 1, 3, NULL, NULL),
+	(46, '2016-07-28 12:40:58', NULL, 1, 2, NULL, NULL),
+	(47, '2016-07-28 12:41:04', NULL, 1, 2, NULL, NULL),
+	(48, '2016-07-28 12:41:08', NULL, 1, 2, NULL, NULL),
+	(49, '2016-07-28 12:41:18', NULL, 1, 2, NULL, NULL),
+	(50, '2016-07-28 12:41:21', NULL, 1, 2, NULL, NULL),
+	(51, '2016-07-28 12:51:10', NULL, 1, 3, NULL, NULL),
+	(52, '2016-07-28 12:51:35', NULL, 1, 2, NULL, NULL),
+	(53, '2016-07-28 12:51:43', NULL, 1, 1, NULL, NULL),
+	(54, '2016-07-28 12:52:03', NULL, 1, 3, NULL, NULL),
+	(55, '2016-07-28 12:55:13', NULL, 1, 3, NULL, NULL),
+	(56, '2016-07-28 12:56:56', NULL, 1, 2, NULL, NULL),
+	(57, '2016-07-28 12:57:04', NULL, 1, 3, NULL, NULL),
+	(58, '2016-07-28 12:58:04', NULL, 1, 3, NULL, NULL),
+	(59, '2016-07-28 12:58:25', NULL, 1, 1, NULL, NULL),
+	(60, '2016-07-28 13:01:38', NULL, 1, 3, NULL, NULL),
+	(61, '2016-07-28 14:00:28', NULL, 1, 3, NULL, NULL),
+	(62, '2016-07-28 14:07:39', NULL, 1, 3, NULL, NULL),
+	(63, '2016-07-28 14:07:45', NULL, 1, 3, NULL, NULL),
+	(64, '2016-07-28 14:15:14', NULL, 1, 3, NULL, NULL),
+	(65, '2016-07-28 18:13:55', NULL, 1, 3, NULL, NULL),
+	(67, '2016-07-28 18:29:38', NULL, 1, 2, NULL, NULL),
+	(68, '2016-07-28 18:41:20', NULL, 1, 2, NULL, NULL),
+	(69, '2016-07-29 13:49:55', NULL, 1, 2, NULL, NULL),
+	(70, '2016-07-29 15:22:06', NULL, 1, 3, NULL, NULL),
+	(71, '2016-07-29 15:51:32', NULL, 1, 2, NULL, NULL),
+	(72, '2016-07-29 15:53:26', NULL, 1, 2, NULL, NULL),
+	(73, '2016-07-29 15:57:12', NULL, 1, 1, NULL, NULL),
+	(74, '2016-07-29 15:58:22', NULL, 1, 2, NULL, NULL),
+	(75, '2016-07-29 16:42:58', NULL, 1, 3, NULL, NULL),
+	(76, '2016-07-29 16:48:07', NULL, 1, 3, NULL, NULL),
+	(77, '2016-07-29 17:17:35', NULL, 1, 3, NULL, NULL),
+	(78, '2016-07-29 17:17:40', NULL, 1, 2, NULL, NULL),
+	(79, '2016-08-01 12:19:40', NULL, 1, 1, NULL, NULL),
+	(80, '2016-08-01 13:04:58', NULL, 1, 2, NULL, NULL),
+	(81, '2016-08-01 13:09:21', NULL, 1, 2, NULL, NULL),
+	(82, '2016-08-01 13:13:16', NULL, 1, 2, NULL, NULL),
+	(83, '2016-08-01 13:16:21', NULL, 1, 2, NULL, NULL),
+	(84, '2016-08-01 13:18:31', NULL, 1, 1, NULL, NULL),
+	(85, '2016-08-01 16:15:18', NULL, 1, 2, NULL, NULL),
+	(86, '2016-08-01 16:25:31', NULL, 1, 2, NULL, NULL),
+	(87, '2016-08-01 16:37:54', NULL, 1, 2, NULL, NULL),
+	(88, '2016-08-01 17:05:24', NULL, 1, 2, NULL, NULL),
+	(89, '2016-08-01 17:22:39', NULL, 1, 3, NULL, NULL),
+	(90, '2016-08-01 17:25:26', NULL, 1, 1, NULL, NULL),
+	(91, '2016-08-01 17:27:45', NULL, 1, 1, NULL, NULL),
+	(92, '2016-08-01 17:39:04', NULL, 1, 1, NULL, NULL),
+	(93, '2016-08-01 17:43:25', NULL, 1, 1, NULL, NULL),
+	(94, '2016-08-01 18:09:58', NULL, 1, 2, NULL, NULL),
+	(95, '2016-08-01 18:29:06', NULL, 1, 1, NULL, NULL),
+	(96, '2016-08-01 18:45:32', NULL, 1, 2, NULL, NULL),
+	(97, '2016-08-01 18:52:38', NULL, 1, 2, NULL, NULL),
+	(98, '2016-08-01 19:14:54', NULL, 1, 2, NULL, NULL),
+	(99, '2016-08-01 19:20:39', NULL, 1, 2, NULL, NULL),
+	(100, '2016-08-01 19:23:59', NULL, 1, 2, NULL, NULL),
+	(101, '2016-08-01 19:32:18', NULL, 1, 1, NULL, NULL),
+	(102, '2016-08-01 19:36:06', NULL, 1, 1, NULL, NULL),
+	(103, '2016-08-01 19:40:36', NULL, 1, 1, NULL, NULL),
+	(104, '2016-08-01 20:09:43', NULL, 1, 2, NULL, NULL),
+	(105, '2016-08-01 20:23:19', NULL, 1, 2, NULL, NULL),
+	(106, '2016-08-02 11:58:04', NULL, 1, 2, NULL, NULL),
+	(107, '2016-08-02 12:02:22', NULL, 1, 1, NULL, NULL),
+	(108, '2016-08-02 12:06:55', NULL, 1, 2, NULL, NULL),
+	(109, '2016-08-02 12:19:40', NULL, 1, 1, NULL, NULL),
+	(110, '2016-08-02 12:22:31', NULL, 1, 1, NULL, NULL),
+	(111, '2016-08-02 12:23:32', NULL, 1, 1, NULL, NULL),
+	(112, '2016-08-02 12:24:27', NULL, 1, 3, NULL, NULL),
+	(113, '2016-08-02 12:25:12', NULL, 1, 2, NULL, NULL),
+	(114, '2016-08-02 12:25:43', NULL, 1, 1, NULL, NULL),
+	(115, '2016-08-02 12:26:04', NULL, 1, 1, NULL, NULL),
+	(116, '2016-08-02 12:32:35', NULL, 1, 1, NULL, NULL),
+	(117, '2016-08-02 12:38:38', NULL, 1, 1, NULL, NULL),
+	(118, '2016-08-02 12:40:12', NULL, 1, 1, NULL, NULL),
+	(119, '2016-08-02 12:43:37', NULL, 1, 1, NULL, NULL),
+	(120, '2016-08-02 13:48:20', NULL, 1, 1, NULL, NULL),
+	(121, '2016-08-02 13:55:44', NULL, 1, 1, NULL, NULL),
+	(122, '2016-08-02 14:00:44', NULL, 1, 1, NULL, NULL),
+	(123, '2016-08-02 14:03:32', NULL, 1, 2, NULL, NULL),
+	(124, '2016-08-02 14:06:42', NULL, 1, 1, NULL, NULL),
+	(125, '2016-08-02 14:08:34', NULL, 1, 1, NULL, NULL),
+	(126, '2016-08-02 14:11:05', NULL, 1, 1, NULL, NULL),
+	(127, '2016-08-02 14:12:54', NULL, 1, 1, NULL, NULL),
+	(128, '2016-08-02 14:15:18', NULL, 1, 2, NULL, NULL),
+	(129, '2016-08-02 14:52:18', NULL, 1, 1, NULL, NULL),
+	(130, '2016-08-02 15:09:51', NULL, 1, 1, NULL, NULL),
+	(131, '2016-08-03 13:26:53', NULL, 1, 2, NULL, NULL),
+	(132, '2016-08-08 18:29:19', NULL, 3, 1, NULL, NULL),
+	(133, '2016-08-08 18:30:46', NULL, 3, 1, NULL, NULL),
+	(134, '2016-08-08 18:31:59', NULL, 3, 1, NULL, NULL),
+	(135, '2016-08-08 18:34:11', NULL, 3, 1, NULL, NULL),
+	(136, '2016-08-08 18:36:02', NULL, 3, 1, NULL, NULL),
+	(137, '2016-08-08 18:37:35', NULL, 3, 1, NULL, NULL),
+	(138, '2016-08-08 18:39:22', NULL, 3, 1, NULL, NULL),
+	(139, '2016-08-08 18:45:28', NULL, 3, 1, NULL, NULL),
+	(140, '2016-08-08 18:47:45', NULL, 3, 1, NULL, NULL),
+	(141, '2016-08-08 18:50:26', NULL, 3, 1, NULL, NULL),
+	(142, '2016-08-08 18:57:07', NULL, 3, 3, NULL, NULL),
+	(143, '2016-08-08 18:58:59', NULL, 3, 2, NULL, NULL),
+	(144, '2016-08-08 19:34:32', NULL, 3, 1, NULL, NULL),
+	(145, '2016-08-08 19:40:22', NULL, 3, 2, NULL, NULL),
+	(146, '2016-08-08 19:42:10', NULL, 3, 1, NULL, NULL),
+	(147, '2016-08-09 13:16:49', NULL, 3, 1, NULL, NULL),
+	(148, '2016-08-09 13:35:42', NULL, 3, 1, NULL, NULL),
+	(149, '2016-08-09 13:37:46', NULL, 3, 2, NULL, NULL),
+	(150, '2016-08-09 13:48:54', NULL, 3, 1, NULL, NULL),
+	(151, '2016-08-09 13:53:49', NULL, 3, 1, NULL, NULL),
+	(152, '2016-08-09 13:54:44', NULL, 3, 1, NULL, NULL),
+	(153, '2016-08-09 13:55:49', NULL, 2, 1, NULL, NULL),
+	(154, '2016-08-09 13:56:36', NULL, 2, 1, NULL, NULL),
+	(155, '2016-08-09 13:57:40', NULL, 2, 1, NULL, NULL),
+	(156, '2016-08-09 15:48:50', NULL, 2, 2, NULL, NULL),
+	(157, '2016-08-09 18:52:25', NULL, 3, 1, 0, NULL),
+	(158, '2016-08-09 18:53:00', NULL, 3, 1, 1, NULL),
+	(159, '2016-08-09 19:30:07', NULL, 3, 1, 1, NULL),
+	(160, '2016-08-09 19:32:55', NULL, 3, 1, 1, NULL),
+	(161, '2016-08-09 19:35:00', NULL, 3, 1, 1, NULL),
+	(162, '2016-08-09 19:39:17', NULL, 3, 1, 1, NULL),
+	(163, '2016-08-09 19:48:20', NULL, 3, 1, 1, NULL),
+	(164, '2016-08-09 20:00:00', NULL, 3, 1, 1, NULL),
+	(165, '2016-08-09 20:00:24', NULL, 3, 1, 0, NULL),
+	(166, '2016-08-09 20:02:02', NULL, 3, 1, 0, NULL),
+	(167, '2016-08-09 20:06:33', NULL, 3, 1, 0, NULL),
+	(168, '2016-08-09 20:09:07', NULL, 3, 1, 0, NULL),
+	(169, '2016-08-09 20:11:49', NULL, 3, 1, 0, NULL),
+	(170, '2016-08-09 20:13:59', NULL, 3, 1, 0, NULL),
+	(171, '2016-08-09 20:17:55', NULL, 3, 1, 0, NULL),
+	(172, '2016-08-09 20:19:48', NULL, 3, 1, 0, NULL),
+	(173, '2016-08-09 20:27:25', NULL, 3, 1, 1, NULL),
+	(174, '2016-08-09 20:31:13', NULL, 3, 1, 0, NULL),
+	(175, '2016-08-09 20:31:41', NULL, 3, 1, 1, NULL),
+	(176, '2016-08-09 20:40:37', NULL, 3, 3, 1, NULL),
+	(177, '2016-08-09 21:07:49', NULL, 3, 1, 1, NULL),
+	(178, '2016-08-09 21:10:20', NULL, 3, 1, 0, NULL),
+	(179, '2016-08-10 17:37:52', NULL, 3, 1, 1, NULL),
+	(180, '2016-08-10 17:41:16', NULL, 3, 1, 1, NULL),
+	(181, '2016-08-10 17:47:44', NULL, 3, 1, 1, NULL),
+	(182, '2016-08-10 18:03:54', NULL, 3, 1, 1, NULL),
+	(183, '2016-08-10 18:07:37', NULL, 3, 1, 1, NULL),
+	(184, '2016-08-10 18:15:15', NULL, 3, 1, 1, NULL),
+	(185, '2016-08-10 18:36:52', NULL, 3, 1, 1, NULL),
+	(186, '2016-08-10 18:42:58', NULL, 3, 1, 1, NULL),
+	(187, '2016-08-10 18:45:43', NULL, 3, 1, 1, NULL),
+	(188, '2016-08-10 18:48:06', NULL, 3, 1, 1, NULL),
+	(189, '2016-08-22 15:45:49', NULL, 3, 1, 1, NULL),
+	(190, '2016-08-22 15:53:32', NULL, 3, 1, 1, NULL),
+	(191, '2016-08-22 16:00:13', NULL, 3, 1, 1, NULL),
+	(192, '2016-08-22 17:17:08', NULL, 3, 1, 1, NULL),
+	(193, '2016-08-22 17:34:37', NULL, 3, 1, 1, NULL),
+	(194, '2016-08-22 17:38:56', NULL, 3, 1, 1, NULL),
+	(195, '2016-08-22 17:49:37', NULL, 3, 1, 1, NULL),
+	(196, '2016-08-22 17:53:41', NULL, 3, 1, 0, NULL),
+	(197, '2016-08-22 17:53:53', NULL, 3, 1, 1, NULL),
+	(198, '2016-08-22 17:57:30', NULL, 3, 3, 1, NULL),
+	(199, '2016-08-22 18:01:22', NULL, 3, 1, 1, NULL),
+	(200, '2016-08-22 18:43:19', NULL, 3, 1, 1, NULL),
+	(201, '2016-08-22 18:45:25', NULL, 3, 1, 1, NULL),
+	(202, '2016-08-22 18:54:48', NULL, 3, 1, 1, NULL),
+	(203, '2016-08-22 18:59:25', NULL, 3, 1, 1, NULL),
+	(204, '2016-08-22 19:04:10', NULL, 3, 1, 1, NULL),
+	(205, '2016-08-22 19:09:28', NULL, 3, 1, 1, NULL),
+	(206, '2016-08-22 19:18:46', NULL, 3, 1, 1, NULL),
+	(207, '2016-08-23 15:48:35', NULL, 3, 1, 1, NULL),
+	(208, '2016-08-23 16:04:05', NULL, 3, 1, 1, NULL),
+	(209, '2016-08-24 16:17:42', NULL, 3, 1, 1, NULL),
+	(210, '2016-08-24 16:22:23', NULL, 3, 1, 1, NULL),
+	(211, '2016-08-24 16:26:10', NULL, 3, 1, 1, NULL),
+	(212, '2016-08-24 16:27:29', NULL, 2, 1, 1, NULL),
+	(213, '2016-08-24 17:58:45', NULL, 3, 1, 1, NULL),
+	(214, '2016-08-25 15:12:14', NULL, 3, 1, 1, NULL),
+	(215, '2016-08-25 16:41:07', NULL, 3, 1, 1, NULL),
+	(216, '2016-08-25 16:46:19', NULL, 3, 1, 1, NULL),
+	(217, '2016-08-25 16:48:07', NULL, 3, 1, 1, NULL),
+	(218, '2016-08-25 17:14:41', NULL, 3, 1, 1, NULL),
+	(219, '2016-08-25 17:16:08', NULL, 3, 1, 1, NULL),
+	(220, '2016-08-26 13:59:13', NULL, 3, 1, 1, NULL),
+	(221, '2016-08-26 14:39:06', NULL, 3, 3, 0, NULL),
+	(222, '2016-08-26 14:39:32', NULL, 3, 3, 1, NULL),
+	(223, '2016-09-05 17:13:37', NULL, 3, 1, 1, NULL),
+	(224, '2016-09-05 18:32:43', NULL, 3, 2, 1, NULL),
+	(225, '2016-09-22 16:02:06', NULL, 3, 1, 1, NULL),
+	(226, '2016-09-22 16:06:16', NULL, 3, 2, 1, NULL),
+	(227, '2016-09-22 17:28:24', NULL, 3, 1, 0, NULL),
+	(228, '2016-09-22 17:28:42', NULL, 3, 1, 1, NULL),
+	(229, '2016-09-22 17:46:09', NULL, 3, 1, 1, NULL),
+	(230, '2016-09-22 17:50:29', NULL, 3, 1, 1, NULL),
+	(231, '2016-09-22 17:59:30', NULL, 3, 1, 1, NULL),
+	(232, '2016-09-22 18:05:18', NULL, 3, 1, 1, NULL),
+	(233, '2016-09-22 18:25:28', NULL, 3, 1, 1, NULL),
+	(234, '2016-09-22 18:26:41', NULL, 3, 1, 1, NULL),
+	(235, '2016-09-22 18:38:54', NULL, 3, 1, 1, NULL),
+	(236, '2016-09-22 18:44:00', NULL, 3, 1, 1, NULL),
+	(237, '2016-09-22 18:47:22', NULL, 3, 1, 1, NULL),
+	(238, '2016-09-22 18:50:03', NULL, 3, 1, 1, NULL),
+	(239, '2016-09-22 18:54:16', NULL, 3, 1, 1, NULL),
+	(240, '2016-09-22 19:02:51', NULL, 3, 1, 1, NULL),
+	(241, '2016-09-22 20:18:36', NULL, 3, 1, 1, NULL),
+	(242, '2016-09-26 14:49:38', NULL, 3, 1, 1, NULL),
+	(243, '2016-09-26 14:54:31', NULL, 3, 1, 1, NULL),
+	(244, '2016-09-26 15:43:17', NULL, 3, 1, 1, NULL),
+	(245, '2016-09-26 15:51:08', NULL, 3, 1, 1, NULL),
+	(246, '2016-09-26 15:58:40', NULL, 3, 1, 1, NULL),
+	(247, '2016-09-26 16:02:56', NULL, 3, 1, 1, NULL),
+	(248, '2016-09-26 16:09:15', NULL, 3, 1, 1, NULL),
+	(249, '2016-09-26 16:14:38', NULL, 3, 1, 1, NULL),
+	(250, '2016-09-26 16:52:40', NULL, 3, 1, 1, NULL),
+	(251, '2016-09-26 16:53:12', NULL, 3, 1, 1, NULL),
+	(252, '2016-09-26 18:06:44', NULL, 3, 1, 1, NULL),
+	(253, '2016-09-26 18:50:40', NULL, 3, 1, 1, NULL),
+	(254, '2016-09-26 18:51:43', NULL, 3, 1, 1, NULL),
+	(255, '2016-09-26 18:54:35', NULL, 3, 1, 1, NULL),
+	(256, '2016-09-26 18:56:48', NULL, 3, 1, 1, NULL),
+	(257, '2016-09-26 19:01:15', NULL, 3, 1, 1, NULL),
+	(258, '2016-09-26 19:05:00', NULL, 3, 1, 1, NULL),
+	(259, '2016-09-26 19:12:51', NULL, 3, 1, 1, NULL),
+	(260, '2016-09-26 19:14:26', NULL, 3, 1, 1, NULL),
+	(261, '2016-09-26 20:22:06', NULL, 3, 1, 1, NULL),
+	(262, '2016-09-26 20:22:46', NULL, 3, 1, 1, NULL),
+	(263, '2016-09-26 20:50:04', NULL, 3, 1, 1, NULL),
+	(264, '2016-09-26 21:00:05', NULL, 3, 1, 1, NULL),
+	(265, '2016-09-26 21:02:00', NULL, 3, 1, 1, NULL),
+	(266, '2016-09-26 21:11:12', NULL, 3, 1, 1, NULL),
+	(267, '2016-09-27 14:33:54', NULL, 3, 1, 1, NULL),
+	(268, '2016-09-27 14:39:05', NULL, 3, 1, 1, NULL),
+	(269, '2016-09-27 14:45:17', NULL, 3, 1, 1, NULL),
+	(270, '2016-09-27 14:53:35', NULL, 3, 1, 1, NULL),
+	(271, '2016-09-27 14:57:24', NULL, 3, 1, 1, NULL),
+	(272, '2016-09-27 16:28:27', NULL, 3, 1, 1, NULL),
+	(273, '2016-09-27 17:17:59', NULL, 3, 1, 1, NULL),
+	(274, '2016-09-27 17:26:16', NULL, 3, 1, 1, NULL),
+	(275, '2016-09-27 18:28:43', NULL, 3, 1, 1, NULL),
+	(276, '2016-09-28 15:30:26', NULL, 3, 1, 1, NULL),
+	(277, '2016-09-28 19:24:02', NULL, 3, 2, 1, NULL),
+	(278, '2016-09-29 13:20:06', NULL, 3, 1, 1, NULL),
+	(279, '2016-09-29 13:22:18', NULL, 3, 2, 1, NULL),
+	(280, '2016-09-29 13:34:04', NULL, 3, 1, 1, NULL),
+	(281, '2016-09-29 13:36:20', NULL, 3, 1, 1, NULL),
+	(282, '2016-09-29 13:41:30', NULL, 3, 1, 1, NULL),
+	(283, '2016-09-29 14:08:34', NULL, 3, 1, 1, NULL),
+	(284, '2016-09-29 14:11:24', NULL, 3, 2, 1, NULL),
+	(285, '2016-09-29 14:12:50', NULL, 3, 1, 1, NULL),
+	(286, '2016-09-29 14:20:12', NULL, 3, 1, 1, NULL),
+	(287, '2016-09-29 14:23:21', NULL, 3, 1, 1, NULL),
+	(288, '2016-09-29 14:27:42', NULL, 3, 1, 1, NULL),
+	(289, '2016-09-29 16:59:03', NULL, 3, 1, 1, NULL),
+	(290, '2016-09-29 17:10:22', NULL, 3, 1, 1, NULL),
+	(291, '2016-09-29 17:35:04', NULL, 3, 2, 1, NULL),
+	(292, '2016-09-29 17:51:15', NULL, 3, 1, 1, NULL),
+	(293, '2016-10-04 16:16:09', NULL, 3, 1, 1, NULL),
+	(294, '2016-10-04 16:21:20', NULL, 3, 1, 1, NULL),
+	(295, '2016-10-04 16:26:58', NULL, 3, 3, 1, NULL),
+	(296, '2016-10-04 16:31:19', NULL, 3, 1, 1, NULL),
+	(297, '2016-10-04 16:42:49', NULL, 3, 1, 1, NULL),
+	(298, '2016-10-04 16:51:39', NULL, 3, 1, 1, NULL),
+	(299, '2016-10-04 19:10:08', NULL, 3, 1, 1, NULL),
+	(300, '2016-10-04 19:12:21', NULL, 3, 1, 1, NULL),
+	(301, '2016-10-04 19:14:11', NULL, 3, 1, 1, NULL),
+	(302, '2016-10-04 19:15:31', NULL, 3, 1, 1, NULL),
+	(303, '2016-10-04 19:15:51', NULL, 3, 1, 1, NULL),
+	(304, '2016-10-05 17:23:45', NULL, 3, 1, 1, NULL),
+	(305, '2016-10-05 17:56:20', NULL, 3, 1, 1, NULL),
+	(306, '2016-10-05 18:38:57', NULL, 3, 3, 1, NULL),
+	(307, '2016-10-05 18:41:21', NULL, 3, 1, 1, NULL),
+	(308, '2016-10-05 18:42:59', NULL, 3, 1, 1, NULL),
+	(309, '2016-10-05 18:45:01', NULL, 3, 1, 1, NULL),
+	(310, '2016-10-05 18:48:35', NULL, 3, 1, 1, NULL),
+	(311, '2016-10-05 18:51:10', NULL, 3, 1, 1, NULL),
+	(312, '2016-10-05 18:54:20', NULL, 3, 1, 1, NULL),
+	(313, '2016-10-13 18:42:48', NULL, 3, 3, 1, NULL),
+	(314, '2016-10-19 16:35:03', NULL, 3, 2, 1, NULL),
+	(315, '2016-10-19 16:37:33', NULL, 3, 1, 1, NULL),
+	(316, '2016-10-19 17:56:27', NULL, 3, 1, 1, NULL),
+	(317, '2016-10-19 18:01:19', NULL, 3, 1, 1, NULL),
+	(318, '2016-10-19 19:15:07', NULL, 3, 1, 1, NULL),
+	(319, '2016-10-19 19:18:35', NULL, 3, 1, 1, NULL),
+	(320, '2016-10-21 16:19:54', NULL, 3, 1, 1, NULL),
+	(321, '2016-10-23 17:28:56', NULL, 3, 1, 1, NULL),
+	(322, '2016-10-23 17:58:03', NULL, 2, 3, 1, NULL),
+	(323, '2016-11-19 17:40:33', NULL, 3, 2, 1, NULL),
+	(324, '2017-03-13 18:31:40', NULL, 3, 1, 1, NULL),
+	(325, '2017-03-29 15:50:05', NULL, 3, 1, 1, NULL),
+	(326, '2017-03-30 20:02:11', NULL, 3, 1, 1, NULL),
+	(327, '2017-04-10 15:35:04', NULL, 3, 1, 1, NULL),
+	(328, '2017-04-13 18:47:48', NULL, 3, 3, 0, NULL),
+	(329, '2017-04-13 18:49:48', NULL, 3, 3, 0, NULL),
+	(330, '2017-04-13 18:53:03', NULL, 3, 1, 1, NULL),
+	(331, '2017-04-20 13:55:55', NULL, 3, 2, 1, NULL),
+	(332, '2017-04-27 16:52:16', NULL, 3, 1, 1, NULL),
+	(333, '2017-04-27 17:03:11', NULL, 3, 2, 0, NULL),
+	(334, '2017-04-27 17:03:25', NULL, 3, 2, 0, NULL),
+	(335, '2017-04-27 18:09:58', NULL, 3, 2, 1, NULL),
+	(336, '2017-04-27 18:10:54', NULL, 1, 2, 1, NULL),
+	(337, '2017-04-27 18:16:13', NULL, 1, 2, 1, NULL);
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 
 
@@ -1073,7 +1143,7 @@ CREATE TABLE IF NOT EXISTS `game_field` (
   CONSTRAINT `FK_game_field_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23506 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_field: ~13 036 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_field: ~14 894 rows (приблизительно)
 DELETE FROM `game_field`;
 /*!40000 ALTER TABLE `game_field` DISABLE KEYS */;
 INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_index`, `field_type_id`, `game_player_id`) VALUES
@@ -15357,9 +15427,9 @@ CREATE TABLE IF NOT EXISTS `game_player` (
   KEY `FK_game_player_player` (`player_id`),
   CONSTRAINT `FK_game_player_game` FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`),
   CONSTRAINT `FK_game_player_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=508 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=512 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_player: ~382 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_player: ~400 rows (приблизительно)
 DELETE FROM `game_player`;
 /*!40000 ALTER TABLE `game_player` DISABLE KEYS */;
 INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, `out_time`, `in_passiv_value`, `out_passiv_value`, `current_passiv_value`, `player_sym`, `order_connect`, `is_steping`, `is_active`, `last_activity`, `start_steping`) VALUES
@@ -15868,7 +15938,11 @@ INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, 
 	(504, 336, 1, '2017-04-27 18:10:54', NULL, 300.00, NULL, 300.00, 'Semen', 1, 1, NULL, NULL, NULL),
 	(505, 336, 4, '2017-04-27 18:10:54', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL, NULL),
 	(506, 337, 1, '2017-04-27 18:16:13', NULL, 4000.00, NULL, 4000.00, 'Semen', 1, 1, NULL, NULL, '2017-05-01 17:40:30'),
-	(507, 337, 4, '2017-04-27 18:16:13', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL, '2017-05-01 17:39:54');
+	(507, 337, 4, '2017-04-27 18:16:13', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL, '2017-05-01 17:39:54'),
+	(508, 199, 1, '2017-05-04 19:34:43', NULL, 100.00, NULL, 100.00, 's3', 3, 0, NULL, NULL, NULL),
+	(509, 200, 1, '2017-05-04 19:36:07', NULL, 100.00, NULL, 100.00, 's3', 3, 0, NULL, NULL, '2017-05-04 19:36:07'),
+	(510, 200, 1, '2017-05-04 19:37:02', NULL, 100.00, NULL, 100.00, 's4', 4, 0, NULL, '2017-05-04 19:37:02', '2017-05-04 19:37:02'),
+	(511, 200, 1, '2017-05-04 19:53:43', NULL, 100.00, NULL, 100.00, 's5', 5, 0, 1, '2017-05-04 19:53:43', '2017-05-04 19:53:43');
 /*!40000 ALTER TABLE `game_player` ENABLE KEYS */;
 
 
@@ -16009,7 +16083,7 @@ CREATE TABLE IF NOT EXISTS `game_rate_hist` (
   CONSTRAINT `FK_game_rate_hist_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15124 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_rate_hist: ~11 980 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_rate_hist: ~11 208 rows (приблизительно)
 DELETE FROM `game_rate_hist`;
 /*!40000 ALTER TABLE `game_rate_hist` DISABLE KEYS */;
 INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, `game_step_id`, `field_type_id`, `fields_count`) VALUES
@@ -27566,7 +27640,7 @@ CREATE TABLE IF NOT EXISTS `game_step` (
   CONSTRAINT `FK_game_step_game_player` FOREIGN KEY (`step_game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4535 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_step: ~4 378 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step: ~5 005 rows (приблизительно)
 DELETE FROM `game_step`;
 /*!40000 ALTER TABLE `game_step` DISABLE KEYS */;
 INSERT INTO `game_step` (`game_step_id`, `game_id`, `step_game_player_id`, `trand_value`) VALUES
@@ -32123,7 +32197,7 @@ CREATE TABLE IF NOT EXISTS `game_step_results` (
   CONSTRAINT `FK_game_step_results_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1940 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_step_results: ~1 753 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step_results: ~1 818 rows (приблизительно)
 DELETE FROM `game_step_results`;
 /*!40000 ALTER TABLE `game_step_results` DISABLE KEYS */;
 INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_id`, `game_step_id`, `game_step_result`) VALUES
@@ -33802,7 +33876,7 @@ DELETE FROM `player`;
 INSERT INTO `player` (`player_id`, `player_log`, `player_phone`, `player_pass`, `player_first_name`, `player_last_name`, `player_middle_name`, `player_birth_date`, `player_ava`, `player_email`, `balance`, `registration_date`, `rating`, `uploadnum`, `last_activity`) VALUES
 	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00, '2017-01-01 00:00:00', 12.00, 0, '2017-01-01 00:00:00'),
 	(2, 'tutunia', '435', '8', 'Serg', 'Tut', 'A', '2016-08-01', 'tutunia_1.png', 'hth@mail.ru', 1000.00, '2017-02-01 00:00:00', 9.10, 1, '2017-01-02 00:00:00'),
-	(3, 'k', '+79162664924', '7', 'kalistrat', 'kalistratov', 'koldybovich', '1985-06-26', 'k_12.png', 'kauredinas@mail.ru', 5000.00, '2017-03-01 00:00:00', 77.70, 12, '2017-01-02 00:00:00'),
+	(3, 'k', '+79162664924', '7', 'kalistrat', 'kalistratov', 'koldybovich', '1985-06-26', 'k_12.png', 'kauredinas@mail.ru', 5000.00, '2017-03-01 00:00:00', 77.70, 12, '2017-05-04 18:13:13'),
 	(4, 'ADMIN', '0', '7onofN', 'ADMIN', 'ADMIN', 'ADMIN', '2016-08-09', NULL, 'admin@mail.ru', 500000.00, '2017-04-01 00:00:00', 2.00, 0, '2017-01-02 00:00:00');
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 
@@ -33969,6 +34043,9 @@ set gp.current_passiv_value=gp.current_passiv_value-i_field_price
 where gp.game_player_id=i_game_player_id
 and gp.game_id=eGameId;
 
+call p_game_activity_update(eGameId);
+call p_player_activity_update(ePlayerLog);
+
 end//
 DELIMITER ;
 
@@ -34049,6 +34126,67 @@ end//
 DELIMITER ;
 
 
+-- Дамп структуры для процедура conjuncture.p_close_game_player
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_close_game_player`(IN `eGameId` int, IN `eUserLog` varchar(50))
+begin
+declare i_total_value decimal(10,2);
+declare i_game_player_id int;
+
+set i_game_player_id = f_get_game_player_id(eGameId,eUserLog);
+
+select t.passiv_value+t.sale_rates_value into i_total_value
+from (
+select gp.game_player_id
+,ifnull(gp.current_passiv_value,0) passiv_value
+,sum(ft.field_price) sale_rates_value
+from game_field gf
+join field_type ft on ft.field_type_id = gf.field_type_id
+join game_player gp on gp.game_player_id = gf.game_player_id
+join player p on p.player_id=gp.player_id
+where gf.game_id = eGameId
+and p.player_log = eUserLog
+group by gp.game_player_id
+,gp.current_passiv_value
+) t;
+
+update game_player gp
+set gp.is_active=0
+,gp.current_passiv_value=0
+,gp.out_time=sysdate()
+,gp.out_passiv_value=i_total_value
+where gp.game_player_id = i_game_player_id;
+
+update game_field gf
+set gf.game_player_id=null
+where gf.game_id = eGameId
+and gf.game_player_id=i_game_player_id;
+
+update player p
+set p.balance=p.balance + i_total_value
+where p.player_log = eUserLog;
+
+call p_game_activity_update(eGameId);
+call p_player_activity_update(eUserLog);
+
+
+end//
+DELIMITER ;
+
+
+-- Дамп структуры для процедура conjuncture.p_game_activity_update
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_game_activity_update`(eGameId int)
+begin
+
+update game g
+set g.last_activity = sysdate()
+where g.game_id = eGameId;
+
+end//
+DELIMITER ;
+
+
 -- Дамп структуры для процедура conjuncture.p_game_field_insert
 DELIMITER //
 CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_game_field_insert`(eGameid int)
@@ -34106,29 +34244,8 @@ DELIMITER ;
 
 -- Дамп структуры для процедура conjuncture.p_game_player_insert
 DELIMITER //
-CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_game_player_insert`(eGameId int,ePlayerId int,eInTime datetime,ePassiv decimal(10,2),eSym varchar(5))
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_game_player_insert`(IN `eGameId` int, IN `ePassiv` decimal(10,2), IN `eUserLog` VARCHAR(50))
 begin
-declare i_order_connect int;
-declare i_cnt_rows int;
-declare i_is_steping int;
-
-select count(*) into i_cnt_rows
-from game_player gp
-where gp.game_id=eGameId;
-
-if (i_cnt_rows = 0) then
-	set i_order_connect = 1;
-	set i_is_steping = 0;
-elseif (i_cnt_rows = 1) then
-	set i_order_connect = 2;
-	set i_is_steping = 0;
-	update game_player gpp
-	set gpp.is_steping = 1
-	where gpp.game_id=eGameId;
-else
-	set i_order_connect = i_cnt_rows + 1;
-	set i_is_steping = 0;
-end if;
 
 insert into game_player(game_id
 ,player_id
@@ -34138,16 +34255,40 @@ insert into game_player(game_id
 ,player_sym
 ,order_connect
 ,is_steping
+,is_active
+,last_activity
+,start_steping
 )
-values (eGameId
-,ePlayerId
-,eInTime
-,ePassiv
-,ePassiv
-,eSym
-,i_order_connect
-,i_is_steping
-);
+select g.game_id
+,(
+select p.player_id
+from player p
+where p.player_log=eUserLog
+) player_id
+,sysdate() in_time
+,ePassiv in_passiv_value
+,ePassiv current_passiv_value
+,concat(substring((
+select lower(p.player_log)
+from player p
+where p.player_log=eUserLog
+),1,1)
+,(
+select count(*)
+from game_player gp
+where gp.game_id=g.game_id
+) + 1) player_sym
+,(
+select count(*)
+from game_player gp
+where gp.game_id=g.game_id
+) + 1 order_connect
+,0 is_steping
+,1 is_active
+,sysdate() last_activity
+,sysdate() start_steping
+from game g
+where g.game_id=eGameId;
 
 end//
 DELIMITER ;
@@ -34220,7 +34361,7 @@ values(eGameId,i_game_player_id,i_res_trand_value_1);
 call p_sell_game_fields_by_user(eGameFields, i_game_player_id, eGameId);
 call p_buy_game_fields_by_user(eGameFields, i_game_player_id, eGameId);
 
-call p_switch_game_player(eGameId,i_game_player_id);
+call p_switch_game_player(eGameId);
 
 if (i_IsSingleGame = 1) then
 call p_buy_game_fields_by_admin(eGameId);
@@ -34230,7 +34371,7 @@ set i_res_trand_value_2 = f_generate_trand_value();
 insert into game_step(game_id,step_game_player_id,trand_value)
 values(eGameId,i_admin_game_player_id,i_res_trand_value_2);
 
-call p_switch_game_player(eGameId,i_admin_game_player_id);
+call p_switch_game_player(eGameId);
 end if;
 
 
@@ -34268,7 +34409,11 @@ where gsp.game_id=eGameId;
 
 call p_game_rate_hist(eGameId,i_game_step_id);
 call p_calc_step_results(eGameId);
-call p_switch_game_player(eGameId,i_game_player_id);
+call p_switch_game_player(eGameId);
+
+call p_game_activity_update(eGameId);
+call p_player_activity_update(ePlayerLog);
+
 
 if (i_IsSingleGame = 1) then
 call p_buy_game_fields_by_admin(eGameId);
@@ -34284,10 +34429,23 @@ where gsp.game_id=eGameId;
 
 call p_game_rate_hist(eGameId,i_game_step_id);
 call p_calc_step_results(eGameId);
-call p_switch_game_player(eGameId,i_admin_game_player_id);
+call p_switch_game_player(eGameId);
 
 end if;
 
+
+end//
+DELIMITER ;
+
+
+-- Дамп структуры для процедура conjuncture.p_player_activity_update
+DELIMITER //
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_player_activity_update`(eUserLog varchar(50))
+begin
+
+update player p
+set p.last_activity=sysdate()
+where p.player_log = eUserLog;
 
 end//
 DELIMITER ;
@@ -34418,7 +34576,7 @@ DELIMITER ;
 
 -- Дамп структуры для процедура conjuncture.p_sell_game_field_n
 DELIMITER //
-CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_sell_game_field_n`(eGameId int,ePlayerLog varchar(20),eFieldIndex varchar(5))
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_sell_game_field_n`(IN `eGameId` int, IN `ePlayerLog` varchar(20), IN `eFieldIndex` varchar(5))
 begin
 declare i_game_field_id int;
 declare i_field_price decimal(10,2);
@@ -34443,6 +34601,9 @@ update game_player gp
 set gp.current_passiv_value=gp.current_passiv_value+i_field_price
 where gp.game_player_id=i_game_player_id
 and gp.game_id=eGameId;
+
+call p_game_activity_update(eGameId);
+call p_player_activity_update(ePlayerLog);
 
 end//
 DELIMITER ;
@@ -34472,44 +34633,31 @@ DELIMITER ;
 
 -- Дамп структуры для процедура conjuncture.p_switch_game_player
 DELIMITER //
-CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_switch_game_player`(IN `eGameId` int, IN `eGamePlayerId` int)
+CREATE DEFINER=`gumbler`@`localhost` PROCEDURE `p_switch_game_player`(IN `eGameId` int)
 begin
-declare i_next_order_connect int;
-#declare i_rowcount int;
+declare i_next_game_player_id int;
 
-#declare next_player cursor for
-select max(gpp.order_connect) into i_next_order_connect
-from game_player gpp
-where gpp.game_id=eGameId
-and gpp.game_player_id in (
-select gp.game_player_id
-from game_player gp
-where gp.game_id=eGameId
-and gp.order_connect> (
-select gpg.order_connect
-from game_player gpg
-where gpg.game_player_id=eGamePlayerId
-)
-order by gp.order_connect
+select min(gp5.game_player_id) into i_next_game_player_id
+from game_player gp5
+where gp5.game_id=eGameId
+and gp5.start_steping= (
+select min(gp4.start_steping)
+from game_player gp4
+where gp4.game_id = eGameId
+and gp4.is_active = 1
 );
 
-#open next_player;
-#set i_rowcount = found_rows();
-if i_next_order_connect is null then
-#  fetch next_player into i_next_order_connect;
-  set i_next_order_connect = 1;
-end if;
-#close next_player;
 
 update game_player gp1
 set gp1.is_steping=1
+,gp1.start_steping=sysdate()
 where gp1.game_id=eGameId
-and gp1.order_connect=i_next_order_connect;
+and gp1.game_player_id=next_game_player_id;
 
 update game_player gp1
 set gp1.is_steping=0
 where gp1.game_id=eGameId
-and gp1.order_connect!=i_next_order_connect;
+and gp1.game_player_id!=next_game_player_id;
 
 
 end//

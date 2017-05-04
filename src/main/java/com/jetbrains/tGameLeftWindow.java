@@ -32,6 +32,7 @@ public class tGameLeftWindow extends Window {
                         + "суммы приведены ниже:"
         );
         LeftGameHeader.setContentMode(ContentMode.PREFORMATTED);
+        LeftGameHeader.addStyleName(ValoTheme.LABEL_SMALL);
 
         iLeftGameTable = new tLeftGameTable(iGameId,iUserLog);
         ExitButton = new Button("Покинуть игру");
