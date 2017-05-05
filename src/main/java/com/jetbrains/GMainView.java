@@ -70,11 +70,12 @@ public class GMainView extends CustomComponent implements View {
         GameMenuTabSheet.addTab(iMainGameConnectLayout, "Подключение к игре", VaadinIcons.CONNECT);
         GameMenuTabSheet.addTab(iUserDataLayout, "Личные данные",VaadinIcons.HOME);
         //GameMenuTabSheet.addTab(new Label("Здесь будет архив"), "История игр",VaadinIcons.ARCHIVE);
+        //GameMenuTabSheet.removeTab(GameMenuTabSheet.getTab(1).getCaption());
 
         int UserGameId = tGameRunningLayout.getLastUserGame(CurrentUsr);
 
         if (UserGameId != 0){
-            iGameRunningLayout = new tGameRunningLayout(UserGameId,CurrentUsr);
+            iGameRunningLayout = new tGameRunningLayout(UserGameId,CurrentUsr,GameMenuTabSheet);
             GameMenuTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.PLAY_CIRCLE);
             GameMenuTabSheet.setData(UserGameId);
         }

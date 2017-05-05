@@ -542,10 +542,13 @@ DELIMITER ;
 
 -- Дамп структуры для функция conjuncture.f_get_steping_time
 DELIMITER //
-CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_get_steping_time`(`eGameId` int, `eUserLog` varchar(50)) RETURNS time
+CREATE DEFINER=`gumbler`@`localhost` FUNCTION `f_get_steping_time`(`eGameId` int, `eUserLog` varchar(50)) RETURNS char(5) CHARSET utf8
 begin
 return(
-select time_format(sec_to_time(ifnull(timestampdiff(second,gp.start_steping,sysdate()),'0')),'%i:%s')
+select if (timestampdiff(second,gp.start_steping,sysdate())<3599,
+cast(time_format(sec_to_time(ifnull(timestampdiff(second,gp.start_steping,sysdate()),'0')),'%i:%s') as char)
+,'59:59'
+)
 from game_player gp
 join player p on p.player_id=gp.player_id
 join game g on g.game_id=gp.game_id
@@ -1119,7 +1122,7 @@ INSERT INTO `game` (`game_id`, `date_from`, `date_till`, `create_player_id`, `ar
 	(331, '2017-04-20 13:55:55', NULL, 3, 2, 1, NULL),
 	(332, '2017-04-27 16:52:16', NULL, 3, 1, 1, NULL),
 	(333, '2017-04-27 17:03:11', NULL, 3, 2, 0, NULL),
-	(334, '2017-04-27 17:03:25', NULL, 3, 2, 0, NULL),
+	(334, '2017-04-27 17:03:25', NULL, 3, 2, 0, '2017-05-05 15:41:02'),
 	(335, '2017-04-27 18:09:58', NULL, 3, 2, 1, NULL),
 	(336, '2017-04-27 18:10:54', NULL, 1, 2, 1, NULL),
 	(337, '2017-04-27 18:16:13', NULL, 1, 2, 1, NULL);
@@ -1143,7 +1146,7 @@ CREATE TABLE IF NOT EXISTS `game_field` (
   CONSTRAINT `FK_game_field_game_player` FOREIGN KEY (`game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23506 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_field: ~14 894 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_field: ~14 679 rows (приблизительно)
 DELETE FROM `game_field`;
 /*!40000 ALTER TABLE `game_field` DISABLE KEYS */;
 INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_index`, `field_type_id`, `game_player_id`) VALUES
@@ -15162,7 +15165,7 @@ INSERT INTO `game_field` (`game_field_id`, `game_id`, `field_value`, `field_inde
 	(23085, 334, 2.00, '74', 1, NULL),
 	(23086, 334, 2.00, '75', 1, NULL),
 	(23087, 334, 2.00, '76', 1, NULL),
-	(23088, 334, 2.00, '77', 1, 501),
+	(23088, 334, 2.00, '77', 1, NULL),
 	(23089, 334, 3.00, '11', 2, NULL),
 	(23090, 334, 3.00, '12', 2, NULL),
 	(23091, 334, 3.00, '13', 2, NULL),
@@ -15429,7 +15432,7 @@ CREATE TABLE IF NOT EXISTS `game_player` (
   CONSTRAINT `FK_game_player_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=512 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_player: ~400 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_player: ~483 rows (приблизительно)
 DELETE FROM `game_player`;
 /*!40000 ALTER TABLE `game_player` DISABLE KEYS */;
 INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, `out_time`, `in_passiv_value`, `out_passiv_value`, `current_passiv_value`, `player_sym`, `order_connect`, `is_steping`, `is_active`, `last_activity`, `start_steping`) VALUES
@@ -15932,17 +15935,17 @@ INSERT INTO `game_player` (`game_player_id`, `game_id`, `player_id`, `in_time`, 
 	(498, 332, 3, '2017-04-27 16:52:16', NULL, 100000.00, NULL, 100000.00, 'k1', 1, 1, NULL, NULL, NULL),
 	(499, 332, 4, '2017-04-27 16:52:16', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL, NULL),
 	(500, 333, 3, '2017-04-27 17:03:11', NULL, 100.00, NULL, 100.00, 'k1', 1, 0, NULL, NULL, NULL),
-	(501, 334, 3, '2017-04-27 17:03:25', NULL, 100.00, NULL, 0.00, 'k1', 1, 1, 1, NULL, NULL),
+	(501, 334, 3, '2017-04-27 17:03:25', '2017-05-05 15:41:02', 100.00, 100.00, 0.00, 'k1', 1, 1, 0, NULL, NULL),
 	(502, 335, 3, '2017-04-27 18:09:58', NULL, 300.00, NULL, 300.00, 'k1', 1, 1, NULL, NULL, NULL),
 	(503, 335, 4, '2017-04-27 18:09:58', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL, NULL),
 	(504, 336, 1, '2017-04-27 18:10:54', NULL, 300.00, NULL, 300.00, 'Semen', 1, 1, NULL, NULL, NULL),
 	(505, 336, 4, '2017-04-27 18:10:54', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL, NULL),
-	(506, 337, 1, '2017-04-27 18:16:13', NULL, 4000.00, NULL, 4000.00, 'Semen', 1, 1, NULL, NULL, '2017-05-01 17:40:30'),
-	(507, 337, 4, '2017-04-27 18:16:13', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, NULL, NULL, '2017-05-01 17:39:54'),
+	(506, 337, 1, '2017-04-27 18:16:13', NULL, 4000.00, NULL, 4000.00, 'Semen', 1, 1, 1, NULL, '2017-05-05 17:40:30'),
+	(507, 337, 4, '2017-04-27 18:16:13', NULL, 5000.00, NULL, 5000.00, 'AD', 2, 0, 1, NULL, '2017-05-01 17:39:54'),
 	(508, 199, 1, '2017-05-04 19:34:43', NULL, 100.00, NULL, 100.00, 's3', 3, 0, NULL, NULL, NULL),
 	(509, 200, 1, '2017-05-04 19:36:07', NULL, 100.00, NULL, 100.00, 's3', 3, 0, NULL, NULL, '2017-05-04 19:36:07'),
 	(510, 200, 1, '2017-05-04 19:37:02', NULL, 100.00, NULL, 100.00, 's4', 4, 0, NULL, '2017-05-04 19:37:02', '2017-05-04 19:37:02'),
-	(511, 200, 1, '2017-05-04 19:53:43', NULL, 100.00, NULL, 100.00, 's5', 5, 0, 1, '2017-05-04 19:53:43', '2017-05-04 19:53:43');
+	(511, 200, 1, '2017-05-04 19:53:43', NULL, 100.00, NULL, 100.00, 's5', 5, 0, 0, '2017-05-04 19:53:43', '2017-05-04 19:53:43');
 /*!40000 ALTER TABLE `game_player` ENABLE KEYS */;
 
 
@@ -16083,7 +16086,7 @@ CREATE TABLE IF NOT EXISTS `game_rate_hist` (
   CONSTRAINT `FK_game_rate_hist_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15124 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_rate_hist: ~11 208 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_rate_hist: ~11 996 rows (приблизительно)
 DELETE FROM `game_rate_hist`;
 /*!40000 ALTER TABLE `game_rate_hist` DISABLE KEYS */;
 INSERT INTO `game_rate_hist` (`game_rate_hist_id`, `game_id`, `game_player_id`, `game_step_id`, `field_type_id`, `fields_count`) VALUES
@@ -27640,7 +27643,7 @@ CREATE TABLE IF NOT EXISTS `game_step` (
   CONSTRAINT `FK_game_step_game_player` FOREIGN KEY (`step_game_player_id`) REFERENCES `game_player` (`game_player_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4535 DEFAULT CHARSET=latin1;
 
--- Дамп данных таблицы conjuncture.game_step: ~5 005 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step: ~4 691 rows (приблизительно)
 DELETE FROM `game_step`;
 /*!40000 ALTER TABLE `game_step` DISABLE KEYS */;
 INSERT INTO `game_step` (`game_step_id`, `game_id`, `step_game_player_id`, `trand_value`) VALUES
@@ -32197,7 +32200,7 @@ CREATE TABLE IF NOT EXISTS `game_step_results` (
   CONSTRAINT `FK_game_step_results_game_step` FOREIGN KEY (`game_step_id`) REFERENCES `game_step` (`game_step_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1940 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы conjuncture.game_step_results: ~1 818 rows (приблизительно)
+-- Дамп данных таблицы conjuncture.game_step_results: ~1 883 rows (приблизительно)
 DELETE FROM `game_step_results`;
 /*!40000 ALTER TABLE `game_step_results` DISABLE KEYS */;
 INSERT INTO `game_step_results` (`game_step_result_id`, `game_player_id`, `game_id`, `game_step_id`, `game_step_result`) VALUES
@@ -33874,9 +33877,9 @@ CREATE TABLE IF NOT EXISTS `player` (
 DELETE FROM `player`;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
 INSERT INTO `player` (`player_id`, `player_log`, `player_phone`, `player_pass`, `player_first_name`, `player_last_name`, `player_middle_name`, `player_birth_date`, `player_ava`, `player_email`, `balance`, `registration_date`, `rating`, `uploadnum`, `last_activity`) VALUES
-	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00, '2017-01-01 00:00:00', 12.00, 0, '2017-01-01 00:00:00'),
+	(1, 'SemenovNA', '78949', '7', 'Nick', 'Sem', 'And', '1985-07-20', NULL, 'nick@mail.ru', 3000.00, '2017-01-01 00:00:00', 12.00, 0, '2017-05-05 17:58:18'),
 	(2, 'tutunia', '435', '8', 'Serg', 'Tut', 'A', '2016-08-01', 'tutunia_1.png', 'hth@mail.ru', 1000.00, '2017-02-01 00:00:00', 9.10, 1, '2017-01-02 00:00:00'),
-	(3, 'k', '+79162664924', '7', 'kalistrat', 'kalistratov', 'koldybovich', '1985-06-26', 'k_12.png', 'kauredinas@mail.ru', 5000.00, '2017-03-01 00:00:00', 77.70, 12, '2017-05-04 18:13:13'),
+	(3, 'k', '+79162664924', '7', 'kalistrat', 'kalistratov', 'koldybovich', '1985-06-26', 'k_12.png', 'kauredinas@mail.ru', 5100.00, '2017-03-01 00:00:00', 77.70, 12, '2017-05-05 17:57:57'),
 	(4, 'ADMIN', '0', '7onofN', 'ADMIN', 'ADMIN', 'ADMIN', '2016-08-09', NULL, 'admin@mail.ru', 500000.00, '2017-04-01 00:00:00', 2.00, 0, '2017-01-02 00:00:00');
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 

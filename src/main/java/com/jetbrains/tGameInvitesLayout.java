@@ -220,7 +220,7 @@ public class tGameInvitesLayout extends VerticalLayout {
                                         "Завершите активную игру",
                                         Notification.Type.TRAY_NOTIFICATION);
                             } else {
-                                iMainTabSheet.addTab(new tGameRunningLayout(getInviteGame((int) clickEvent.getButton().getData()),iUserLog), "Активная игра",VaadinIcons.PLAY_CIRCLE);
+                                iMainTabSheet.addTab(new tGameRunningLayout(getInviteGame((int) clickEvent.getButton().getData()),iUserLog,iMainTabSheet), "Активная игра",VaadinIcons.PLAY_CIRCLE);
                                 iMainTabSheet.setData(getInviteGame((int) clickEvent.getButton().getData()));
                             }
                         }
@@ -311,7 +311,7 @@ public class tGameInvitesLayout extends VerticalLayout {
                                             "Завершите активную игру",
                                             Notification.Type.TRAY_NOTIFICATION);
                                 } else {
-                                    iMainTabSheet.addTab(new tGameRunningLayout(getInviteGame((int) clickEvent.getButton().getData()),iUserLog), "Активная игра",VaadinIcons.PLAY_CIRCLE);
+                                    iMainTabSheet.addTab(new tGameRunningLayout(getInviteGame((int) clickEvent.getButton().getData()),iUserLog,iMainTabSheet), "Активная игра",VaadinIcons.PLAY_CIRCLE);
                                     iMainTabSheet.setData(getInviteGame((int) clickEvent.getButton().getData()));
                                 }
                         }

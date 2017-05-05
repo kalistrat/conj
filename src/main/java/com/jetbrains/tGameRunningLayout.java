@@ -29,12 +29,14 @@ public class tGameRunningLayout extends VerticalLayout {
     public TextField iStepingPlayer;
     public Button MakeStepButton;
     public Button GameExitButton;
+    TabSheet iGameMenuTabSheet;
 
 
-    public tGameRunningLayout(int eGameId,String eUserLog){
+    public tGameRunningLayout(int eGameId,String eUserLog,TabSheet eGameMenuTabSheet){
 
         this.iGameId = eGameId;
         this.iUserLog = eUserLog;
+        iGameMenuTabSheet = eGameMenuTabSheet;
 
         iWaitingTimeField = new TextField("Время ожидания хода");
         iCurrentPlayerBalance = new TextField("Текущий игровой баланс");
@@ -61,7 +63,7 @@ public class tGameRunningLayout extends VerticalLayout {
         GameExitButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new tGameLeftWindow(iGameId,iUserLog));
+                UI.getCurrent().addWindow(new tGameLeftWindow(iGameId,iUserLog,iGameMenuTabSheet));
             }
         });
 

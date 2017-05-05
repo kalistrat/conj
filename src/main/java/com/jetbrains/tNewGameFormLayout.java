@@ -133,7 +133,7 @@ public class tNewGameFormLayout extends VerticalLayout {
                     }
                 }
 
-                if ((Integer) eMainTabSheet.getData()!= null){
+                if ((Integer) iMainTabSheet.getData()!= null){
                     sErrorMessage = sErrorMessage + "Вы не завершили предыдущую игру";
                 }
 
@@ -144,7 +144,7 @@ public class tNewGameFormLayout extends VerticalLayout {
                 } else {
 
                     iGameId = fNewGameCreate(GameAreaType,StrToIntValue(GameBalanceField.getValue()),GameModeVal);
-                    iGameRunningLayout = new tGameRunningLayout(iGameId,iUserLog);
+                    iGameRunningLayout = new tGameRunningLayout(iGameId,iUserLog,iMainTabSheet);
                     iMainTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.PLAY_CIRCLE);
                     iMainTabSheet.setData(iGameId);
                     //System.out.println("iGameId " + iGameId);

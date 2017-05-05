@@ -6,6 +6,11 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  * Created by kalistrat on 03.05.2017.
  */
@@ -16,11 +21,13 @@ public class tGameLeftWindow extends Window {
     String iUserLog;
     Button ExitButton;
     Button ContinieButton;
+    TabSheet iGameMenuTabSheet;
 
-    public tGameLeftWindow(int eGameId,String eUserLog){
+    public tGameLeftWindow(int eGameId,String eUserLog,TabSheet eGameMenuTabSheet){
 
         iGameId = eGameId;
         iUserLog = eUserLog;
+        iGameMenuTabSheet = eGameMenuTabSheet;
 
         this.setIcon(VaadinIcons.EXIT_O);
         this.setCaption(" Выход из игры");
@@ -41,6 +48,25 @@ public class tGameLeftWindow extends Window {
         ContinieButton.setIcon(VaadinIcons.MONEY_EXCHANGE);
         ExitButton.addStyleName(ValoTheme.BUTTON_TINY);
         ContinieButton.addStyleName(ValoTheme.BUTTON_TINY);
+
+        ExitButton.setData(this);
+
+        ExitButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                closeGamePlayer();
+                UI.getCurrent().removeWindow((tGameLeftWindow) clickEvent.getButton().getData());
+                iGameMenuTabSheet.removeTab(iGameMenuTabSheet.getTab(3));
+                iGameMenuTabSheet.setData(0);
+            }
+        });
+
+        ContinieButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                UI.getCurrent().removeWindow((tGameLeftWindow) clickEvent.getButton().getData());
+            }
+        });
 
         HorizontalLayout ButtonsLayout = new HorizontalLayout(
                 ExitButton
@@ -73,5 +99,31 @@ public class tGameLeftWindow extends Window {
         this.setContent(WindowContentLayout);
         this.setSizeUndefined();
         this.setModal(true);
+    }
+
+    public void closeGamePlayer(){
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement CloseGamePlayerStmt = Con.prepareCall("{call p_close_game_player(?, ?)}");
+            CloseGamePlayerStmt.setInt(1, iGameId);
+            CloseGamePlayerStmt.setString(2, iUserLog);
+            CloseGamePlayerStmt.execute();
+
+            Con.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
     }
 }
