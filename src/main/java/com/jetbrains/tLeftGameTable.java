@@ -65,17 +65,17 @@ public class tLeftGameTable extends Table {
                     "from (\n" +
                     "select gp.game_player_id\n" +
                     ",ifnull(gp.current_passiv_value,0) passiv_value\n" +
-                    ",sum(ft.field_price) sale_rates_value\n" +
-                    "from game_field gf\n" +
-                    "join field_type ft on ft.field_type_id = gf.field_type_id\n" +
-                    "join game_player gp on gp.game_player_id = gf.game_player_id\n" +
+                    ",ifnull(sum(ft.field_price),0) sale_rates_value\n" +
+                    "from game_player gp\n" +
                     "join player p on p.player_id=gp.player_id\n" +
-                    "where gf.game_id=?\n" +
+                    "left join game_field gf on gf.game_player_id=gp.game_player_id\n" +
+                    "left join field_type ft on ft.field_type_id = gf.field_type_id\n" +
+                    "where gp.game_id=?\n" +
                     "and p.player_log=?\n" +
                     "group by gp.game_player_id\n" +
                     ",gp.current_passiv_value\n" +
                     ") t\n" +
-                    ") b\n";
+                    ") b";
 
             PreparedStatement LeftGameStmt = Con.prepareStatement(LeftGameSql);
             LeftGameStmt.setInt(1,iGameId);

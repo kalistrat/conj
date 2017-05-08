@@ -159,7 +159,9 @@ public class tGameAreaTable extends Table {
         return  (Button) this.GameAreaContainer.getContainerProperty(NumRow,String.valueOf(NumCol)).getValue();
     }
 
-    public void AreaContainerRefresh(int IsUserStepping){
+    public void AreaContainerRefresh(){
+
+        int IsUserStepping = isMyMove(InsGameId,InsUserName);
 
         try {
             Class.forName(tAppCommonStatic.JDBC_DRIVER);
@@ -335,6 +337,36 @@ public class tGameAreaTable extends Table {
 
 
         return aSize;
+    }
+
+    public int isMyMove(int qGameId,String gUserLog){
+        int aMyMove = 0;
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection conn = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement MyMoveStmt = conn.prepareCall("{? = call f_itsmyturn(?,?)}");
+            MyMoveStmt.registerOutParameter(1,Types.INTEGER);
+            MyMoveStmt.setInt(2, qGameId);
+            MyMoveStmt.setString(3, gUserLog);
+            MyMoveStmt.execute();
+            aMyMove = MyMoveStmt.getInt(1);
+            conn.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+
+        return aMyMove;
     }
 
 }

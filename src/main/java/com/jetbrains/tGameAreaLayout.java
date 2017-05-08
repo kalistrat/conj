@@ -1,9 +1,11 @@
 package com.jetbrains;
 
+import com.vaadin.event.UIEvents;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -93,5 +95,15 @@ public class tGameAreaLayout extends VerticalLayout {
 
 
         addComponent(ContentLayout);
+
+//        UI.getCurrent().addPollListener(new UIEvents.PollListener() {
+//            @Override
+//            public void poll(UIEvents.PollEvent pollEvent) {
+//                iGameAreaTable.AreaContainerRefresh();
+//                iTrandChartLayout.refreshGraph();
+//                iGameMembersTable.refreshData();
+//                iUserRatesTable.RefreshData();
+//            }
+//        });
     }
 }

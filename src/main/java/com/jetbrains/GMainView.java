@@ -67,8 +67,9 @@ public class GMainView extends CustomComponent implements View {
         iUserDataLayout = new tUserDataLayout(CurrentUsr);
         iMainGameConnectLayout = new tMainGameConnectLayout(CurrentUsr,GameMenuTabSheet);
 
-        GameMenuTabSheet.addTab(iMainGameConnectLayout, "Подключение к игре", VaadinIcons.CONNECT);
-        GameMenuTabSheet.addTab(iUserDataLayout, "Личные данные",VaadinIcons.HOME);
+        GameMenuTabSheet.addTab(iMainGameConnectLayout, "Подключение к игре", VaadinIcons.CONNECT,0);
+        GameMenuTabSheet.addTab(iUserDataLayout, "Личные данные",VaadinIcons.HOME,1);
+
         //GameMenuTabSheet.addTab(new Label("Здесь будет архив"), "История игр",VaadinIcons.ARCHIVE);
         //GameMenuTabSheet.removeTab(GameMenuTabSheet.getTab(1).getCaption());
 
@@ -76,8 +77,10 @@ public class GMainView extends CustomComponent implements View {
 
         if (UserGameId != 0){
             iGameRunningLayout = new tGameRunningLayout(UserGameId,CurrentUsr,GameMenuTabSheet);
-            GameMenuTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.PLAY_CIRCLE);
+            GameMenuTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.PLAY_CIRCLE,2);
             GameMenuTabSheet.setData(UserGameId);
+        } else {
+            GameMenuTabSheet.setData(0);
         }
 
         VerticalLayout MainViewContentLayout = new VerticalLayout(

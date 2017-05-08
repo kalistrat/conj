@@ -237,7 +237,7 @@ public class g_step_layout extends VerticalLayout {
                                 TurnStmt.setString(3, iPlayerLog);
                                 TurnStmt.execute();
                                 IsMyTurn = TurnStmt.getInt(1);
-                                jGAT.AreaContainerRefresh(0);
+                                jGAT.AreaContainerRefresh();
                                 CurrentBalanceField.RefreshValue();
                                 StepingUserField.RefreshValue();
                                 jGURT.RefreshData();
@@ -259,7 +259,7 @@ public class g_step_layout extends VerticalLayout {
                 }
 
                 StepButton.setEnabled(true);
-                jGAT.AreaContainerRefresh(1);
+                jGAT.AreaContainerRefresh();
                 CurrentBalanceField.RefreshValue();
                 StepingUserField.RefreshValue();
                 jGURT.RefreshData();

@@ -22,6 +22,7 @@ public class tGameRunningLayout extends VerticalLayout {
     public VerticalLayout RightContentLayout;
     public VerticalLayout LeftContentLayout;
     public tGameAreaLayout iGameAreaLayout;
+    public tResultsGraphLayout iResultsGraphLayout;
     public String iUserLog;
 
     public TextField iWaitingTimeField;
@@ -50,20 +51,33 @@ public class tGameRunningLayout extends VerticalLayout {
         iCurrentPlayerBalance.setIcon(VaadinIcons.COIN_PILES);
         iStepingPlayer.setIcon(VaadinIcons.USER_CLOCK);
 
+        iWaitingTimeField.setEnabled(false);
+        iStepingPlayer.setEnabled(false);
+        iCurrentPlayerBalance.setEnabled(false);
+
         MakeStepButton = new Button("Выполнить ход");
         MakeStepButton.addStyleName(ValoTheme.BUTTON_LINK);
         MakeStepButton.addStyleName(ValoTheme.BUTTON_SMALL);
         MakeStepButton.setIcon(VaadinIcons.MONEY_EXCHANGE);
+        MakeStepButton.setEnabled(false);
+
+        MakeStepButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                makeGameStep();
+            }
+        });
 
         GameExitButton = new Button("Покинуть игру");
         GameExitButton.addStyleName(ValoTheme.BUTTON_LINK);
         GameExitButton.addStyleName(ValoTheme.BUTTON_SMALL);
         GameExitButton.setIcon(VaadinIcons.EXIT);
+        GameExitButton.setData(this);
 
         GameExitButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                UI.getCurrent().addWindow(new tGameLeftWindow(iGameId,iUserLog,iGameMenuTabSheet));
+                UI.getCurrent().addWindow(new tGameLeftWindow(iGameId,iUserLog,iGameMenuTabSheet,(tGameRunningLayout) clickEvent.getButton().getData()));
             }
         });
 
@@ -112,12 +126,14 @@ public class tGameRunningLayout extends VerticalLayout {
 
                     if (event.getProperty().getValue().equals("Выполнение ходов игры")){
                         RightContentLayout.removeAllComponents();
-                        RightContentLayout.addComponent(new tGameAreaLayout(iGameId,iUserLog));
+                        iGameAreaLayout = new tGameAreaLayout(iGameId,iUserLog);
+                        RightContentLayout.addComponent(iGameAreaLayout);
                     }
 
                     if (event.getProperty().getValue().equals("Результаты ходов игры")){
                         RightContentLayout.removeAllComponents();
-                        RightContentLayout.addComponent(new tResultsGraphLayout(iGameId,iUserLog));
+                        iResultsGraphLayout = new tResultsGraphLayout(iGameId,iUserLog);
+                        RightContentLayout.addComponent(iResultsGraphLayout);
                     }
 
                 }
@@ -148,7 +164,7 @@ public class tGameRunningLayout extends VerticalLayout {
 
 
         iGameAreaLayout = new tGameAreaLayout(this.iGameId,this.iUserLog);
-
+        iResultsGraphLayout = new tResultsGraphLayout(iGameId,iUserLog);
 
         RightContentLayout = new VerticalLayout(
                 iGameAreaLayout
@@ -179,16 +195,43 @@ public class tGameRunningLayout extends VerticalLayout {
         this.addComponent(new Label());
 
         this.setComponentAlignment(ContentLayout, Alignment.MIDDLE_CENTER);
+        //this.setData(this);
+
+
 
         UI.getCurrent().addPollListener(new UIEvents.PollListener() {
             @Override
             public void poll(UIEvents.PollEvent event) {
-                //getLastUserGame(iUserLog);
                 getStepingPlayer();
                 getCurrentBalance();
                 getWatingTime();
-                iGameAreaLayout.iTrandChartLayout.refreshGraph();
-                //System.out.println("do refresh..");
+                //tGameRunningLayout tComp = (tGameRunningLayout) iGameMenuTabSheet.getSelectedTab();
+                //tGameRunningLayout tComp = (tGameRunningLayout) iGameMenuTabSheet.getSelectedTab().getCaption();
+                //System.out.println(((tGameRunningLayout) iGameMenuTabSheet.getTab(2).getComponent()).iGameId);
+
+                if (isUserMove() == 1) {
+                    MakeStepButton.setEnabled(true);
+                }
+
+                //System.out.println("isUserLost " + isUserLost());
+                //System.out.println("GameID: " + (Integer) iGameMenuTabSheet.getData());
+
+                if ((isUserLost() == 1) && ((Integer) iGameMenuTabSheet.getData()!=0)) {
+                    UI.getCurrent().addWindow(new tGameLostWindow(iGameId,iUserLog));
+                    closeGamePlayer();
+                    iGameMenuTabSheet.removeTab(iGameMenuTabSheet.getTab(2));
+                    iGameMenuTabSheet.setData(0);
+
+                }
+
+                if ((isUserWon() == 1) && ((Integer) iGameMenuTabSheet.getData()!=0)) {
+                    UI.getCurrent().addWindow(new tGameWonWindow(iGameId,iUserLog));
+                    closeGamePlayer();
+                    iGameMenuTabSheet.removeTab(iGameMenuTabSheet.getTab(2));
+                    iGameMenuTabSheet.setData(0);
+
+                }
+
             }
         });
 
@@ -297,12 +340,12 @@ public class tGameRunningLayout extends VerticalLayout {
             );
 
             CallableStatement WatingTimeStmt = Con.prepareCall("{? = call f_get_steping_time(?,?)}");
-            WatingTimeStmt.registerOutParameter (1, Types.TIME);
+            WatingTimeStmt.registerOutParameter (1, Types.CHAR);
             WatingTimeStmt.setInt(2, iGameId);
             WatingTimeStmt.setString(3, iUserLog);
 
             WatingTimeStmt.execute();
-            iWaitingTimeField.setValue(new SimpleDateFormat("mm:ss").format(WatingTimeStmt.getTime(1)));
+            iWaitingTimeField.setValue(WatingTimeStmt.getString(1));
             Con.close();
 
         }catch(SQLException se){
@@ -313,6 +356,154 @@ public class tGameRunningLayout extends VerticalLayout {
             e.printStackTrace();
         }
 
+    }
+
+    public void makeGameStep(){
+
+        try {
+
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement MakeStepStmt = Con.prepareCall("{call p_make_game_step_n(?,?)}");
+            MakeStepStmt.setInt(1, iGameId);
+            MakeStepStmt.setString(2, iUserLog);
+            MakeStepStmt.execute();
+            Con.close();
+
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+
+    }
+
+    public int isUserMove(){
+        int aMyMove = 0;
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection conn = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement MyMoveStmt = conn.prepareCall("{? = call f_itsmyturn(?,?)}");
+            MyMoveStmt.registerOutParameter(1,Types.INTEGER);
+            MyMoveStmt.setInt(2, iGameId);
+            MyMoveStmt.setString(3, iUserLog);
+            MyMoveStmt.execute();
+            aMyMove = MyMoveStmt.getInt(1);
+            conn.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+
+        return aMyMove;
+    }
+
+    public int isUserLost(){
+        int aUserLost = 0;
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection conn = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement UserLostStmt = conn.prepareCall("{? = call f_is_player_lost(?,?)}");
+            UserLostStmt.registerOutParameter(1,Types.INTEGER);
+            UserLostStmt.setInt(2, iGameId);
+            UserLostStmt.setString(3, iUserLog);
+            UserLostStmt.execute();
+            aUserLost = UserLostStmt.getInt(1);
+            System.out.println("iGameId: " + iGameId);
+            //System.out.println("iUserLog: " + iUserLog);
+
+            //System.out.println("aUserLost: " + aUserLost);
+
+            conn.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+
+        return aUserLost;
+    }
+
+    public int isUserWon(){
+        int aUserWon = 0;
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection conn = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement UserWonStmt = conn.prepareCall("{? = call f_is_player_won(?,?)}");
+            UserWonStmt.registerOutParameter(1,Types.INTEGER);
+            UserWonStmt.setInt(2, iGameId);
+            UserWonStmt.setString(3, iUserLog);
+            UserWonStmt.execute();
+            aUserWon = UserWonStmt.getInt(1);
+            conn.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+
+        return aUserWon;
+    }
+
+    public void closeGamePlayer(){
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement CloseGamePlayerStmt = Con.prepareCall("{call p_close_game_player(?, ?)}");
+            CloseGamePlayerStmt.setInt(1, iGameId);
+            CloseGamePlayerStmt.setString(2, iUserLog);
+            CloseGamePlayerStmt.execute();
+
+            Con.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
     }
 
 }

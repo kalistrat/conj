@@ -1,5 +1,6 @@
 package com.jetbrains;
 
+import com.vaadin.event.UIEvents;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -10,6 +11,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Collection;
 
 /**
  * Created by kalistrat on 03.05.2017.
@@ -22,12 +24,14 @@ public class tGameLeftWindow extends Window {
     Button ExitButton;
     Button ContinieButton;
     TabSheet iGameMenuTabSheet;
+    tGameRunningLayout iGameRunningLayout;
 
-    public tGameLeftWindow(int eGameId,String eUserLog,TabSheet eGameMenuTabSheet){
+    public tGameLeftWindow(int eGameId,String eUserLog,TabSheet eGameMenuTabSheet,tGameRunningLayout eGameRunningLayout){
 
         iGameId = eGameId;
         iUserLog = eUserLog;
         iGameMenuTabSheet = eGameMenuTabSheet;
+        iGameRunningLayout = eGameRunningLayout;
 
         this.setIcon(VaadinIcons.EXIT_O);
         this.setCaption(" Выход из игры");
@@ -50,14 +54,24 @@ public class tGameLeftWindow extends Window {
         ContinieButton.addStyleName(ValoTheme.BUTTON_TINY);
 
         ExitButton.setData(this);
+        ContinieButton.setData(this);
 
         ExitButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 closeGamePlayer();
-                UI.getCurrent().removeWindow((tGameLeftWindow) clickEvent.getButton().getData());
-                iGameMenuTabSheet.removeTab(iGameMenuTabSheet.getTab(3));
+                iGameMenuTabSheet.removeTab(iGameMenuTabSheet.getTab(iGameRunningLayout));
+                Collection<?> listeners = UI.getCurrent().getListeners(UIEvents.PollEvent.class);
+                System.out.println("listeners :" + listeners.size());
+
+                for(Object listener : listeners){
+                    UI.getCurrent().removePollListener((UIEvents.PollListener) listener);
+                }
+                iGameRunningLayout.removeAllComponents();
+                iGameRunningLayout = null;
+                System.gc();
                 iGameMenuTabSheet.setData(0);
+                UI.getCurrent().removeWindow((tGameLeftWindow) clickEvent.getButton().getData());
             }
         });
 

@@ -215,13 +215,17 @@ public class tGameInvitesLayout extends VerticalLayout {
                                     "Приглашение не подтверждено",
                                     Notification.Type.TRAY_NOTIFICATION);
                         } else {
-                            if ((int) iMainTabSheet.getData() != 0) {
+                            if ((Integer) iMainTabSheet.getData() != 0) {
                                 Notification.show("Подключение невозможно:",
                                         "Завершите активную игру",
                                         Notification.Type.TRAY_NOTIFICATION);
                             } else {
-                                iMainTabSheet.addTab(new tGameRunningLayout(getInviteGame((int) clickEvent.getButton().getData()),iUserLog,iMainTabSheet), "Активная игра",VaadinIcons.PLAY_CIRCLE);
-                                iMainTabSheet.setData(getInviteGame((int) clickEvent.getButton().getData()));
+                                UI.getCurrent().addWindow(new tGameConnectWindow(
+                                        getInviteGame((int) clickEvent.getButton().getData())
+                                        ,iUserLog
+                                        ,iMainTabSheet
+                                )
+                                );
                             }
                         }
                     }
@@ -306,13 +310,19 @@ public class tGameInvitesLayout extends VerticalLayout {
                                     "Приглашение не подтверждено",
                                     Notification.Type.TRAY_NOTIFICATION);
                         } else {
-                                if ((int) iMainTabSheet.getData() != 0) {
+                                if ((Integer) iMainTabSheet.getData() != 0) {
                                     Notification.show("Подключение невозможно:",
                                             "Завершите активную игру",
                                             Notification.Type.TRAY_NOTIFICATION);
                                 } else {
-                                    iMainTabSheet.addTab(new tGameRunningLayout(getInviteGame((int) clickEvent.getButton().getData()),iUserLog,iMainTabSheet), "Активная игра",VaadinIcons.PLAY_CIRCLE);
-                                    iMainTabSheet.setData(getInviteGame((int) clickEvent.getButton().getData()));
+
+                                    UI.getCurrent().addWindow(new tGameConnectWindow(
+                                                    getInviteGame((int) clickEvent.getButton().getData())
+                                                    ,iUserLog
+                                                    ,iMainTabSheet
+                                            )
+                                    );
+
                                 }
                         }
                     }

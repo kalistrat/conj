@@ -22,6 +22,7 @@ public class tNewGameFormLayout extends VerticalLayout {
 
     Button CreateTheGameButton;
     TextField GameBalanceField;
+    NativeSelect MaxStepTime;
     tSelectGameAreaGrid iSelectGameAreaGrid;
     String iUserLog;
     Integer iGameId;
@@ -52,6 +53,16 @@ public class tNewGameFormLayout extends VerticalLayout {
         GameBalanceField.setInputPrompt("введите целое число > 100");
         //GameBalanceField.setValue("");
 
+        MaxStepTime = new NativeSelect("Максимальное время на ход");
+        MaxStepTime.setIcon(VaadinIcons.TIMER);
+        MaxStepTime.setNullSelectionAllowed(false);
+        MaxStepTime.addItem("30 секунд");
+        MaxStepTime.addItem("1 минута");
+        MaxStepTime.addItem("2 минуты");
+        MaxStepTime.addItem("3 минуты");
+        MaxStepTime.select("1 минута");
+
+
         TextField MaxPlayersField = new TextField("Предельное количество игроков :");
         MaxPlayersField.setIcon(VaadinIcons.GROUP);
         MaxPlayersField.setEnabled(false);
@@ -65,6 +76,7 @@ public class tNewGameFormLayout extends VerticalLayout {
 
         FormLayout GameParametersFormLayout = new FormLayout(
                 GameBalanceField
+                ,MaxStepTime
                 ,MaxPlayersField
                 ,MaxRatesField
         );
@@ -113,6 +125,7 @@ public class tNewGameFormLayout extends VerticalLayout {
 
                 String GameModeVal = (String) GameModeSelect.getValue();
                 String GameAreaType = iSelectGameAreaGrid.SelectedAreaType;
+                String GameMaxStepTime = (String) MaxStepTime.getValue();
 
                 String sErrorMessage = "";
 
@@ -133,7 +146,7 @@ public class tNewGameFormLayout extends VerticalLayout {
                     }
                 }
 
-                if ((Integer) iMainTabSheet.getData()!= null){
+                if ((Integer) iMainTabSheet.getData()!= 0){
                     sErrorMessage = sErrorMessage + "Вы не завершили предыдущую игру";
                 }
 
@@ -143,9 +156,9 @@ public class tNewGameFormLayout extends VerticalLayout {
                             Notification.Type.TRAY_NOTIFICATION);
                 } else {
 
-                    iGameId = fNewGameCreate(GameAreaType,StrToIntValue(GameBalanceField.getValue()),GameModeVal);
+                    iGameId = fNewGameCreate(GameAreaType,StrToIntValue(GameBalanceField.getValue()),GameModeVal,GameMaxStepTime);
                     iGameRunningLayout = new tGameRunningLayout(iGameId,iUserLog,iMainTabSheet);
-                    iMainTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.PLAY_CIRCLE);
+                    iMainTabSheet.addTab(iGameRunningLayout, "Активная игра",VaadinIcons.PLAY_CIRCLE,2);
                     iMainTabSheet.setData(iGameId);
                     //System.out.println("iGameId " + iGameId);
 
@@ -175,11 +188,12 @@ public class tNewGameFormLayout extends VerticalLayout {
 
     }
 
-    public int fNewGameCreate(String GameSize,Integer InitialBalanceValue,String GameMode)  {
+    public int fNewGameCreate(String GameSize,Integer InitialBalanceValue,String GameMode, String iStepTime)  {
 
         int iGameId = 0;
         int IntGameSize = 0;
         int IsSingleGame = 0;
+        int MaxStepTimeSec = 15;
 
         if (GameSize.equals("6x6")){
             IntGameSize = 6;
@@ -193,6 +207,20 @@ public class tNewGameFormLayout extends VerticalLayout {
 
         if (GameMode.equals("Однопользовательская игра")) {
             IsSingleGame = 1;
+        }
+
+
+        if (iStepTime.equals("30 секунд")){
+            MaxStepTimeSec = 30;
+        }
+        if (iStepTime.equals("1 минута")){
+            MaxStepTimeSec = 60;
+        }
+        if (iStepTime.equals("2 минуты")){
+            MaxStepTimeSec = 120;
+        }
+        if (iStepTime.equals("3 минуты")){
+            MaxStepTimeSec = 180;
         }
 
         try {
@@ -209,8 +237,8 @@ public class tNewGameFormLayout extends VerticalLayout {
             CreateGameStmt.setString(2, this.iUserLog);
             CreateGameStmt.setInt(3, IntGameSize);
             CreateGameStmt.setDouble(4, InitialBalanceValue);
-            CreateGameStmt.setString(5, this.iUserLog + "1");
-            CreateGameStmt.setInt(6, IsSingleGame);
+            CreateGameStmt.setInt(5, IsSingleGame);
+            CreateGameStmt.setInt(6, MaxStepTimeSec);
 
             CreateGameStmt.execute();
             iGameId = CreateGameStmt.getInt(1);

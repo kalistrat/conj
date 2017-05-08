@@ -32,7 +32,7 @@ public class tGameMembersTable extends Table {
         MembersContainer.addContainerProperty(3, Double.class, null);
         MembersContainer.addContainerProperty(4, Integer.class, null);
 
-        GetMembersData(this.iGameId);
+        GetMembersData();
         setContainerDataSource(MembersContainer);
         setPageLength(MembersContainer.size());
 
@@ -42,7 +42,7 @@ public class tGameMembersTable extends Table {
 
     }
 
-    public void GetMembersData(int qGameId){
+    public void GetMembersData(){
 
         try {
             Class.forName(tAppCommonStatic.JDBC_DRIVER);
@@ -68,7 +68,7 @@ public class tGameMembersTable extends Table {
                     "and gp.game_id=?";
 
             PreparedStatement MembersStmt = Con.prepareStatement(MembersSql);
-            MembersStmt.setInt(1,qGameId);
+            MembersStmt.setInt(1,iGameId);
 
             ResultSet MembersRs = MembersStmt.executeQuery();
 
@@ -94,5 +94,10 @@ public class tGameMembersTable extends Table {
             e13.printStackTrace();
         }
 
+    }
+
+    public void refreshData(){
+        this.MembersContainer.removeAllItems();
+        this.GetMembersData();
     }
 }
