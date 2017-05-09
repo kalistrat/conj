@@ -73,7 +73,7 @@ public class GMainView extends CustomComponent implements View {
         //GameMenuTabSheet.addTab(new Label("Здесь будет архив"), "История игр",VaadinIcons.ARCHIVE);
         //GameMenuTabSheet.removeTab(GameMenuTabSheet.getTab(1).getCaption());
 
-        int UserGameId = tGameRunningLayout.getLastUserGame(CurrentUsr);
+        int UserGameId = tAppCommonStatic.getLastUserGame(CurrentUsr);
 
         if (UserGameId != 0){
             iGameRunningLayout = new tGameRunningLayout(UserGameId,CurrentUsr,GameMenuTabSheet);

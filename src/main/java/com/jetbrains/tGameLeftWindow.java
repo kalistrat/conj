@@ -59,10 +59,10 @@ public class tGameLeftWindow extends Window {
         ExitButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                closeGamePlayer();
+                tAppCommonStatic.closeGamePlayer(iGameId,iUserLog);
                 iGameMenuTabSheet.removeTab(iGameMenuTabSheet.getTab(iGameRunningLayout));
                 Collection<?> listeners = UI.getCurrent().getListeners(UIEvents.PollEvent.class);
-                System.out.println("listeners :" + listeners.size());
+                //System.out.println("listeners :" + listeners.size());
 
                 for(Object listener : listeners){
                     UI.getCurrent().removePollListener((UIEvents.PollListener) listener);
@@ -115,29 +115,4 @@ public class tGameLeftWindow extends Window {
         this.setModal(true);
     }
 
-    public void closeGamePlayer(){
-
-        try {
-            Class.forName(tAppCommonStatic.JDBC_DRIVER);
-            Connection Con = DriverManager.getConnection(
-                    tAppCommonStatic.DB_URL
-                    , tAppCommonStatic.USER
-                    , tAppCommonStatic.PASS
-            );
-
-            CallableStatement CloseGamePlayerStmt = Con.prepareCall("{call p_close_game_player(?, ?)}");
-            CloseGamePlayerStmt.setInt(1, iGameId);
-            CloseGamePlayerStmt.setString(2, iUserLog);
-            CloseGamePlayerStmt.execute();
-
-            Con.close();
-
-        } catch (SQLException se3) {
-            //Handle errors for JDBC
-            se3.printStackTrace();
-        } catch (Exception e13) {
-            //Handle errors for Class.forName
-            e13.printStackTrace();
-        }
-    }
 }

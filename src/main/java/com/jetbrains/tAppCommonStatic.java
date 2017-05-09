@@ -3,6 +3,7 @@ package com.jetbrains;
 
 import com.vaadin.server.VaadinService;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,65 @@ public class tAppCommonStatic {
         }
 
         return StrPieces;
+    }
+
+    public static void closeGamePlayer(int qGameId, String qUserLog){
+
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement CloseGamePlayerStmt = Con.prepareCall("{call p_close_game_player(?, ?, ?)}");
+            CloseGamePlayerStmt.setInt(1, qGameId);
+            CloseGamePlayerStmt.setString(2, qUserLog);
+            CloseGamePlayerStmt.setString(3, "R");
+            CloseGamePlayerStmt.execute();
+
+            Con.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+    }
+
+    public static int getLastUserGame(String eUserLog){
+        int gameid = 0;
+
+        try {
+
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection Con = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement CurrentGameStmt = Con.prepareCall("{? = call f_current_game_by_user(?)}");
+            CurrentGameStmt.registerOutParameter (1, Types.INTEGER);
+            CurrentGameStmt.setString(2, eUserLog);
+
+            CurrentGameStmt.execute();
+            gameid = CurrentGameStmt.getInt(1);
+            //System.out.println(gameid);
+            Con.close();
+
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+
+        return gameid;
     }
 
 

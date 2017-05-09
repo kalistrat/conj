@@ -96,14 +96,14 @@ public class tGameAreaLayout extends VerticalLayout {
 
         addComponent(ContentLayout);
 
-//        UI.getCurrent().addPollListener(new UIEvents.PollListener() {
-//            @Override
-//            public void poll(UIEvents.PollEvent pollEvent) {
-//                iGameAreaTable.AreaContainerRefresh();
-//                iTrandChartLayout.refreshGraph();
-//                iGameMembersTable.refreshData();
-//                iUserRatesTable.RefreshData();
-//            }
-//        });
+        UI.getCurrent().addPollListener(new UIEvents.PollListener() {
+            @Override
+            public void poll(UIEvents.PollEvent pollEvent) {
+                iGameAreaTable.AreaContainerRefresh();
+                iTrandChartLayout.refreshGraph();
+                iGameMembersTable.refreshData();
+                iUserRatesTable.RefreshData();
+            }
+        });
     }
 }

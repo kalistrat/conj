@@ -22,20 +22,22 @@ public class tGameAreaTable extends Table {
 
     List<String> engage_index = new ArrayList<>();
     IndexedContainer GameAreaContainer;
-
+    public int iAreaSize;
+    String jUserSym;
 
     public tGameAreaTable(Integer jGameId, String jCurrentUser){
 
-        int jAreaSize = GetGameAreaSize(jGameId);
+        iAreaSize = GetGameAreaSize(jGameId);
         this.InsGameId = jGameId;
         this.InsUserName = jCurrentUser;
         this.GameAreaContainer = new IndexedContainer();
 
 
-        for (int i = 0; i < jAreaSize; i++) {
+        for (int i = 0; i < iAreaSize; i++) {
             GameAreaContainer.addContainerProperty(Integer.toString(i + 1), Button.class, null);
         }
-        String jUserSym = jCurrentUser.toUpperCase().substring(0,1);
+
+        jUserSym = getUserSym();
 
         try {
             Class.forName(tAppCommonStatic.JDBC_DRIVER);
@@ -64,7 +66,7 @@ public class tGameAreaTable extends Table {
 
             PreparedStatement AreaSqlStmt = conn.prepareStatement(AreaSql);
             AreaSqlStmt.setInt(1,jGameId);
-            AreaSqlStmt.setInt(2,jAreaSize);
+            AreaSqlStmt.setInt(2,iAreaSize);
             ResultSet AreaSqlRs = AreaSqlStmt.executeQuery();
             int CntRowItems = 0;
             int RowNum = 1;
@@ -72,7 +74,7 @@ public class tGameAreaTable extends Table {
 
             while (AreaSqlRs.next()) {
 
-                if (CntRowItems <= jAreaSize - 1) {
+                if (CntRowItems <= iAreaSize - 1) {
                     CntRowItems = CntRowItems + 1;
                 } else {
                     CntRowItems = 1;
@@ -83,7 +85,7 @@ public class tGameAreaTable extends Table {
                 String AreaFieldIndex = AreaSqlRs.getString(1);
                 String AreaFieldColor = AreaSqlRs.getString(2);
                 Double AreaFieldVal = AreaSqlRs.getDouble(3);
-                String AreaFieldOwner = AreaSqlRs.getString(4);
+                //String AreaFieldOwner = AreaSqlRs.getString(4);
 
                 String Field_RateX = String.valueOf(AreaFieldVal.intValue())+"x";
 
@@ -93,11 +95,12 @@ public class tGameAreaTable extends Table {
 
                 //System.out.println("jCurrentUser  = " + jCurrentUser);
 
-                if ((jCurrentUser.equals(AreaFieldOwner)) || (null  == AreaFieldOwner)) {
-                    ButtonField.setEnabled(true);
-                } else {
-                    ButtonField.setEnabled(false);
-                }
+//                if ((jCurrentUser.equals(AreaFieldOwner)) || (null  == AreaFieldOwner)) {
+//                    ButtonField.setEnabled(true);
+//                } else {
+//                    ButtonField.setEnabled(false);
+//                }
+                ButtonField.setEnabled(false);
 
                 ButtonField.addStyleName(AreaFieldColor);
 
@@ -152,6 +155,7 @@ public class tGameAreaTable extends Table {
 
 
     }
+
 
     public Button AreaContainerFindByIndex(String jIndex){
         Integer NumRow = Integer.parseInt(jIndex.substring(0,1)) + 1;
@@ -367,6 +371,36 @@ public class tGameAreaTable extends Table {
 
 
         return aMyMove;
+    }
+
+    public String getUserSym(){
+        String aUserSym = "";
+        try {
+            Class.forName(tAppCommonStatic.JDBC_DRIVER);
+            Connection conn = DriverManager.getConnection(
+                    tAppCommonStatic.DB_URL
+                    , tAppCommonStatic.USER
+                    , tAppCommonStatic.PASS
+            );
+
+            CallableStatement UserSymStmt = conn.prepareCall("{? = call f_get_game_player_sym(?,?)}");
+            UserSymStmt.registerOutParameter(1,Types.CHAR);
+            UserSymStmt.setInt(2, InsGameId);
+            UserSymStmt.setString(3, InsUserName);
+            UserSymStmt.execute();
+            aUserSym = UserSymStmt.getString(1);
+            conn.close();
+
+        } catch (SQLException se3) {
+            //Handle errors for JDBC
+            se3.printStackTrace();
+        } catch (Exception e13) {
+            //Handle errors for Class.forName
+            e13.printStackTrace();
+        }
+
+
+        return aUserSym;
     }
 
 }

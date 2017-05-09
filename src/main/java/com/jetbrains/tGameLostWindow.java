@@ -1,10 +1,13 @@
 package com.jetbrains;
 
+import com.vaadin.event.UIEvents;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.util.Collection;
 
 /**
  * Created by kalistrat on 08.05.2017.
@@ -15,12 +18,31 @@ public class tGameLostWindow extends Window {
     int iGameId;
     String iUserLog;
     Button CloseButton;
+    TabSheet iGameMenuTabSheet;
+    tGameRunningLayout iGameRunningLayout;
 
 
-    public tGameLostWindow(int eGameId,String eUserLog){
+    public tGameLostWindow(int eGameId,String eUserLog,TabSheet eGameMenuTabSheet,tGameRunningLayout eGameRunningLayout){
 
         iGameId = eGameId;
         iUserLog = eUserLog;
+        iGameMenuTabSheet = eGameMenuTabSheet;
+        iGameRunningLayout = eGameRunningLayout;
+
+
+        //tAppCommonStatic.closeGamePlayer(iGameId,iUserLog);
+        iGameMenuTabSheet.removeTab(iGameMenuTabSheet.getTab(iGameRunningLayout));
+        Collection<?> listeners = UI.getCurrent().getListeners(UIEvents.PollEvent.class);
+        //System.out.println("listeners :" + listeners.size());
+
+        for(Object listener : listeners){
+            UI.getCurrent().removePollListener((UIEvents.PollListener) listener);
+        }
+        iGameRunningLayout.removeAllComponents();
+        iGameRunningLayout = null;
+        System.gc();
+        iGameMenuTabSheet.setData(0);
+
 
 
         this.setIcon(VaadinIcons.FLAG_CHECKERED);
