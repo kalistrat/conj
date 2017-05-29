@@ -245,7 +245,7 @@ public class tGameConnectLayout extends VerticalLayout {
                     "select count(*)\n" +
                     "from game_player gp\n" +
                     "where gp.player_id=p.player_id\n" +
-                    "and gp.is_active='Y'\n" +
+                    "and gp.is_active=1\n" +
                     ") is_active\n" +
                     "from player p\n" +
                     "where p.player_log!='ADMIN'\n" +
